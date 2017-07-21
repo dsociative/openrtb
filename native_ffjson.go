@@ -33,7 +33,16 @@ func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "request":`)
-	fflib.WriteJsonString(buf, string(mj.Request))
+
+	{
+
+		obj, err = mj.Request.MarshalJSON()
+		if err != nil {
+			return err
+		}
+		buf.Write(obj)
+
+	}
 	buf.WriteByte(',')
 	if len(mj.Ver) != 0 {
 		buf.WriteString(`"ver":`)
@@ -295,25 +304,25 @@ mainparse:
 
 handle_Request:
 
-	/* handler: uj.Request type=string kind=string quoted=false*/
+	/* handler: uj.Request type=openrtb.Extension kind=slice quoted=false*/
 
 	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
 		if tok == fflib.FFTok_null {
 
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			uj.Request = string(string(outBuf))
-
+			state = fflib.FFParse_after_value
+			goto mainparse
 		}
+
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+
+		err = uj.Request.UnmarshalJSON(tbuf)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+		state = fflib.FFParse_after_value
 	}
 
 	state = fflib.FFParse_after_value
@@ -361,13 +370,13 @@ handle_API:
 			uj.API = nil
 		} else {
 
-			uj.API = []int{}
+			uj.API = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__API int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -388,7 +397,7 @@ handle_API:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__API type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -408,13 +417,12 @@ handle_API:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__API = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.API = append(uj.API, tmp_uj__API)
-
+				uj.API = append(uj.API, v)
 				wantVal = false
 			}
 		}
@@ -439,13 +447,13 @@ handle_BAttr:
 			uj.BAttr = nil
 		} else {
 
-			uj.BAttr = []int{}
+			uj.BAttr = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__BAttr int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -466,7 +474,7 @@ handle_BAttr:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__BAttr type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -486,13 +494,12 @@ handle_BAttr:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__BAttr = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.BAttr = append(uj.BAttr, tmp_uj__BAttr)
-
+				uj.BAttr = append(uj.BAttr, v)
 				wantVal = false
 			}
 		}
@@ -503,7 +510,7 @@ handle_BAttr:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {

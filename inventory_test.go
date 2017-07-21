@@ -23,7 +23,7 @@ var _ = Describe("App", func() {
 				ID:   "agltb3B1Yi1pbmNyDAsSA0FwcBiJkfIUDA",
 				Name: "Yahoo Weather",
 				Cat:  []string{"weather", "IAB15", "IAB15-10"},
-				Publisher: &Publisher{
+				Publisher: Publisher{
 					ID:     "agltb3B1Yi1pbmNyDAsSA0FwcBiJkfTUCV",
 					Name:   "yahoo",
 					Domain: "www.yahoo.com",
@@ -55,7 +55,7 @@ var _ = Describe("Site", func() {
 				ID:     "102855",
 				Cat:    []string{"IAB3-1"},
 				Domain: "http://www.usabarfinder.com",
-				Publisher: &Publisher{
+				Publisher: Publisher{
 					ID:     "8953",
 					Name:   "local.com",
 					Domain: "local.com",

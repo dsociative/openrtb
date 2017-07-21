@@ -7,7 +7,6 @@ package openrtb
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
@@ -60,11 +59,6 @@ func (mj *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.MaxDuration), 10, mj.MaxDuration < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Protocol != 0 {
-		buf.WriteString(`"protocol":`)
-		fflib.FormatBits2(buf, uint64(mj.Protocol), 10, mj.Protocol < 0)
-		buf.WriteByte(',')
-	}
 	if len(mj.Protocols) != 0 {
 		buf.WriteString(`"protocols":`)
 		if mj.Protocols != nil {
@@ -79,6 +73,11 @@ func (mj *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		} else {
 			buf.WriteString(`null`)
 		}
+		buf.WriteByte(',')
+	}
+	if mj.Protocol != 0 {
+		buf.WriteString(`"protocol":`)
+		fflib.FormatBits2(buf, uint64(mj.Protocol), 10, mj.Protocol < 0)
 		buf.WriteByte(',')
 	}
 	if mj.W != 0 {
@@ -99,6 +98,21 @@ func (mj *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if mj.Linearity != 0 {
 		buf.WriteString(`"linearity":`)
 		fflib.FormatBits2(buf, uint64(mj.Linearity), 10, mj.Linearity < 0)
+		buf.WriteByte(',')
+	}
+	if mj.Skip != 0 {
+		buf.WriteString(`"skip":`)
+		fflib.FormatBits2(buf, uint64(mj.Skip), 10, mj.Skip < 0)
+		buf.WriteByte(',')
+	}
+	if mj.SkipMin != 0 {
+		buf.WriteString(`"skipmin":`)
+		fflib.FormatBits2(buf, uint64(mj.SkipMin), 10, mj.SkipMin < 0)
+		buf.WriteByte(',')
+	}
+	if mj.SkipAfter != 0 {
+		buf.WriteString(`"skipafter":`)
+		fflib.FormatBits2(buf, uint64(mj.SkipAfter), 10, mj.SkipAfter < 0)
 		buf.WriteByte(',')
 	}
 	if mj.Sequence != 0 {
@@ -237,36 +251,24 @@ func (mj *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Skip != 0 {
-		buf.WriteString(`"skip":`)
-		fflib.FormatBits2(buf, uint64(mj.Skip), 10, mj.Skip < 0)
+	if mj.Placement != 0 {
+		buf.WriteString(`"placement":`)
+		fflib.FormatBits2(buf, uint64(mj.Placement), 10, mj.Placement < 0)
 		buf.WriteByte(',')
 	}
-	if mj.SkipMin != 0 {
-		buf.WriteString(`"skipmin":`)
-		fflib.FormatBits2(buf, uint64(mj.SkipMin), 10, mj.SkipMin < 0)
-		buf.WriteByte(',')
-	}
-	if mj.SkipAfter != 0 {
-		buf.WriteString(`"skipafter":`)
-		fflib.FormatBits2(buf, uint64(mj.SkipAfter), 10, mj.SkipAfter < 0)
-		buf.WriteByte(',')
-	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -283,9 +285,9 @@ const (
 
 	ffj_t_jsonVideo_MaxDuration
 
-	ffj_t_jsonVideo_Protocol
-
 	ffj_t_jsonVideo_Protocols
+
+	ffj_t_jsonVideo_Protocol
 
 	ffj_t_jsonVideo_W
 
@@ -294,6 +296,12 @@ const (
 	ffj_t_jsonVideo_StartDelay
 
 	ffj_t_jsonVideo_Linearity
+
+	ffj_t_jsonVideo_Skip
+
+	ffj_t_jsonVideo_SkipMin
+
+	ffj_t_jsonVideo_SkipAfter
 
 	ffj_t_jsonVideo_Sequence
 
@@ -319,11 +327,7 @@ const (
 
 	ffj_t_jsonVideo_CompanionType
 
-	ffj_t_jsonVideo_Skip
-
-	ffj_t_jsonVideo_SkipMin
-
-	ffj_t_jsonVideo_SkipAfter
+	ffj_t_jsonVideo_Placement
 
 	ffj_t_jsonVideo_Ext
 )
@@ -334,9 +338,9 @@ var ffj_key_jsonVideo_MinDuration = []byte("minduration")
 
 var ffj_key_jsonVideo_MaxDuration = []byte("maxduration")
 
-var ffj_key_jsonVideo_Protocol = []byte("protocol")
-
 var ffj_key_jsonVideo_Protocols = []byte("protocols")
+
+var ffj_key_jsonVideo_Protocol = []byte("protocol")
 
 var ffj_key_jsonVideo_W = []byte("w")
 
@@ -345,6 +349,12 @@ var ffj_key_jsonVideo_H = []byte("h")
 var ffj_key_jsonVideo_StartDelay = []byte("startdelay")
 
 var ffj_key_jsonVideo_Linearity = []byte("linearity")
+
+var ffj_key_jsonVideo_Skip = []byte("skip")
+
+var ffj_key_jsonVideo_SkipMin = []byte("skipmin")
+
+var ffj_key_jsonVideo_SkipAfter = []byte("skipafter")
 
 var ffj_key_jsonVideo_Sequence = []byte("sequence")
 
@@ -370,11 +380,7 @@ var ffj_key_jsonVideo_Api = []byte("api")
 
 var ffj_key_jsonVideo_CompanionType = []byte("companiontype")
 
-var ffj_key_jsonVideo_Skip = []byte("skip")
-
-var ffj_key_jsonVideo_SkipMin = []byte("skipmin")
-
-var ffj_key_jsonVideo_SkipAfter = []byte("skipafter")
+var ffj_key_jsonVideo_Placement = []byte("placement")
 
 var ffj_key_jsonVideo_Ext = []byte("ext")
 
@@ -538,13 +544,13 @@ mainparse:
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_jsonVideo_Protocol, kn) {
-						currentKey = ffj_t_jsonVideo_Protocol
+					if bytes.Equal(ffj_key_jsonVideo_Protocols, kn) {
+						currentKey = ffj_t_jsonVideo_Protocols
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_jsonVideo_Protocols, kn) {
-						currentKey = ffj_t_jsonVideo_Protocols
+					} else if bytes.Equal(ffj_key_jsonVideo_Protocol, kn) {
+						currentKey = ffj_t_jsonVideo_Protocol
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
@@ -557,17 +563,17 @@ mainparse:
 						currentKey = ffj_t_jsonVideo_Pos
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffj_key_jsonVideo_Placement, kn) {
+						currentKey = ffj_t_jsonVideo_Placement
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				case 's':
 
 					if bytes.Equal(ffj_key_jsonVideo_StartDelay, kn) {
 						currentKey = ffj_t_jsonVideo_StartDelay
-						state = fflib.FFParse_want_colon
-						goto mainparse
-
-					} else if bytes.Equal(ffj_key_jsonVideo_Sequence, kn) {
-						currentKey = ffj_t_jsonVideo_Sequence
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
@@ -583,6 +589,11 @@ mainparse:
 
 					} else if bytes.Equal(ffj_key_jsonVideo_SkipAfter, kn) {
 						currentKey = ffj_t_jsonVideo_SkipAfter
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffj_key_jsonVideo_Sequence, kn) {
+						currentKey = ffj_t_jsonVideo_Sequence
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -603,20 +614,8 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_jsonVideo_SkipAfter, kn) {
-					currentKey = ffj_t_jsonVideo_SkipAfter
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffj_key_jsonVideo_SkipMin, kn) {
-					currentKey = ffj_t_jsonVideo_SkipMin
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffj_key_jsonVideo_Skip, kn) {
-					currentKey = ffj_t_jsonVideo_Skip
+				if fflib.SimpleLetterEqualFold(ffj_key_jsonVideo_Placement, kn) {
+					currentKey = ffj_t_jsonVideo_Placement
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -693,6 +692,24 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.EqualFoldRight(ffj_key_jsonVideo_SkipAfter, kn) {
+					currentKey = ffj_t_jsonVideo_SkipAfter
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffj_key_jsonVideo_SkipMin, kn) {
+					currentKey = ffj_t_jsonVideo_SkipMin
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffj_key_jsonVideo_Skip, kn) {
+					currentKey = ffj_t_jsonVideo_Skip
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffj_key_jsonVideo_Linearity, kn) {
 					currentKey = ffj_t_jsonVideo_Linearity
 					state = fflib.FFParse_want_colon
@@ -717,14 +734,14 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_jsonVideo_Protocols, kn) {
-					currentKey = ffj_t_jsonVideo_Protocols
+				if fflib.SimpleLetterEqualFold(ffj_key_jsonVideo_Protocol, kn) {
+					currentKey = ffj_t_jsonVideo_Protocol
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_jsonVideo_Protocol, kn) {
-					currentKey = ffj_t_jsonVideo_Protocol
+				if fflib.EqualFoldRight(ffj_key_jsonVideo_Protocols, kn) {
+					currentKey = ffj_t_jsonVideo_Protocols
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -773,11 +790,11 @@ mainparse:
 				case ffj_t_jsonVideo_MaxDuration:
 					goto handle_MaxDuration
 
-				case ffj_t_jsonVideo_Protocol:
-					goto handle_Protocol
-
 				case ffj_t_jsonVideo_Protocols:
 					goto handle_Protocols
+
+				case ffj_t_jsonVideo_Protocol:
+					goto handle_Protocol
 
 				case ffj_t_jsonVideo_W:
 					goto handle_W
@@ -790,6 +807,15 @@ mainparse:
 
 				case ffj_t_jsonVideo_Linearity:
 					goto handle_Linearity
+
+				case ffj_t_jsonVideo_Skip:
+					goto handle_Skip
+
+				case ffj_t_jsonVideo_SkipMin:
+					goto handle_SkipMin
+
+				case ffj_t_jsonVideo_SkipAfter:
+					goto handle_SkipAfter
 
 				case ffj_t_jsonVideo_Sequence:
 					goto handle_Sequence
@@ -827,14 +853,8 @@ mainparse:
 				case ffj_t_jsonVideo_CompanionType:
 					goto handle_CompanionType
 
-				case ffj_t_jsonVideo_Skip:
-					goto handle_Skip
-
-				case ffj_t_jsonVideo_SkipMin:
-					goto handle_SkipMin
-
-				case ffj_t_jsonVideo_SkipAfter:
-					goto handle_SkipAfter
+				case ffj_t_jsonVideo_Placement:
+					goto handle_Placement
 
 				case ffj_t_jsonVideo_Ext:
 					goto handle_Ext
@@ -869,13 +889,13 @@ handle_Mimes:
 			uj.Mimes = nil
 		} else {
 
-			uj.Mimes = []string{}
+			uj.Mimes = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Mimes string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -896,7 +916,7 @@ handle_Mimes:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Mimes type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -912,13 +932,12 @@ handle_Mimes:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Mimes = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Mimes = append(uj.Mimes, tmp_uj__Mimes)
-
+				uj.Mimes = append(uj.Mimes, v)
 				wantVal = false
 			}
 		}
@@ -987,6 +1006,83 @@ handle_MaxDuration:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_Protocols:
+
+	/* handler: uj.Protocols type=[]int kind=slice quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+			uj.Protocols = nil
+		} else {
+
+			uj.Protocols = make([]int, 0)
+
+			wantVal := true
+
+			for {
+
+				var v int
+
+				tok = fs.Scan()
+				if tok == fflib.FFTok_error {
+					goto tokerror
+				}
+				if tok == fflib.FFTok_right_brace {
+					break
+				}
+
+				if tok == fflib.FFTok_comma {
+					if wantVal == true {
+						// TODO(pquerna): this isn't an ideal error message, this handles
+						// things like [,,,] as an array value.
+						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+					}
+					continue
+				} else {
+					wantVal = true
+				}
+
+				/* handler: v type=int kind=int quoted=false*/
+
+				{
+					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+					}
+				}
+
+				{
+
+					if tok == fflib.FFTok_null {
+
+					} else {
+
+						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+						if err != nil {
+							return fs.WrapErr(err)
+						}
+
+						v = int(tval)
+
+					}
+				}
+
+				uj.Protocols = append(uj.Protocols, v)
+				wantVal = false
+			}
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_Protocol:
 
 	/* handler: uj.Protocol type=int kind=int quoted=false*/
@@ -1011,84 +1107,6 @@ handle_Protocol:
 
 			uj.Protocol = int(tval)
 
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Protocols:
-
-	/* handler: uj.Protocols type=[]int kind=slice quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-			uj.Protocols = nil
-		} else {
-
-			uj.Protocols = []int{}
-
-			wantVal := true
-
-			for {
-
-				var tmp_uj__Protocols int
-
-				tok = fs.Scan()
-				if tok == fflib.FFTok_error {
-					goto tokerror
-				}
-				if tok == fflib.FFTok_right_brace {
-					break
-				}
-
-				if tok == fflib.FFTok_comma {
-					if wantVal == true {
-						// TODO(pquerna): this isn't an ideal error message, this handles
-						// things like [,,,] as an array value.
-						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
-					}
-					continue
-				} else {
-					wantVal = true
-				}
-
-				/* handler: tmp_uj__Protocols type=int kind=int quoted=false*/
-
-				{
-					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-					}
-				}
-
-				{
-
-					if tok == fflib.FFTok_null {
-
-					} else {
-
-						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-						if err != nil {
-							return fs.WrapErr(err)
-						}
-
-						tmp_uj__Protocols = int(tval)
-
-					}
-				}
-
-				uj.Protocols = append(uj.Protocols, tmp_uj__Protocols)
-
-				wantVal = false
-			}
 		}
 	}
 
@@ -1215,6 +1233,96 @@ handle_Linearity:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_Skip:
+
+	/* handler: uj.Skip type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.Skip = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_SkipMin:
+
+	/* handler: uj.SkipMin type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.SkipMin = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_SkipAfter:
+
+	/* handler: uj.SkipAfter type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.SkipAfter = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_Sequence:
 
 	/* handler: uj.Sequence type=int kind=int quoted=false*/
@@ -1261,13 +1369,13 @@ handle_BAttr:
 			uj.BAttr = nil
 		} else {
 
-			uj.BAttr = []int{}
+			uj.BAttr = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__BAttr int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1288,7 +1396,7 @@ handle_BAttr:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__BAttr type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1308,13 +1416,12 @@ handle_BAttr:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__BAttr = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.BAttr = append(uj.BAttr, tmp_uj__BAttr)
-
+				uj.BAttr = append(uj.BAttr, v)
 				wantVal = false
 			}
 		}
@@ -1462,13 +1569,13 @@ handle_PlaybackMethod:
 			uj.PlaybackMethod = nil
 		} else {
 
-			uj.PlaybackMethod = []int{}
+			uj.PlaybackMethod = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__PlaybackMethod int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1489,7 +1596,7 @@ handle_PlaybackMethod:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__PlaybackMethod type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1509,13 +1616,12 @@ handle_PlaybackMethod:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__PlaybackMethod = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.PlaybackMethod = append(uj.PlaybackMethod, tmp_uj__PlaybackMethod)
-
+				uj.PlaybackMethod = append(uj.PlaybackMethod, v)
 				wantVal = false
 			}
 		}
@@ -1540,13 +1646,13 @@ handle_Delivery:
 			uj.Delivery = nil
 		} else {
 
-			uj.Delivery = []int{}
+			uj.Delivery = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Delivery int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1567,7 +1673,7 @@ handle_Delivery:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Delivery type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1587,13 +1693,12 @@ handle_Delivery:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__Delivery = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.Delivery = append(uj.Delivery, tmp_uj__Delivery)
-
+				uj.Delivery = append(uj.Delivery, v)
 				wantVal = false
 			}
 		}
@@ -1648,13 +1753,13 @@ handle_CompanionAd:
 			uj.CompanionAd = nil
 		} else {
 
-			uj.CompanionAd = []Banner{}
+			uj.CompanionAd = make([]Banner, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__CompanionAd Banner
+				var v Banner
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1675,7 +1780,7 @@ handle_CompanionAd:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__CompanionAd type=openrtb.Banner kind=struct quoted=false*/
+				/* handler: v type=openrtb.Banner kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -1684,15 +1789,14 @@ handle_CompanionAd:
 						goto mainparse
 					}
 
-					err = tmp_uj__CompanionAd.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.CompanionAd = append(uj.CompanionAd, tmp_uj__CompanionAd)
-
+				uj.CompanionAd = append(uj.CompanionAd, v)
 				wantVal = false
 			}
 		}
@@ -1717,13 +1821,13 @@ handle_Api:
 			uj.Api = nil
 		} else {
 
-			uj.Api = []int{}
+			uj.Api = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Api int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1744,7 +1848,7 @@ handle_Api:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Api type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1764,13 +1868,12 @@ handle_Api:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__Api = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.Api = append(uj.Api, tmp_uj__Api)
-
+				uj.Api = append(uj.Api, v)
 				wantVal = false
 			}
 		}
@@ -1795,13 +1898,13 @@ handle_CompanionType:
 			uj.CompanionType = nil
 		} else {
 
-			uj.CompanionType = []int{}
+			uj.CompanionType = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__CompanionType int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1822,7 +1925,7 @@ handle_CompanionType:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__CompanionType type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1842,13 +1945,12 @@ handle_CompanionType:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__CompanionType = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.CompanionType = append(uj.CompanionType, tmp_uj__CompanionType)
-
+				uj.CompanionType = append(uj.CompanionType, v)
 				wantVal = false
 			}
 		}
@@ -1857,13 +1959,13 @@ handle_CompanionType:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_Skip:
+handle_Placement:
 
-	/* handler: uj.Skip type=int64 kind=int64 quoted=false*/
+	/* handler: uj.Placement type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
 		}
 	}
 
@@ -1879,67 +1981,7 @@ handle_Skip:
 				return fs.WrapErr(err)
 			}
 
-			uj.Skip = int64(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_SkipMin:
-
-	/* handler: uj.SkipMin type=int64 kind=int64 quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			uj.SkipMin = int64(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_SkipAfter:
-
-	/* handler: uj.SkipAfter type=int64 kind=int64 quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			uj.SkipAfter = int64(tval)
+			uj.Placement = int(tval)
 
 		}
 	}
@@ -1949,12 +1991,10 @@ handle_SkipAfter:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1963,10 +2003,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1993,6 +2029,5 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
-
 	return nil
 }

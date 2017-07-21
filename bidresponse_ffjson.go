@@ -73,21 +73,19 @@ func (mj *BidResponse) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.NBR), 10, mj.NBR < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -377,13 +375,13 @@ handle_SeatBid:
 			uj.SeatBid = nil
 		} else {
 
-			uj.SeatBid = []SeatBid{}
+			uj.SeatBid = make([]SeatBid, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__SeatBid SeatBid
+				var v SeatBid
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -404,7 +402,7 @@ handle_SeatBid:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__SeatBid type=openrtb.SeatBid kind=struct quoted=false*/
+				/* handler: v type=openrtb.SeatBid kind=struct quoted=false*/
 
 				{
 					/* Falling back. type=openrtb.SeatBid kind=struct */
@@ -413,14 +411,13 @@ handle_SeatBid:
 						return fs.WrapErr(err)
 					}
 
-					err = json.Unmarshal(tbuf, &tmp_uj__SeatBid)
+					err = json.Unmarshal(tbuf, &v)
 					if err != nil {
 						return fs.WrapErr(err)
 					}
 				}
 
-				uj.SeatBid = append(uj.SeatBid, tmp_uj__SeatBid)
-
+				uj.SeatBid = append(uj.SeatBid, v)
 				wantVal = false
 			}
 		}
@@ -539,12 +536,10 @@ handle_NBR:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -553,10 +548,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)

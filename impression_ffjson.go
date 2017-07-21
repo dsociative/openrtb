@@ -67,11 +67,38 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 			buf.WriteByte(',')
 		}
 	}
+	if mj.Audio != nil {
+		if true {
+			buf.WriteString(`"audio":`)
+
+			{
+
+				obj, err = mj.Audio.MarshalJSON()
+				if err != nil {
+					return err
+				}
+				buf.Write(obj)
+
+			}
+			buf.WriteByte(',')
+		}
+	}
 	if mj.Native != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Native kind=struct */
 			buf.WriteString(`"native":`)
 			err = buf.Encode(mj.Native)
+			if err != nil {
+				return err
+			}
+			buf.WriteByte(',')
+		}
+	}
+	if mj.Pmp != nil {
+		if true {
+			/* Struct fall back. type=openrtb.Pmp kind=struct */
+			buf.WriteString(`"pmp":`)
+			err = buf.Encode(mj.Pmp)
 			if err != nil {
 				return err
 			}
@@ -113,6 +140,11 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.Secure), 10, mj.Secure < 0)
 		buf.WriteByte(',')
 	}
+	if mj.Exp != 0 {
+		buf.WriteString(`"exp":`)
+		fflib.FormatBits2(buf, uint64(mj.Exp), 10, mj.Exp < 0)
+		buf.WriteByte(',')
+	}
 	if len(mj.IFrameBuster) != 0 {
 		buf.WriteString(`"iframebuster":`)
 		if mj.IFrameBuster != nil {
@@ -128,17 +160,6 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 			buf.WriteString(`null`)
 		}
 		buf.WriteByte(',')
-	}
-	if mj.Pmp != nil {
-		if true {
-			/* Struct fall back. type=openrtb.Pmp kind=struct */
-			buf.WriteString(`"pmp":`)
-			err = buf.Encode(mj.Pmp)
-			if err != nil {
-				return err
-			}
-			buf.WriteByte(',')
-		}
 	}
 	if true {
 		buf.WriteString(`"ext":`)
@@ -168,7 +189,11 @@ const (
 
 	ffj_t_Impression_Video
 
+	ffj_t_Impression_Audio
+
 	ffj_t_Impression_Native
+
+	ffj_t_Impression_Pmp
 
 	ffj_t_Impression_DisplayManager
 
@@ -184,9 +209,9 @@ const (
 
 	ffj_t_Impression_Secure
 
-	ffj_t_Impression_IFrameBuster
+	ffj_t_Impression_Exp
 
-	ffj_t_Impression_Pmp
+	ffj_t_Impression_IFrameBuster
 
 	ffj_t_Impression_Ext
 )
@@ -197,7 +222,11 @@ var ffj_key_Impression_Banner = []byte("banner")
 
 var ffj_key_Impression_Video = []byte("video")
 
+var ffj_key_Impression_Audio = []byte("audio")
+
 var ffj_key_Impression_Native = []byte("native")
+
+var ffj_key_Impression_Pmp = []byte("pmp")
 
 var ffj_key_Impression_DisplayManager = []byte("displaymanager")
 
@@ -213,9 +242,9 @@ var ffj_key_Impression_BidFloorCurrency = []byte("bidfloorcur")
 
 var ffj_key_Impression_Secure = []byte("secure")
 
-var ffj_key_Impression_IFrameBuster = []byte("iframebuster")
+var ffj_key_Impression_Exp = []byte("exp")
 
-var ffj_key_Impression_Pmp = []byte("pmp")
+var ffj_key_Impression_IFrameBuster = []byte("iframebuster")
 
 var ffj_key_Impression_Ext = []byte("ext")
 
@@ -278,6 +307,14 @@ mainparse:
 			} else {
 				switch kn[0] {
 
+				case 'a':
+
+					if bytes.Equal(ffj_key_Impression_Audio, kn) {
+						currentKey = ffj_t_Impression_Audio
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'b':
 
 					if bytes.Equal(ffj_key_Impression_Banner, kn) {
@@ -311,7 +348,12 @@ mainparse:
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Impression_Ext, kn) {
+					if bytes.Equal(ffj_key_Impression_Exp, kn) {
+						currentKey = ffj_t_Impression_Exp
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffj_key_Impression_Ext, kn) {
 						currentKey = ffj_t_Impression_Ext
 						state = fflib.FFParse_want_colon
 						goto mainparse
@@ -383,14 +425,14 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Pmp, kn) {
-					currentKey = ffj_t_Impression_Pmp
+				if fflib.EqualFoldRight(ffj_key_Impression_IFrameBuster, kn) {
+					currentKey = ffj_t_Impression_IFrameBuster
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_IFrameBuster, kn) {
-					currentKey = ffj_t_Impression_IFrameBuster
+				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Exp, kn) {
+					currentKey = ffj_t_Impression_Exp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -437,8 +479,20 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Pmp, kn) {
+					currentKey = ffj_t_Impression_Pmp
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Native, kn) {
 					currentKey = ffj_t_Impression_Native
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Audio, kn) {
+					currentKey = ffj_t_Impression_Audio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -487,8 +541,14 @@ mainparse:
 				case ffj_t_Impression_Video:
 					goto handle_Video
 
+				case ffj_t_Impression_Audio:
+					goto handle_Audio
+
 				case ffj_t_Impression_Native:
 					goto handle_Native
+
+				case ffj_t_Impression_Pmp:
+					goto handle_Pmp
 
 				case ffj_t_Impression_DisplayManager:
 					goto handle_DisplayManager
@@ -511,11 +571,11 @@ mainparse:
 				case ffj_t_Impression_Secure:
 					goto handle_Secure
 
+				case ffj_t_Impression_Exp:
+					goto handle_Exp
+
 				case ffj_t_Impression_IFrameBuster:
 					goto handle_IFrameBuster
-
-				case ffj_t_Impression_Pmp:
-					goto handle_Pmp
 
 				case ffj_t_Impression_Ext:
 					goto handle_Ext
@@ -619,6 +679,38 @@ handle_Video:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_Audio:
+
+	/* handler: uj.Audio type=openrtb.Audio kind=struct quoted=false*/
+
+	{
+		if tok == fflib.FFTok_null {
+
+			uj.Audio = nil
+
+			state = fflib.FFParse_after_value
+			goto mainparse
+		}
+
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+
+		if uj.Audio == nil {
+			uj.Audio = new(Audio)
+		}
+
+		err = uj.Audio.UnmarshalJSON(tbuf)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+		state = fflib.FFParse_after_value
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_Native:
 
 	/* handler: uj.Native type=openrtb.Native kind=struct quoted=false*/
@@ -631,6 +723,26 @@ handle_Native:
 		}
 
 		err = json.Unmarshal(tbuf, &uj.Native)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Pmp:
+
+	/* handler: uj.Pmp type=openrtb.Pmp kind=struct quoted=false*/
+
+	{
+		/* Falling back. type=openrtb.Pmp kind=struct */
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+
+		err = json.Unmarshal(tbuf, &uj.Pmp)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -805,7 +917,33 @@ handle_BidFloorCurrency:
 
 handle_Secure:
 
-	/* handler: uj.Secure type=int kind=int quoted=false*/
+	/* handler: uj.Secure type=openrtb.NumberOrString kind=int quoted=false*/
+
+	{
+		if tok == fflib.FFTok_null {
+
+			state = fflib.FFParse_after_value
+			goto mainparse
+		}
+
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+
+		err = uj.Secure.UnmarshalJSON(tbuf)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+		state = fflib.FFParse_after_value
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Exp:
+
+	/* handler: uj.Exp type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -825,7 +963,7 @@ handle_Secure:
 				return fs.WrapErr(err)
 			}
 
-			uj.Secure = int(tval)
+			uj.Exp = int(tval)
 
 		}
 	}
@@ -849,13 +987,13 @@ handle_IFrameBuster:
 			uj.IFrameBuster = nil
 		} else {
 
-			uj.IFrameBuster = []string{}
+			uj.IFrameBuster = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__IFrameBuster string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -876,7 +1014,7 @@ handle_IFrameBuster:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__IFrameBuster type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -892,35 +1030,14 @@ handle_IFrameBuster:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__IFrameBuster = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.IFrameBuster = append(uj.IFrameBuster, tmp_uj__IFrameBuster)
-
+				uj.IFrameBuster = append(uj.IFrameBuster, v)
 				wantVal = false
 			}
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Pmp:
-
-	/* handler: uj.Pmp type=openrtb.Pmp kind=struct quoted=false*/
-
-	{
-		/* Falling back. type=openrtb.Pmp kind=struct */
-		tbuf, err := fs.CaptureField(tok)
-		if err != nil {
-			return fs.WrapErr(err)
-		}
-
-		err = json.Unmarshal(tbuf, &uj.Pmp)
-		if err != nil {
-			return fs.WrapErr(err)
 		}
 	}
 
@@ -1137,13 +1254,13 @@ handle_BillingID:
 			uj.BillingID = nil
 		} else {
 
-			uj.BillingID = []string{}
+			uj.BillingID = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__BillingID string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1164,7 +1281,7 @@ handle_BillingID:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__BillingID type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1180,13 +1297,12 @@ handle_BillingID:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__BillingID = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.BillingID = append(uj.BillingID, tmp_uj__BillingID)
-
+				uj.BillingID = append(uj.BillingID, v)
 				wantVal = false
 			}
 		}

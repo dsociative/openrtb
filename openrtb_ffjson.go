@@ -7,7 +7,6 @@ package openrtb
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
@@ -68,21 +67,19 @@ func (mj *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -338,13 +335,13 @@ handle_Segment:
 			uj.Segment = nil
 		} else {
 
-			uj.Segment = []Segment{}
+			uj.Segment = make([]Segment, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Segment Segment
+				var v Segment
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -365,7 +362,7 @@ handle_Segment:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Segment type=openrtb.Segment kind=struct quoted=false*/
+				/* handler: v type=openrtb.Segment kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -374,15 +371,14 @@ handle_Segment:
 						goto mainparse
 					}
 
-					err = tmp_uj__Segment.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Segment = append(uj.Segment, tmp_uj__Segment)
-
+				uj.Segment = append(uj.Segment, v)
 				wantVal = false
 			}
 		}
@@ -393,12 +389,10 @@ handle_Segment:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -409,8 +403,318 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
+		err = uj.Ext.UnmarshalJSON(tbuf)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+		state = fflib.FFParse_after_value
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+wantedvalue:
+	return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+wrongtokenerror:
+	return fs.WrapErr(fmt.Errorf("ffjson: wanted token: %v, but got token: %v output=%s", wantedTok, tok, fs.Output.String()))
+tokerror:
+	if fs.BigError != nil {
+		return fs.WrapErr(fs.BigError)
+	}
+	err = fs.Error.ToError()
+	if err != nil {
+		return fs.WrapErr(err)
+	}
+	panic("ffjson-generated: unreachable, please report bug.")
+done:
+	return nil
+}
+
+func (mj *Format) MarshalJSON() ([]byte, error) {
+	var buf fflib.Buffer
+	if mj == nil {
+		buf.WriteString("null")
+		return buf.Bytes(), nil
+	}
+	err := mj.MarshalJSONBuf(&buf)
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
+}
+func (mj *Format) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if mj == nil {
+		buf.WriteString("null")
+		return nil
+	}
+	var err error
+	var obj []byte
+	_ = obj
+	_ = err
+	buf.WriteString(`{ `)
+	if mj.W != 0 {
+		buf.WriteString(`"w":`)
+		fflib.FormatBits2(buf, uint64(mj.W), 10, mj.W < 0)
+		buf.WriteByte(',')
+	}
+	if mj.H != 0 {
+		buf.WriteString(`"h":`)
+		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
+		buf.WriteByte(',')
+	}
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
+
+		{
+
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
+			}
+			buf.Write(obj)
+
+		}
+		buf.WriteByte(',')
+	}
+	buf.Rewind(1)
+	buf.WriteByte('}')
+	return nil
+}
+
+const (
+	ffj_t_Formatbase = iota
+	ffj_t_Formatno_such_key
+
+	ffj_t_Format_W
+
+	ffj_t_Format_H
+
+	ffj_t_Format_Ext
+)
+
+var ffj_key_Format_W = []byte("w")
+
+var ffj_key_Format_H = []byte("h")
+
+var ffj_key_Format_Ext = []byte("ext")
+
+func (uj *Format) UnmarshalJSON(input []byte) error {
+	fs := fflib.NewFFLexer(input)
+	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+}
+
+func (uj *Format) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error = nil
+	currentKey := ffj_t_Formatbase
+	_ = currentKey
+	tok := fflib.FFTok_init
+	wantedTok := fflib.FFTok_init
+
+mainparse:
+	for {
+		tok = fs.Scan()
+		//	println(fmt.Sprintf("debug: tok: %v  state: %v", tok, state))
+		if tok == fflib.FFTok_error {
+			goto tokerror
+		}
+
+		switch state {
+
+		case fflib.FFParse_map_start:
+			if tok != fflib.FFTok_left_bracket {
+				wantedTok = fflib.FFTok_left_bracket
+				goto wrongtokenerror
+			}
+			state = fflib.FFParse_want_key
+			continue
+
+		case fflib.FFParse_after_value:
+			if tok == fflib.FFTok_comma {
+				state = fflib.FFParse_want_key
+			} else if tok == fflib.FFTok_right_bracket {
+				goto done
+			} else {
+				wantedTok = fflib.FFTok_comma
+				goto wrongtokenerror
+			}
+
+		case fflib.FFParse_want_key:
+			// json {} ended. goto exit. woo.
+			if tok == fflib.FFTok_right_bracket {
+				goto done
+			}
+			if tok != fflib.FFTok_string {
+				wantedTok = fflib.FFTok_string
+				goto wrongtokenerror
+			}
+
+			kn := fs.Output.Bytes()
+			if len(kn) <= 0 {
+				// "" case. hrm.
+				currentKey = ffj_t_Formatno_such_key
+				state = fflib.FFParse_want_colon
+				goto mainparse
+			} else {
+				switch kn[0] {
+
+				case 'e':
+
+					if bytes.Equal(ffj_key_Format_Ext, kn) {
+						currentKey = ffj_t_Format_Ext
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				case 'h':
+
+					if bytes.Equal(ffj_key_Format_H, kn) {
+						currentKey = ffj_t_Format_H
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				case 'w':
+
+					if bytes.Equal(ffj_key_Format_W, kn) {
+						currentKey = ffj_t_Format_W
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Format_Ext, kn) {
+					currentKey = ffj_t_Format_Ext
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Format_H, kn) {
+					currentKey = ffj_t_Format_H
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Format_W, kn) {
+					currentKey = ffj_t_Format_W
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				currentKey = ffj_t_Formatno_such_key
+				state = fflib.FFParse_want_colon
+				goto mainparse
+			}
+
+		case fflib.FFParse_want_colon:
+			if tok != fflib.FFTok_colon {
+				wantedTok = fflib.FFTok_colon
+				goto wrongtokenerror
+			}
+			state = fflib.FFParse_want_value
+			continue
+		case fflib.FFParse_want_value:
+
+			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
+				switch currentKey {
+
+				case ffj_t_Format_W:
+					goto handle_W
+
+				case ffj_t_Format_H:
+					goto handle_H
+
+				case ffj_t_Format_Ext:
+					goto handle_Ext
+
+				case ffj_t_Formatno_such_key:
+					err = fs.SkipField(tok)
+					if err != nil {
+						return fs.WrapErr(err)
+					}
+					state = fflib.FFParse_after_value
+					goto mainparse
+				}
+			} else {
+				goto wantedvalue
+			}
+		}
+	}
+
+handle_W:
+
+	/* handler: uj.W type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.W = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_H:
+
+	/* handler: uj.H type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.H = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Ext:
+
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+
+	{
+		if tok == fflib.FFTok_null {
+
+			state = fflib.FFParse_after_value
+			goto mainparse
+		}
+
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -472,6 +776,26 @@ func (mj *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.AppendFloat(buf, float64(mj.Lon), 'g', -1, 64)
 		buf.WriteByte(',')
 	}
+	if mj.Type != 0 {
+		buf.WriteString(`"type":`)
+		fflib.FormatBits2(buf, uint64(mj.Type), 10, mj.Type < 0)
+		buf.WriteByte(',')
+	}
+	if mj.Accuracy != 0 {
+		buf.WriteString(`"accuracy":`)
+		fflib.FormatBits2(buf, uint64(mj.Accuracy), 10, mj.Accuracy < 0)
+		buf.WriteByte(',')
+	}
+	if mj.LastFix != 0 {
+		buf.WriteString(`"lastfix":`)
+		fflib.FormatBits2(buf, uint64(mj.LastFix), 10, mj.LastFix < 0)
+		buf.WriteByte(',')
+	}
+	if mj.IPService != 0 {
+		buf.WriteString(`"ipservice":`)
+		fflib.FormatBits2(buf, uint64(mj.IPService), 10, mj.IPService < 0)
+		buf.WriteByte(',')
+	}
 	if len(mj.Country) != 0 {
 		buf.WriteString(`"country":`)
 		fflib.WriteJsonString(buf, string(mj.Country))
@@ -502,31 +826,24 @@ func (mj *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Zip))
 		buf.WriteByte(',')
 	}
-	if mj.Type != 0 {
-		buf.WriteString(`"type":`)
-		fflib.FormatBits2(buf, uint64(mj.Type), 10, mj.Type < 0)
-		buf.WriteByte(',')
-	}
 	if mj.UTCOffset != 0 {
 		buf.WriteString(`"utcoffset":`)
 		fflib.FormatBits2(buf, uint64(mj.UTCOffset), 10, mj.UTCOffset < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -541,6 +858,14 @@ const (
 
 	ffj_t_Geo_Lon
 
+	ffj_t_Geo_Type
+
+	ffj_t_Geo_Accuracy
+
+	ffj_t_Geo_LastFix
+
+	ffj_t_Geo_IPService
+
 	ffj_t_Geo_Country
 
 	ffj_t_Geo_Region
@@ -553,8 +878,6 @@ const (
 
 	ffj_t_Geo_Zip
 
-	ffj_t_Geo_Type
-
 	ffj_t_Geo_UTCOffset
 
 	ffj_t_Geo_Ext
@@ -563,6 +886,14 @@ const (
 var ffj_key_Geo_Lat = []byte("lat")
 
 var ffj_key_Geo_Lon = []byte("lon")
+
+var ffj_key_Geo_Type = []byte("type")
+
+var ffj_key_Geo_Accuracy = []byte("accuracy")
+
+var ffj_key_Geo_LastFix = []byte("lastfix")
+
+var ffj_key_Geo_IPService = []byte("ipservice")
 
 var ffj_key_Geo_Country = []byte("country")
 
@@ -575,8 +906,6 @@ var ffj_key_Geo_Metro = []byte("metro")
 var ffj_key_Geo_City = []byte("city")
 
 var ffj_key_Geo_Zip = []byte("zip")
-
-var ffj_key_Geo_Type = []byte("type")
 
 var ffj_key_Geo_UTCOffset = []byte("utcoffset")
 
@@ -641,6 +970,14 @@ mainparse:
 			} else {
 				switch kn[0] {
 
+				case 'a':
+
+					if bytes.Equal(ffj_key_Geo_Accuracy, kn) {
+						currentKey = ffj_t_Geo_Accuracy
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'c':
 
 					if bytes.Equal(ffj_key_Geo_Country, kn) {
@@ -662,6 +999,14 @@ mainparse:
 						goto mainparse
 					}
 
+				case 'i':
+
+					if bytes.Equal(ffj_key_Geo_IPService, kn) {
+						currentKey = ffj_t_Geo_IPService
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'l':
 
 					if bytes.Equal(ffj_key_Geo_Lat, kn) {
@@ -671,6 +1016,11 @@ mainparse:
 
 					} else if bytes.Equal(ffj_key_Geo_Lon, kn) {
 						currentKey = ffj_t_Geo_Lon
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffj_key_Geo_LastFix, kn) {
+						currentKey = ffj_t_Geo_LastFix
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -734,12 +1084,6 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Type, kn) {
-					currentKey = ffj_t_Geo_Type
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
 				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Zip, kn) {
 					currentKey = ffj_t_Geo_Zip
 					state = fflib.FFParse_want_colon
@@ -772,6 +1116,30 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Country, kn) {
 					currentKey = ffj_t_Geo_Country
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffj_key_Geo_IPService, kn) {
+					currentKey = ffj_t_Geo_IPService
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffj_key_Geo_LastFix, kn) {
+					currentKey = ffj_t_Geo_LastFix
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Accuracy, kn) {
+					currentKey = ffj_t_Geo_Accuracy
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Type, kn) {
+					currentKey = ffj_t_Geo_Type
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -811,6 +1179,18 @@ mainparse:
 				case ffj_t_Geo_Lon:
 					goto handle_Lon
 
+				case ffj_t_Geo_Type:
+					goto handle_Type
+
+				case ffj_t_Geo_Accuracy:
+					goto handle_Accuracy
+
+				case ffj_t_Geo_LastFix:
+					goto handle_LastFix
+
+				case ffj_t_Geo_IPService:
+					goto handle_IPService
+
 				case ffj_t_Geo_Country:
 					goto handle_Country
 
@@ -828,9 +1208,6 @@ mainparse:
 
 				case ffj_t_Geo_Zip:
 					goto handle_Zip
-
-				case ffj_t_Geo_Type:
-					goto handle_Type
 
 				case ffj_t_Geo_UTCOffset:
 					goto handle_UTCOffset
@@ -905,6 +1282,126 @@ handle_Lon:
 			}
 
 			uj.Lon = float64(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Type:
+
+	/* handler: uj.Type type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.Type = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Accuracy:
+
+	/* handler: uj.Accuracy type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.Accuracy = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_LastFix:
+
+	/* handler: uj.LastFix type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.LastFix = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_IPService:
+
+	/* handler: uj.IPService type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			uj.IPService = int(tval)
 
 		}
 	}
@@ -1068,36 +1565,6 @@ handle_Zip:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_Type:
-
-	/* handler: uj.Type type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			uj.Type = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
 handle_UTCOffset:
 
 	/* handler: uj.UTCOffset type=int kind=int quoted=false*/
@@ -1130,12 +1597,10 @@ handle_UTCOffset:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1144,10 +1609,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1230,21 +1691,19 @@ func (mj *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Domain))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -1521,13 +1980,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1548,7 +2007,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1564,13 +2023,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -1607,12 +2065,10 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1621,10 +2077,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1707,21 +2159,19 @@ func (mj *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Domain))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -1998,13 +2448,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2025,7 +2475,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -2041,13 +2491,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -2084,12 +2533,10 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -2098,10 +2545,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -2158,21 +2601,19 @@ func (mj *Regulations) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.Coppa), 10, mj.Coppa < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -2350,12 +2791,10 @@ handle_Coppa:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -2364,10 +2803,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -2434,21 +2869,19 @@ func (mj *Segment) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Value))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -2716,12 +3149,10 @@ handle_Value:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -2730,10 +3161,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -2816,21 +3243,19 @@ func (mj *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Domain))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -3107,13 +3532,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -3134,7 +3559,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -3150,13 +3575,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -3193,12 +3617,10 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -3207,10 +3629,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -3877,13 +4295,13 @@ handle_Data:
 			uj.Data = nil
 		} else {
 
-			uj.Data = []Data{}
+			uj.Data = make([]Data, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Data Data
+				var v Data
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -3904,7 +4322,7 @@ handle_Data:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Data type=openrtb.Data kind=struct quoted=false*/
+				/* handler: v type=openrtb.Data kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -3913,15 +4331,14 @@ handle_Data:
 						goto mainparse
 					}
 
-					err = tmp_uj__Data.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Data = append(uj.Data, tmp_uj__Data)
-
+				uj.Data = append(uj.Data, v)
 				wantVal = false
 			}
 		}
@@ -3932,7 +4349,7 @@ handle_Data:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {

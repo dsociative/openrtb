@@ -119,7 +119,7 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if mj.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -151,21 +151,19 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Keywords))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -227,7 +225,7 @@ var ffj_key_App_SectionCat = []byte("sectioncat")
 
 var ffj_key_App_PageCat = []byte("pagecat")
 
-var ffj_key_App_PrivacyPolicy = []byte("pivacypolicy")
+var ffj_key_App_PrivacyPolicy = []byte("privacypolicy")
 
 var ffj_key_App_Publisher = []byte("publisher")
 
@@ -771,13 +769,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -798,7 +796,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -814,13 +812,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -845,13 +842,13 @@ handle_SectionCat:
 			uj.SectionCat = nil
 		} else {
 
-			uj.SectionCat = []string{}
+			uj.SectionCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__SectionCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -872,7 +869,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__SectionCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -888,13 +885,12 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__SectionCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, tmp_uj__SectionCat)
-
+				uj.SectionCat = append(uj.SectionCat, v)
 				wantVal = false
 			}
 		}
@@ -919,13 +915,13 @@ handle_PageCat:
 			uj.PageCat = nil
 		} else {
 
-			uj.PageCat = []string{}
+			uj.PageCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__PageCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -946,7 +942,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__PageCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -962,13 +958,12 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__PageCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, tmp_uj__PageCat)
-
+				uj.PageCat = append(uj.PageCat, v)
 				wantVal = false
 			}
 		}
@@ -1079,12 +1074,10 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1093,10 +1086,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1213,7 +1202,7 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if mj.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -1245,21 +1234,19 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Keywords))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -1305,7 +1292,7 @@ var ffj_key_Inventory_SectionCat = []byte("sectioncat")
 
 var ffj_key_Inventory_PageCat = []byte("pagecat")
 
-var ffj_key_Inventory_PrivacyPolicy = []byte("pivacypolicy")
+var ffj_key_Inventory_PrivacyPolicy = []byte("privacypolicy")
 
 var ffj_key_Inventory_Publisher = []byte("publisher")
 
@@ -1679,13 +1666,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1706,7 +1693,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1722,13 +1709,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -1753,13 +1739,13 @@ handle_SectionCat:
 			uj.SectionCat = nil
 		} else {
 
-			uj.SectionCat = []string{}
+			uj.SectionCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__SectionCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1780,7 +1766,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__SectionCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1796,13 +1782,12 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__SectionCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, tmp_uj__SectionCat)
-
+				uj.SectionCat = append(uj.SectionCat, v)
 				wantVal = false
 			}
 		}
@@ -1827,13 +1812,13 @@ handle_PageCat:
 			uj.PageCat = nil
 		} else {
 
-			uj.PageCat = []string{}
+			uj.PageCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__PageCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1854,7 +1839,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__PageCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1870,13 +1855,12 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__PageCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, tmp_uj__PageCat)
-
+				uj.PageCat = append(uj.PageCat, v)
 				wantVal = false
 			}
 		}
@@ -1987,12 +1971,10 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -2001,10 +1983,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -2141,7 +2119,7 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if mj.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -2173,21 +2151,19 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.Keywords))
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -2249,7 +2225,7 @@ var ffj_key_Site_SectionCat = []byte("sectioncat")
 
 var ffj_key_Site_PageCat = []byte("pagecat")
 
-var ffj_key_Site_PrivacyPolicy = []byte("pivacypolicy")
+var ffj_key_Site_PrivacyPolicy = []byte("privacypolicy")
 
 var ffj_key_Site_Publisher = []byte("publisher")
 
@@ -2793,13 +2769,13 @@ handle_Cat:
 			uj.Cat = nil
 		} else {
 
-			uj.Cat = []string{}
+			uj.Cat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Cat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2820,7 +2796,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Cat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -2836,13 +2812,12 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Cat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, tmp_uj__Cat)
-
+				uj.Cat = append(uj.Cat, v)
 				wantVal = false
 			}
 		}
@@ -2867,13 +2842,13 @@ handle_SectionCat:
 			uj.SectionCat = nil
 		} else {
 
-			uj.SectionCat = []string{}
+			uj.SectionCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__SectionCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2894,7 +2869,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__SectionCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -2910,13 +2885,12 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__SectionCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, tmp_uj__SectionCat)
-
+				uj.SectionCat = append(uj.SectionCat, v)
 				wantVal = false
 			}
 		}
@@ -2941,13 +2915,13 @@ handle_PageCat:
 			uj.PageCat = nil
 		} else {
 
-			uj.PageCat = []string{}
+			uj.PageCat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__PageCat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2968,7 +2942,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__PageCat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -2984,13 +2958,12 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__PageCat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, tmp_uj__PageCat)
-
+				uj.PageCat = append(uj.PageCat, v)
 				wantVal = false
 			}
 		}
@@ -3101,12 +3074,10 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -3115,10 +3086,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)

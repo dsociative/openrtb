@@ -44,6 +44,26 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
 		buf.WriteByte(',')
 	}
+	if len(mj.Format) != 0 {
+		buf.WriteString(`"format":`)
+		if mj.Format != nil {
+			buf.WriteString(`[`)
+			for i, v := range mj.Format {
+				if i != 0 {
+					buf.WriteString(`,`)
+				}
+				/* Struct fall back. type=openrtb.Format kind=struct */
+				err = buf.Encode(&v)
+				if err != nil {
+					return err
+				}
+			}
+			buf.WriteString(`]`)
+		} else {
+			buf.WriteString(`null`)
+		}
+		buf.WriteByte(',')
+	}
 	if mj.WMax != 0 {
 		buf.WriteString(`"wmax":`)
 		fflib.FormatBits2(buf, uint64(mj.WMax), 10, mj.WMax < 0)
@@ -67,11 +87,6 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if len(mj.ID) != 0 {
 		buf.WriteString(`"id":`)
 		fflib.WriteJsonString(buf, string(mj.ID))
-		buf.WriteByte(',')
-	}
-	if mj.Pos != 0 {
-		buf.WriteString(`"pos":`)
-		fflib.FormatBits2(buf, uint64(mj.Pos), 10, mj.Pos < 0)
 		buf.WriteByte(',')
 	}
 	if len(mj.BType) != 0 {
@@ -104,6 +119,11 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		} else {
 			buf.WriteString(`null`)
 		}
+		buf.WriteByte(',')
+	}
+	if mj.Pos != 0 {
+		buf.WriteString(`"pos":`)
+		fflib.FormatBits2(buf, uint64(mj.Pos), 10, mj.Pos < 0)
 		buf.WriteByte(',')
 	}
 	if len(mj.Mimes) != 0 {
@@ -159,21 +179,19 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -188,6 +206,8 @@ const (
 
 	ffj_t_Banner_H
 
+	ffj_t_Banner_Format
+
 	ffj_t_Banner_WMax
 
 	ffj_t_Banner_HMax
@@ -198,11 +218,11 @@ const (
 
 	ffj_t_Banner_ID
 
-	ffj_t_Banner_Pos
-
 	ffj_t_Banner_BType
 
 	ffj_t_Banner_BAttr
+
+	ffj_t_Banner_Pos
 
 	ffj_t_Banner_Mimes
 
@@ -219,6 +239,8 @@ var ffj_key_Banner_W = []byte("w")
 
 var ffj_key_Banner_H = []byte("h")
 
+var ffj_key_Banner_Format = []byte("format")
+
 var ffj_key_Banner_WMax = []byte("wmax")
 
 var ffj_key_Banner_HMax = []byte("hmax")
@@ -229,11 +251,11 @@ var ffj_key_Banner_HMin = []byte("hmin")
 
 var ffj_key_Banner_ID = []byte("id")
 
-var ffj_key_Banner_Pos = []byte("pos")
-
 var ffj_key_Banner_BType = []byte("btype")
 
 var ffj_key_Banner_BAttr = []byte("battr")
+
+var ffj_key_Banner_Pos = []byte("pos")
 
 var ffj_key_Banner_Mimes = []byte("mimes")
 
@@ -338,6 +360,14 @@ mainparse:
 						goto mainparse
 					}
 
+				case 'f':
+
+					if bytes.Equal(ffj_key_Banner_Format, kn) {
+						currentKey = ffj_t_Banner_Format
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'h':
 
 					if bytes.Equal(ffj_key_Banner_H, kn) {
@@ -438,6 +468,12 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.EqualFoldRight(ffj_key_Banner_Pos, kn) {
+					currentKey = ffj_t_Banner_Pos
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffj_key_Banner_BAttr, kn) {
 					currentKey = ffj_t_Banner_BAttr
 					state = fflib.FFParse_want_colon
@@ -446,12 +482,6 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffj_key_Banner_BType, kn) {
 					currentKey = ffj_t_Banner_BType
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffj_key_Banner_Pos, kn) {
-					currentKey = ffj_t_Banner_Pos
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -482,6 +512,12 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffj_key_Banner_WMax, kn) {
 					currentKey = ffj_t_Banner_WMax
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffj_key_Banner_Format, kn) {
+					currentKey = ffj_t_Banner_Format
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -521,6 +557,9 @@ mainparse:
 				case ffj_t_Banner_H:
 					goto handle_H
 
+				case ffj_t_Banner_Format:
+					goto handle_Format
+
 				case ffj_t_Banner_WMax:
 					goto handle_WMax
 
@@ -536,14 +575,14 @@ mainparse:
 				case ffj_t_Banner_ID:
 					goto handle_ID
 
-				case ffj_t_Banner_Pos:
-					goto handle_Pos
-
 				case ffj_t_Banner_BType:
 					goto handle_BType
 
 				case ffj_t_Banner_BAttr:
 					goto handle_BAttr
+
+				case ffj_t_Banner_Pos:
+					goto handle_Pos
 
 				case ffj_t_Banner_Mimes:
 					goto handle_Mimes
@@ -628,6 +667,73 @@ handle_H:
 
 			uj.H = int(tval)
 
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Format:
+
+	/* handler: uj.Format type=[]openrtb.Format kind=slice quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+			uj.Format = nil
+		} else {
+
+			uj.Format = make([]Format, 0)
+
+			wantVal := true
+
+			for {
+
+				var v Format
+
+				tok = fs.Scan()
+				if tok == fflib.FFTok_error {
+					goto tokerror
+				}
+				if tok == fflib.FFTok_right_brace {
+					break
+				}
+
+				if tok == fflib.FFTok_comma {
+					if wantVal == true {
+						// TODO(pquerna): this isn't an ideal error message, this handles
+						// things like [,,,] as an array value.
+						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+					}
+					continue
+				} else {
+					wantVal = true
+				}
+
+				/* handler: v type=openrtb.Format kind=struct quoted=false*/
+
+				{
+					/* Falling back. type=openrtb.Format kind=struct */
+					tbuf, err := fs.CaptureField(tok)
+					if err != nil {
+						return fs.WrapErr(err)
+					}
+
+					err = json.Unmarshal(tbuf, &v)
+					if err != nil {
+						return fs.WrapErr(err)
+					}
+				}
+
+				uj.Format = append(uj.Format, v)
+				wantVal = false
+			}
 		}
 	}
 
@@ -780,6 +886,160 @@ handle_ID:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_BType:
+
+	/* handler: uj.BType type=[]int kind=slice quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+			uj.BType = nil
+		} else {
+
+			uj.BType = make([]int, 0)
+
+			wantVal := true
+
+			for {
+
+				var v int
+
+				tok = fs.Scan()
+				if tok == fflib.FFTok_error {
+					goto tokerror
+				}
+				if tok == fflib.FFTok_right_brace {
+					break
+				}
+
+				if tok == fflib.FFTok_comma {
+					if wantVal == true {
+						// TODO(pquerna): this isn't an ideal error message, this handles
+						// things like [,,,] as an array value.
+						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+					}
+					continue
+				} else {
+					wantVal = true
+				}
+
+				/* handler: v type=int kind=int quoted=false*/
+
+				{
+					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+					}
+				}
+
+				{
+
+					if tok == fflib.FFTok_null {
+
+					} else {
+
+						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+						if err != nil {
+							return fs.WrapErr(err)
+						}
+
+						v = int(tval)
+
+					}
+				}
+
+				uj.BType = append(uj.BType, v)
+				wantVal = false
+			}
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_BAttr:
+
+	/* handler: uj.BAttr type=[]int kind=slice quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+			uj.BAttr = nil
+		} else {
+
+			uj.BAttr = make([]int, 0)
+
+			wantVal := true
+
+			for {
+
+				var v int
+
+				tok = fs.Scan()
+				if tok == fflib.FFTok_error {
+					goto tokerror
+				}
+				if tok == fflib.FFTok_right_brace {
+					break
+				}
+
+				if tok == fflib.FFTok_comma {
+					if wantVal == true {
+						// TODO(pquerna): this isn't an ideal error message, this handles
+						// things like [,,,] as an array value.
+						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+					}
+					continue
+				} else {
+					wantVal = true
+				}
+
+				/* handler: v type=int kind=int quoted=false*/
+
+				{
+					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+					}
+				}
+
+				{
+
+					if tok == fflib.FFTok_null {
+
+					} else {
+
+						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+						if err != nil {
+							return fs.WrapErr(err)
+						}
+
+						v = int(tval)
+
+					}
+				}
+
+				uj.BAttr = append(uj.BAttr, v)
+				wantVal = false
+			}
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_Pos:
 
 	/* handler: uj.Pos type=int kind=int quoted=false*/
@@ -810,162 +1070,6 @@ handle_Pos:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_BType:
-
-	/* handler: uj.BType type=[]int kind=slice quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-			uj.BType = nil
-		} else {
-
-			uj.BType = []int{}
-
-			wantVal := true
-
-			for {
-
-				var tmp_uj__BType int
-
-				tok = fs.Scan()
-				if tok == fflib.FFTok_error {
-					goto tokerror
-				}
-				if tok == fflib.FFTok_right_brace {
-					break
-				}
-
-				if tok == fflib.FFTok_comma {
-					if wantVal == true {
-						// TODO(pquerna): this isn't an ideal error message, this handles
-						// things like [,,,] as an array value.
-						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
-					}
-					continue
-				} else {
-					wantVal = true
-				}
-
-				/* handler: tmp_uj__BType type=int kind=int quoted=false*/
-
-				{
-					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-					}
-				}
-
-				{
-
-					if tok == fflib.FFTok_null {
-
-					} else {
-
-						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-						if err != nil {
-							return fs.WrapErr(err)
-						}
-
-						tmp_uj__BType = int(tval)
-
-					}
-				}
-
-				uj.BType = append(uj.BType, tmp_uj__BType)
-
-				wantVal = false
-			}
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_BAttr:
-
-	/* handler: uj.BAttr type=[]int kind=slice quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-			uj.BAttr = nil
-		} else {
-
-			uj.BAttr = []int{}
-
-			wantVal := true
-
-			for {
-
-				var tmp_uj__BAttr int
-
-				tok = fs.Scan()
-				if tok == fflib.FFTok_error {
-					goto tokerror
-				}
-				if tok == fflib.FFTok_right_brace {
-					break
-				}
-
-				if tok == fflib.FFTok_comma {
-					if wantVal == true {
-						// TODO(pquerna): this isn't an ideal error message, this handles
-						// things like [,,,] as an array value.
-						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
-					}
-					continue
-				} else {
-					wantVal = true
-				}
-
-				/* handler: tmp_uj__BAttr type=int kind=int quoted=false*/
-
-				{
-					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-						return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-					}
-				}
-
-				{
-
-					if tok == fflib.FFTok_null {
-
-					} else {
-
-						tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-						if err != nil {
-							return fs.WrapErr(err)
-						}
-
-						tmp_uj__BAttr = int(tval)
-
-					}
-				}
-
-				uj.BAttr = append(uj.BAttr, tmp_uj__BAttr)
-
-				wantVal = false
-			}
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
 handle_Mimes:
 
 	/* handler: uj.Mimes type=[]string kind=slice quoted=false*/
@@ -982,13 +1086,13 @@ handle_Mimes:
 			uj.Mimes = nil
 		} else {
 
-			uj.Mimes = []string{}
+			uj.Mimes = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Mimes string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1009,7 +1113,7 @@ handle_Mimes:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Mimes type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1025,13 +1129,12 @@ handle_Mimes:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Mimes = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Mimes = append(uj.Mimes, tmp_uj__Mimes)
-
+				uj.Mimes = append(uj.Mimes, v)
 				wantVal = false
 			}
 		}
@@ -1086,13 +1189,13 @@ handle_ExpDir:
 			uj.ExpDir = nil
 		} else {
 
-			uj.ExpDir = []int{}
+			uj.ExpDir = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__ExpDir int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1113,7 +1216,7 @@ handle_ExpDir:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__ExpDir type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1133,13 +1236,12 @@ handle_ExpDir:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__ExpDir = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.ExpDir = append(uj.ExpDir, tmp_uj__ExpDir)
-
+				uj.ExpDir = append(uj.ExpDir, v)
 				wantVal = false
 			}
 		}
@@ -1164,13 +1266,13 @@ handle_Api:
 			uj.Api = nil
 		} else {
 
-			uj.Api = []int{}
+			uj.Api = make([]int, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Api int
+				var v int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1191,7 +1293,7 @@ handle_Api:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Api type=int kind=int quoted=false*/
+				/* handler: v type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1211,13 +1313,12 @@ handle_Api:
 							return fs.WrapErr(err)
 						}
 
-						tmp_uj__Api = int(tval)
+						v = int(tval)
 
 					}
 				}
 
-				uj.Api = append(uj.Api, tmp_uj__Api)
-
+				uj.Api = append(uj.Api, v)
 				wantVal = false
 			}
 		}
@@ -1228,12 +1329,10 @@ handle_Api:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1242,10 +1341,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)

@@ -7,7 +7,6 @@ package openrtb
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
@@ -86,21 +85,19 @@ func (mj *Deal) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.AuctionType), 10, mj.AuctionType < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	if len(mj.Seats) != 0 {
 		buf.WriteString(`"seats":`)
@@ -506,13 +503,13 @@ handle_WSeat:
 			uj.WSeat = nil
 		} else {
 
-			uj.WSeat = []string{}
+			uj.WSeat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__WSeat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -533,7 +530,7 @@ handle_WSeat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__WSeat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -549,13 +546,12 @@ handle_WSeat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__WSeat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.WSeat = append(uj.WSeat, tmp_uj__WSeat)
-
+				uj.WSeat = append(uj.WSeat, v)
 				wantVal = false
 			}
 		}
@@ -580,13 +576,13 @@ handle_WAdvDomain:
 			uj.WAdvDomain = nil
 		} else {
 
-			uj.WAdvDomain = []string{}
+			uj.WAdvDomain = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__WAdvDomain string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -607,7 +603,7 @@ handle_WAdvDomain:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__WAdvDomain type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -623,13 +619,12 @@ handle_WAdvDomain:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__WAdvDomain = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.WAdvDomain = append(uj.WAdvDomain, tmp_uj__WAdvDomain)
-
+				uj.WAdvDomain = append(uj.WAdvDomain, v)
 				wantVal = false
 			}
 		}
@@ -670,12 +665,10 @@ handle_AuctionType:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -684,10 +677,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -716,13 +705,13 @@ handle_Seats:
 			uj.Seats = nil
 		} else {
 
-			uj.Seats = []string{}
+			uj.Seats = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Seats string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -743,7 +732,7 @@ handle_Seats:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Seats type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -759,13 +748,12 @@ handle_Seats:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Seats = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Seats = append(uj.Seats, tmp_uj__Seats)
-
+				uj.Seats = append(uj.Seats, v)
 				wantVal = false
 			}
 		}
@@ -872,21 +860,19 @@ func (mj *Pmp) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -1099,13 +1085,13 @@ handle_Deals:
 			uj.Deals = nil
 		} else {
 
-			uj.Deals = []Deal{}
+			uj.Deals = make([]Deal, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Deals Deal
+				var v Deal
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1126,7 +1112,7 @@ handle_Deals:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Deals type=openrtb.Deal kind=struct quoted=false*/
+				/* handler: v type=openrtb.Deal kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -1135,15 +1121,14 @@ handle_Deals:
 						goto mainparse
 					}
 
-					err = tmp_uj__Deals.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Deals = append(uj.Deals, tmp_uj__Deals)
-
+				uj.Deals = append(uj.Deals, v)
 				wantVal = false
 			}
 		}
@@ -1154,12 +1139,10 @@ handle_Deals:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1168,10 +1151,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1275,21 +1254,19 @@ func (mj *jsonDeal) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.AuctionType), 10, mj.AuctionType < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	if len(mj.Seats) != 0 {
 		buf.WriteString(`"seats":`)
@@ -1695,13 +1672,13 @@ handle_WSeat:
 			uj.WSeat = nil
 		} else {
 
-			uj.WSeat = []string{}
+			uj.WSeat = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__WSeat string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1722,7 +1699,7 @@ handle_WSeat:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__WSeat type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1738,13 +1715,12 @@ handle_WSeat:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__WSeat = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.WSeat = append(uj.WSeat, tmp_uj__WSeat)
-
+				uj.WSeat = append(uj.WSeat, v)
 				wantVal = false
 			}
 		}
@@ -1769,13 +1745,13 @@ handle_WAdvDomain:
 			uj.WAdvDomain = nil
 		} else {
 
-			uj.WAdvDomain = []string{}
+			uj.WAdvDomain = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__WAdvDomain string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1796,7 +1772,7 @@ handle_WAdvDomain:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__WAdvDomain type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1812,13 +1788,12 @@ handle_WAdvDomain:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__WAdvDomain = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.WAdvDomain = append(uj.WAdvDomain, tmp_uj__WAdvDomain)
-
+				uj.WAdvDomain = append(uj.WAdvDomain, v)
 				wantVal = false
 			}
 		}
@@ -1859,12 +1834,10 @@ handle_AuctionType:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -1873,10 +1846,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
@@ -1905,13 +1874,13 @@ handle_Seats:
 			uj.Seats = nil
 		} else {
 
-			uj.Seats = []string{}
+			uj.Seats = make([]string, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Seats string
+				var v string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1932,7 +1901,7 @@ handle_Seats:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Seats type=string kind=string quoted=false*/
+				/* handler: v type=string kind=string quoted=false*/
 
 				{
 
@@ -1948,13 +1917,12 @@ handle_Seats:
 
 						outBuf := fs.Output.Bytes()
 
-						tmp_uj__Seats = string(string(outBuf))
+						v = string(string(outBuf))
 
 					}
 				}
 
-				uj.Seats = append(uj.Seats, tmp_uj__Seats)
-
+				uj.Seats = append(uj.Seats, v)
 				wantVal = false
 			}
 		}

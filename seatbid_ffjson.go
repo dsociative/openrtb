@@ -7,7 +7,6 @@ package openrtb
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
@@ -65,21 +64,19 @@ func (mj *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(mj.Group), 10, mj.Group < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(mj.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = mj.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = mj.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -283,13 +280,13 @@ handle_Bid:
 			uj.Bid = nil
 		} else {
 
-			uj.Bid = []Bid{}
+			uj.Bid = make([]Bid, 0)
 
 			wantVal := true
 
 			for {
 
-				var tmp_uj__Bid Bid
+				var v Bid
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -310,7 +307,7 @@ handle_Bid:
 					wantVal = true
 				}
 
-				/* handler: tmp_uj__Bid type=openrtb.Bid kind=struct quoted=false*/
+				/* handler: v type=openrtb.Bid kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -319,15 +316,14 @@ handle_Bid:
 						goto mainparse
 					}
 
-					err = tmp_uj__Bid.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Bid = append(uj.Bid, tmp_uj__Bid)
-
+				uj.Bid = append(uj.Bid, v)
 				wantVal = false
 			}
 		}
@@ -394,12 +390,10 @@ handle_Group:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			uj.Ext = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -408,10 +402,6 @@ handle_Ext:
 		tbuf, err := fs.CaptureField(tok)
 		if err != nil {
 			return fs.WrapErr(err)
-		}
-
-		if uj.Ext == nil {
-			uj.Ext = new(json.RawMessage)
 		}
 
 		err = uj.Ext.UnmarshalJSON(tbuf)
