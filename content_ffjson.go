@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Content) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Content) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,70 +37,70 @@ func (mj *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if mj.Episode != 0 {
+	if j.Episode != 0 {
 		buf.WriteString(`"episode":`)
-		fflib.FormatBits2(buf, uint64(mj.Episode), 10, mj.Episode < 0)
+		fflib.FormatBits2(buf, uint64(j.Episode), 10, j.Episode < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Title) != 0 {
+	if len(j.Title) != 0 {
 		buf.WriteString(`"title":`)
-		fflib.WriteJsonString(buf, string(mj.Title))
+		fflib.WriteJsonString(buf, string(j.Title))
 		buf.WriteByte(',')
 	}
-	if len(mj.Series) != 0 {
+	if len(j.Series) != 0 {
 		buf.WriteString(`"series":`)
-		fflib.WriteJsonString(buf, string(mj.Series))
+		fflib.WriteJsonString(buf, string(j.Series))
 		buf.WriteByte(',')
 	}
-	if len(mj.Season) != 0 {
+	if len(j.Season) != 0 {
 		buf.WriteString(`"season":`)
-		fflib.WriteJsonString(buf, string(mj.Season))
+		fflib.WriteJsonString(buf, string(j.Season))
 		buf.WriteByte(',')
 	}
-	if len(mj.Artist) != 0 {
+	if len(j.Artist) != 0 {
 		buf.WriteString(`"artist":`)
-		fflib.WriteJsonString(buf, string(mj.Artist))
+		fflib.WriteJsonString(buf, string(j.Artist))
 		buf.WriteByte(',')
 	}
-	if len(mj.Genre) != 0 {
+	if len(j.Genre) != 0 {
 		buf.WriteString(`"genre":`)
-		fflib.WriteJsonString(buf, string(mj.Genre))
+		fflib.WriteJsonString(buf, string(j.Genre))
 		buf.WriteByte(',')
 	}
 	buf.WriteString(`"album":`)
-	fflib.WriteJsonString(buf, string(mj.Album))
+	fflib.WriteJsonString(buf, string(j.Album))
 	buf.WriteByte(',')
-	if len(mj.ISRC) != 0 {
+	if len(j.ISRC) != 0 {
 		buf.WriteString(`"isrc":`)
-		fflib.WriteJsonString(buf, string(mj.ISRC))
+		fflib.WriteJsonString(buf, string(j.ISRC))
 		buf.WriteByte(',')
 	}
-	if mj.Producer != nil {
+	if j.Producer != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Producer kind=struct */
 			buf.WriteString(`"producer":`)
-			err = buf.Encode(mj.Producer)
+			err = buf.Encode(j.Producer)
 			if err != nil {
 				return err
 			}
 			buf.WriteByte(',')
 		}
 	}
-	if len(mj.URL) != 0 {
+	if len(j.URL) != 0 {
 		buf.WriteString(`"url":`)
-		fflib.WriteJsonString(buf, string(mj.URL))
+		fflib.WriteJsonString(buf, string(j.URL))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -109,71 +112,71 @@ func (mj *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.ProdQuality != 0 {
+	if j.ProdQuality != 0 {
 		buf.WriteString(`"prodq":`)
-		fflib.FormatBits2(buf, uint64(mj.ProdQuality), 10, mj.ProdQuality < 0)
+		fflib.FormatBits2(buf, uint64(j.ProdQuality), 10, j.ProdQuality < 0)
 		buf.WriteByte(',')
 	}
-	if mj.VideoQuality != 0 {
+	if j.VideoQuality != 0 {
 		buf.WriteString(`"videoquality":`)
-		fflib.FormatBits2(buf, uint64(mj.VideoQuality), 10, mj.VideoQuality < 0)
+		fflib.FormatBits2(buf, uint64(j.VideoQuality), 10, j.VideoQuality < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Context != 0 {
+	if j.Context != 0 {
 		buf.WriteString(`"context":`)
-		fflib.FormatBits2(buf, uint64(mj.Context), 10, mj.Context < 0)
+		fflib.FormatBits2(buf, uint64(j.Context), 10, j.Context < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.ContentRating) != 0 {
+	if len(j.ContentRating) != 0 {
 		buf.WriteString(`"contentrating":`)
-		fflib.WriteJsonString(buf, string(mj.ContentRating))
+		fflib.WriteJsonString(buf, string(j.ContentRating))
 		buf.WriteByte(',')
 	}
-	if len(mj.UserRating) != 0 {
+	if len(j.UserRating) != 0 {
 		buf.WriteString(`"userrating":`)
-		fflib.WriteJsonString(buf, string(mj.UserRating))
+		fflib.WriteJsonString(buf, string(j.UserRating))
 		buf.WriteByte(',')
 	}
-	if mj.QAGMediaRating != 0 {
+	if j.QAGMediaRating != 0 {
 		buf.WriteString(`"qagmediarating":`)
-		fflib.FormatBits2(buf, uint64(mj.QAGMediaRating), 10, mj.QAGMediaRating < 0)
+		fflib.FormatBits2(buf, uint64(j.QAGMediaRating), 10, j.QAGMediaRating < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Keywords) != 0 {
+	if len(j.Keywords) != 0 {
 		buf.WriteString(`"keywords":`)
-		fflib.WriteJsonString(buf, string(mj.Keywords))
+		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if mj.LiveStream != 0 {
+	if j.LiveStream != 0 {
 		buf.WriteString(`"livestream":`)
-		fflib.FormatBits2(buf, uint64(mj.LiveStream), 10, mj.LiveStream < 0)
+		fflib.FormatBits2(buf, uint64(j.LiveStream), 10, j.LiveStream < 0)
 		buf.WriteByte(',')
 	}
-	if mj.SourceRelationship != 0 {
+	if j.SourceRelationship != 0 {
 		buf.WriteString(`"sourcerelationship":`)
-		fflib.FormatBits2(buf, uint64(mj.SourceRelationship), 10, mj.SourceRelationship < 0)
+		fflib.FormatBits2(buf, uint64(j.SourceRelationship), 10, j.SourceRelationship < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Len != 0 {
+	if j.Len != 0 {
 		buf.WriteString(`"len":`)
-		fflib.FormatBits2(buf, uint64(mj.Len), 10, mj.Len < 0)
+		fflib.FormatBits2(buf, uint64(j.Len), 10, j.Len < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Language) != 0 {
+	if len(j.Language) != 0 {
 		buf.WriteString(`"language":`)
-		fflib.WriteJsonString(buf, string(mj.Language))
+		fflib.WriteJsonString(buf, string(j.Language))
 		buf.WriteByte(',')
 	}
-	if mj.Embeddable != 0 {
+	if j.Embeddable != 0 {
 		buf.WriteString(`"embeddable":`)
-		fflib.FormatBits2(buf, uint64(mj.Embeddable), 10, mj.Embeddable < 0)
+		fflib.FormatBits2(buf, uint64(j.Embeddable), 10, j.Embeddable < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Data) != 0 {
+	if len(j.Data) != 0 {
 		buf.WriteString(`"data":`)
-		if mj.Data != nil {
+		if j.Data != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Data {
+			for i, v := range j.Data {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -189,12 +192,12 @@ func (mj *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -209,122 +212,124 @@ func (mj *Content) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Contentbase = iota
-	ffj_t_Contentno_such_key
+	ffjtContentbase = iota
+	ffjtContentnosuchkey
 
-	ffj_t_Content_ID
+	ffjtContentID
 
-	ffj_t_Content_Episode
+	ffjtContentEpisode
 
-	ffj_t_Content_Title
+	ffjtContentTitle
 
-	ffj_t_Content_Series
+	ffjtContentSeries
 
-	ffj_t_Content_Season
+	ffjtContentSeason
 
-	ffj_t_Content_Artist
+	ffjtContentArtist
 
-	ffj_t_Content_Genre
+	ffjtContentGenre
 
-	ffj_t_Content_Album
+	ffjtContentAlbum
 
-	ffj_t_Content_ISRC
+	ffjtContentISRC
 
-	ffj_t_Content_Producer
+	ffjtContentProducer
 
-	ffj_t_Content_URL
+	ffjtContentURL
 
-	ffj_t_Content_Cat
+	ffjtContentCat
 
-	ffj_t_Content_ProdQuality
+	ffjtContentProdQuality
 
-	ffj_t_Content_VideoQuality
+	ffjtContentVideoQuality
 
-	ffj_t_Content_Context
+	ffjtContentContext
 
-	ffj_t_Content_ContentRating
+	ffjtContentContentRating
 
-	ffj_t_Content_UserRating
+	ffjtContentUserRating
 
-	ffj_t_Content_QAGMediaRating
+	ffjtContentQAGMediaRating
 
-	ffj_t_Content_Keywords
+	ffjtContentKeywords
 
-	ffj_t_Content_LiveStream
+	ffjtContentLiveStream
 
-	ffj_t_Content_SourceRelationship
+	ffjtContentSourceRelationship
 
-	ffj_t_Content_Len
+	ffjtContentLen
 
-	ffj_t_Content_Language
+	ffjtContentLanguage
 
-	ffj_t_Content_Embeddable
+	ffjtContentEmbeddable
 
-	ffj_t_Content_Data
+	ffjtContentData
 
-	ffj_t_Content_Ext
+	ffjtContentExt
 )
 
-var ffj_key_Content_ID = []byte("id")
+var ffjKeyContentID = []byte("id")
 
-var ffj_key_Content_Episode = []byte("episode")
+var ffjKeyContentEpisode = []byte("episode")
 
-var ffj_key_Content_Title = []byte("title")
+var ffjKeyContentTitle = []byte("title")
 
-var ffj_key_Content_Series = []byte("series")
+var ffjKeyContentSeries = []byte("series")
 
-var ffj_key_Content_Season = []byte("season")
+var ffjKeyContentSeason = []byte("season")
 
-var ffj_key_Content_Artist = []byte("artist")
+var ffjKeyContentArtist = []byte("artist")
 
-var ffj_key_Content_Genre = []byte("genre")
+var ffjKeyContentGenre = []byte("genre")
 
-var ffj_key_Content_Album = []byte("album")
+var ffjKeyContentAlbum = []byte("album")
 
-var ffj_key_Content_ISRC = []byte("isrc")
+var ffjKeyContentISRC = []byte("isrc")
 
-var ffj_key_Content_Producer = []byte("producer")
+var ffjKeyContentProducer = []byte("producer")
 
-var ffj_key_Content_URL = []byte("url")
+var ffjKeyContentURL = []byte("url")
 
-var ffj_key_Content_Cat = []byte("cat")
+var ffjKeyContentCat = []byte("cat")
 
-var ffj_key_Content_ProdQuality = []byte("prodq")
+var ffjKeyContentProdQuality = []byte("prodq")
 
-var ffj_key_Content_VideoQuality = []byte("videoquality")
+var ffjKeyContentVideoQuality = []byte("videoquality")
 
-var ffj_key_Content_Context = []byte("context")
+var ffjKeyContentContext = []byte("context")
 
-var ffj_key_Content_ContentRating = []byte("contentrating")
+var ffjKeyContentContentRating = []byte("contentrating")
 
-var ffj_key_Content_UserRating = []byte("userrating")
+var ffjKeyContentUserRating = []byte("userrating")
 
-var ffj_key_Content_QAGMediaRating = []byte("qagmediarating")
+var ffjKeyContentQAGMediaRating = []byte("qagmediarating")
 
-var ffj_key_Content_Keywords = []byte("keywords")
+var ffjKeyContentKeywords = []byte("keywords")
 
-var ffj_key_Content_LiveStream = []byte("livestream")
+var ffjKeyContentLiveStream = []byte("livestream")
 
-var ffj_key_Content_SourceRelationship = []byte("sourcerelationship")
+var ffjKeyContentSourceRelationship = []byte("sourcerelationship")
 
-var ffj_key_Content_Len = []byte("len")
+var ffjKeyContentLen = []byte("len")
 
-var ffj_key_Content_Language = []byte("language")
+var ffjKeyContentLanguage = []byte("language")
 
-var ffj_key_Content_Embeddable = []byte("embeddable")
+var ffjKeyContentEmbeddable = []byte("embeddable")
 
-var ffj_key_Content_Data = []byte("data")
+var ffjKeyContentData = []byte("data")
 
-var ffj_key_Content_Ext = []byte("ext")
+var ffjKeyContentExt = []byte("ext")
 
-func (uj *Content) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Content) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Content) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Contentbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Content) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtContentbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -370,7 +375,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Contentno_such_key
+				currentKey = ffjtContentnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -378,335 +383,335 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Content_Artist, kn) {
-						currentKey = ffj_t_Content_Artist
+					if bytes.Equal(ffjKeyContentArtist, kn) {
+						currentKey = ffjtContentArtist
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Album, kn) {
-						currentKey = ffj_t_Content_Album
+					} else if bytes.Equal(ffjKeyContentAlbum, kn) {
+						currentKey = ffjtContentAlbum
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Content_Cat, kn) {
-						currentKey = ffj_t_Content_Cat
+					if bytes.Equal(ffjKeyContentCat, kn) {
+						currentKey = ffjtContentCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Context, kn) {
-						currentKey = ffj_t_Content_Context
+					} else if bytes.Equal(ffjKeyContentContext, kn) {
+						currentKey = ffjtContentContext
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_ContentRating, kn) {
-						currentKey = ffj_t_Content_ContentRating
+					} else if bytes.Equal(ffjKeyContentContentRating, kn) {
+						currentKey = ffjtContentContentRating
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Content_Data, kn) {
-						currentKey = ffj_t_Content_Data
+					if bytes.Equal(ffjKeyContentData, kn) {
+						currentKey = ffjtContentData
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Content_Episode, kn) {
-						currentKey = ffj_t_Content_Episode
+					if bytes.Equal(ffjKeyContentEpisode, kn) {
+						currentKey = ffjtContentEpisode
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Embeddable, kn) {
-						currentKey = ffj_t_Content_Embeddable
+					} else if bytes.Equal(ffjKeyContentEmbeddable, kn) {
+						currentKey = ffjtContentEmbeddable
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Ext, kn) {
-						currentKey = ffj_t_Content_Ext
+					} else if bytes.Equal(ffjKeyContentExt, kn) {
+						currentKey = ffjtContentExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'g':
 
-					if bytes.Equal(ffj_key_Content_Genre, kn) {
-						currentKey = ffj_t_Content_Genre
+					if bytes.Equal(ffjKeyContentGenre, kn) {
+						currentKey = ffjtContentGenre
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Content_ID, kn) {
-						currentKey = ffj_t_Content_ID
+					if bytes.Equal(ffjKeyContentID, kn) {
+						currentKey = ffjtContentID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_ISRC, kn) {
-						currentKey = ffj_t_Content_ISRC
+					} else if bytes.Equal(ffjKeyContentISRC, kn) {
+						currentKey = ffjtContentISRC
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'k':
 
-					if bytes.Equal(ffj_key_Content_Keywords, kn) {
-						currentKey = ffj_t_Content_Keywords
+					if bytes.Equal(ffjKeyContentKeywords, kn) {
+						currentKey = ffjtContentKeywords
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'l':
 
-					if bytes.Equal(ffj_key_Content_LiveStream, kn) {
-						currentKey = ffj_t_Content_LiveStream
+					if bytes.Equal(ffjKeyContentLiveStream, kn) {
+						currentKey = ffjtContentLiveStream
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Len, kn) {
-						currentKey = ffj_t_Content_Len
+					} else if bytes.Equal(ffjKeyContentLen, kn) {
+						currentKey = ffjtContentLen
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Language, kn) {
-						currentKey = ffj_t_Content_Language
+					} else if bytes.Equal(ffjKeyContentLanguage, kn) {
+						currentKey = ffjtContentLanguage
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Content_Producer, kn) {
-						currentKey = ffj_t_Content_Producer
+					if bytes.Equal(ffjKeyContentProducer, kn) {
+						currentKey = ffjtContentProducer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_ProdQuality, kn) {
-						currentKey = ffj_t_Content_ProdQuality
+					} else if bytes.Equal(ffjKeyContentProdQuality, kn) {
+						currentKey = ffjtContentProdQuality
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'q':
 
-					if bytes.Equal(ffj_key_Content_QAGMediaRating, kn) {
-						currentKey = ffj_t_Content_QAGMediaRating
+					if bytes.Equal(ffjKeyContentQAGMediaRating, kn) {
+						currentKey = ffjtContentQAGMediaRating
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_Content_Series, kn) {
-						currentKey = ffj_t_Content_Series
+					if bytes.Equal(ffjKeyContentSeries, kn) {
+						currentKey = ffjtContentSeries
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_Season, kn) {
-						currentKey = ffj_t_Content_Season
+					} else if bytes.Equal(ffjKeyContentSeason, kn) {
+						currentKey = ffjtContentSeason
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_SourceRelationship, kn) {
-						currentKey = ffj_t_Content_SourceRelationship
+					} else if bytes.Equal(ffjKeyContentSourceRelationship, kn) {
+						currentKey = ffjtContentSourceRelationship
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_Content_Title, kn) {
-						currentKey = ffj_t_Content_Title
+					if bytes.Equal(ffjKeyContentTitle, kn) {
+						currentKey = ffjtContentTitle
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'u':
 
-					if bytes.Equal(ffj_key_Content_URL, kn) {
-						currentKey = ffj_t_Content_URL
+					if bytes.Equal(ffjKeyContentURL, kn) {
+						currentKey = ffjtContentURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Content_UserRating, kn) {
-						currentKey = ffj_t_Content_UserRating
+					} else if bytes.Equal(ffjKeyContentUserRating, kn) {
+						currentKey = ffjtContentUserRating
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_Content_VideoQuality, kn) {
-						currentKey = ffj_t_Content_VideoQuality
+					if bytes.Equal(ffjKeyContentVideoQuality, kn) {
+						currentKey = ffjtContentVideoQuality
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Ext, kn) {
-					currentKey = ffj_t_Content_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyContentExt, kn) {
+					currentKey = ffjtContentExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Data, kn) {
-					currentKey = ffj_t_Content_Data
+				if fflib.SimpleLetterEqualFold(ffjKeyContentData, kn) {
+					currentKey = ffjtContentData
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Embeddable, kn) {
-					currentKey = ffj_t_Content_Embeddable
+				if fflib.SimpleLetterEqualFold(ffjKeyContentEmbeddable, kn) {
+					currentKey = ffjtContentEmbeddable
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Language, kn) {
-					currentKey = ffj_t_Content_Language
+				if fflib.SimpleLetterEqualFold(ffjKeyContentLanguage, kn) {
+					currentKey = ffjtContentLanguage
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Len, kn) {
-					currentKey = ffj_t_Content_Len
+				if fflib.SimpleLetterEqualFold(ffjKeyContentLen, kn) {
+					currentKey = ffjtContentLen
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_SourceRelationship, kn) {
-					currentKey = ffj_t_Content_SourceRelationship
+				if fflib.EqualFoldRight(ffjKeyContentSourceRelationship, kn) {
+					currentKey = ffjtContentSourceRelationship
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_LiveStream, kn) {
-					currentKey = ffj_t_Content_LiveStream
+				if fflib.EqualFoldRight(ffjKeyContentLiveStream, kn) {
+					currentKey = ffjtContentLiveStream
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_Keywords, kn) {
-					currentKey = ffj_t_Content_Keywords
+				if fflib.EqualFoldRight(ffjKeyContentKeywords, kn) {
+					currentKey = ffjtContentKeywords
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_QAGMediaRating, kn) {
-					currentKey = ffj_t_Content_QAGMediaRating
+				if fflib.SimpleLetterEqualFold(ffjKeyContentQAGMediaRating, kn) {
+					currentKey = ffjtContentQAGMediaRating
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_UserRating, kn) {
-					currentKey = ffj_t_Content_UserRating
+				if fflib.EqualFoldRight(ffjKeyContentUserRating, kn) {
+					currentKey = ffjtContentUserRating
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_ContentRating, kn) {
-					currentKey = ffj_t_Content_ContentRating
+				if fflib.SimpleLetterEqualFold(ffjKeyContentContentRating, kn) {
+					currentKey = ffjtContentContentRating
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Context, kn) {
-					currentKey = ffj_t_Content_Context
+				if fflib.SimpleLetterEqualFold(ffjKeyContentContext, kn) {
+					currentKey = ffjtContentContext
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_VideoQuality, kn) {
-					currentKey = ffj_t_Content_VideoQuality
+				if fflib.SimpleLetterEqualFold(ffjKeyContentVideoQuality, kn) {
+					currentKey = ffjtContentVideoQuality
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_ProdQuality, kn) {
-					currentKey = ffj_t_Content_ProdQuality
+				if fflib.SimpleLetterEqualFold(ffjKeyContentProdQuality, kn) {
+					currentKey = ffjtContentProdQuality
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Cat, kn) {
-					currentKey = ffj_t_Content_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyContentCat, kn) {
+					currentKey = ffjtContentCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_URL, kn) {
-					currentKey = ffj_t_Content_URL
+				if fflib.SimpleLetterEqualFold(ffjKeyContentURL, kn) {
+					currentKey = ffjtContentURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Producer, kn) {
-					currentKey = ffj_t_Content_Producer
+				if fflib.SimpleLetterEqualFold(ffjKeyContentProducer, kn) {
+					currentKey = ffjtContentProducer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_ISRC, kn) {
-					currentKey = ffj_t_Content_ISRC
+				if fflib.EqualFoldRight(ffjKeyContentISRC, kn) {
+					currentKey = ffjtContentISRC
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Album, kn) {
-					currentKey = ffj_t_Content_Album
+				if fflib.SimpleLetterEqualFold(ffjKeyContentAlbum, kn) {
+					currentKey = ffjtContentAlbum
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Genre, kn) {
-					currentKey = ffj_t_Content_Genre
+				if fflib.SimpleLetterEqualFold(ffjKeyContentGenre, kn) {
+					currentKey = ffjtContentGenre
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_Artist, kn) {
-					currentKey = ffj_t_Content_Artist
+				if fflib.EqualFoldRight(ffjKeyContentArtist, kn) {
+					currentKey = ffjtContentArtist
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_Season, kn) {
-					currentKey = ffj_t_Content_Season
+				if fflib.EqualFoldRight(ffjKeyContentSeason, kn) {
+					currentKey = ffjtContentSeason
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_Series, kn) {
-					currentKey = ffj_t_Content_Series
+				if fflib.EqualFoldRight(ffjKeyContentSeries, kn) {
+					currentKey = ffjtContentSeries
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_Title, kn) {
-					currentKey = ffj_t_Content_Title
+				if fflib.SimpleLetterEqualFold(ffjKeyContentTitle, kn) {
+					currentKey = ffjtContentTitle
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Content_Episode, kn) {
-					currentKey = ffj_t_Content_Episode
+				if fflib.EqualFoldRight(ffjKeyContentEpisode, kn) {
+					currentKey = ffjtContentEpisode
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Content_ID, kn) {
-					currentKey = ffj_t_Content_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyContentID, kn) {
+					currentKey = ffjtContentID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Contentno_such_key
+				currentKey = ffjtContentnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -723,85 +728,85 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Content_ID:
+				case ffjtContentID:
 					goto handle_ID
 
-				case ffj_t_Content_Episode:
+				case ffjtContentEpisode:
 					goto handle_Episode
 
-				case ffj_t_Content_Title:
+				case ffjtContentTitle:
 					goto handle_Title
 
-				case ffj_t_Content_Series:
+				case ffjtContentSeries:
 					goto handle_Series
 
-				case ffj_t_Content_Season:
+				case ffjtContentSeason:
 					goto handle_Season
 
-				case ffj_t_Content_Artist:
+				case ffjtContentArtist:
 					goto handle_Artist
 
-				case ffj_t_Content_Genre:
+				case ffjtContentGenre:
 					goto handle_Genre
 
-				case ffj_t_Content_Album:
+				case ffjtContentAlbum:
 					goto handle_Album
 
-				case ffj_t_Content_ISRC:
+				case ffjtContentISRC:
 					goto handle_ISRC
 
-				case ffj_t_Content_Producer:
+				case ffjtContentProducer:
 					goto handle_Producer
 
-				case ffj_t_Content_URL:
+				case ffjtContentURL:
 					goto handle_URL
 
-				case ffj_t_Content_Cat:
+				case ffjtContentCat:
 					goto handle_Cat
 
-				case ffj_t_Content_ProdQuality:
+				case ffjtContentProdQuality:
 					goto handle_ProdQuality
 
-				case ffj_t_Content_VideoQuality:
+				case ffjtContentVideoQuality:
 					goto handle_VideoQuality
 
-				case ffj_t_Content_Context:
+				case ffjtContentContext:
 					goto handle_Context
 
-				case ffj_t_Content_ContentRating:
+				case ffjtContentContentRating:
 					goto handle_ContentRating
 
-				case ffj_t_Content_UserRating:
+				case ffjtContentUserRating:
 					goto handle_UserRating
 
-				case ffj_t_Content_QAGMediaRating:
+				case ffjtContentQAGMediaRating:
 					goto handle_QAGMediaRating
 
-				case ffj_t_Content_Keywords:
+				case ffjtContentKeywords:
 					goto handle_Keywords
 
-				case ffj_t_Content_LiveStream:
+				case ffjtContentLiveStream:
 					goto handle_LiveStream
 
-				case ffj_t_Content_SourceRelationship:
+				case ffjtContentSourceRelationship:
 					goto handle_SourceRelationship
 
-				case ffj_t_Content_Len:
+				case ffjtContentLen:
 					goto handle_Len
 
-				case ffj_t_Content_Language:
+				case ffjtContentLanguage:
 					goto handle_Language
 
-				case ffj_t_Content_Embeddable:
+				case ffjtContentEmbeddable:
 					goto handle_Embeddable
 
-				case ffj_t_Content_Data:
+				case ffjtContentData:
 					goto handle_Data
 
-				case ffj_t_Content_Ext:
+				case ffjtContentExt:
 					goto handle_Ext
 
-				case ffj_t_Contentno_such_key:
+				case ffjtContentnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -817,7 +822,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -833,7 +838,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -843,7 +848,7 @@ handle_ID:
 
 handle_Episode:
 
-	/* handler: uj.Episode type=int kind=int quoted=false*/
+	/* handler: j.Episode type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -863,7 +868,7 @@ handle_Episode:
 				return fs.WrapErr(err)
 			}
 
-			uj.Episode = int(tval)
+			j.Episode = int(tval)
 
 		}
 	}
@@ -873,7 +878,7 @@ handle_Episode:
 
 handle_Title:
 
-	/* handler: uj.Title type=string kind=string quoted=false*/
+	/* handler: j.Title type=string kind=string quoted=false*/
 
 	{
 
@@ -889,7 +894,7 @@ handle_Title:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Title = string(string(outBuf))
+			j.Title = string(string(outBuf))
 
 		}
 	}
@@ -899,7 +904,7 @@ handle_Title:
 
 handle_Series:
 
-	/* handler: uj.Series type=string kind=string quoted=false*/
+	/* handler: j.Series type=string kind=string quoted=false*/
 
 	{
 
@@ -915,7 +920,7 @@ handle_Series:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Series = string(string(outBuf))
+			j.Series = string(string(outBuf))
 
 		}
 	}
@@ -925,7 +930,7 @@ handle_Series:
 
 handle_Season:
 
-	/* handler: uj.Season type=string kind=string quoted=false*/
+	/* handler: j.Season type=string kind=string quoted=false*/
 
 	{
 
@@ -941,7 +946,7 @@ handle_Season:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Season = string(string(outBuf))
+			j.Season = string(string(outBuf))
 
 		}
 	}
@@ -951,7 +956,7 @@ handle_Season:
 
 handle_Artist:
 
-	/* handler: uj.Artist type=string kind=string quoted=false*/
+	/* handler: j.Artist type=string kind=string quoted=false*/
 
 	{
 
@@ -967,7 +972,7 @@ handle_Artist:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Artist = string(string(outBuf))
+			j.Artist = string(string(outBuf))
 
 		}
 	}
@@ -977,7 +982,7 @@ handle_Artist:
 
 handle_Genre:
 
-	/* handler: uj.Genre type=string kind=string quoted=false*/
+	/* handler: j.Genre type=string kind=string quoted=false*/
 
 	{
 
@@ -993,7 +998,7 @@ handle_Genre:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Genre = string(string(outBuf))
+			j.Genre = string(string(outBuf))
 
 		}
 	}
@@ -1003,7 +1008,7 @@ handle_Genre:
 
 handle_Album:
 
-	/* handler: uj.Album type=string kind=string quoted=false*/
+	/* handler: j.Album type=string kind=string quoted=false*/
 
 	{
 
@@ -1019,7 +1024,7 @@ handle_Album:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Album = string(string(outBuf))
+			j.Album = string(string(outBuf))
 
 		}
 	}
@@ -1029,7 +1034,7 @@ handle_Album:
 
 handle_ISRC:
 
-	/* handler: uj.ISRC type=string kind=string quoted=false*/
+	/* handler: j.ISRC type=string kind=string quoted=false*/
 
 	{
 
@@ -1045,7 +1050,7 @@ handle_ISRC:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ISRC = string(string(outBuf))
+			j.ISRC = string(string(outBuf))
 
 		}
 	}
@@ -1055,7 +1060,7 @@ handle_ISRC:
 
 handle_Producer:
 
-	/* handler: uj.Producer type=openrtb.Producer kind=struct quoted=false*/
+	/* handler: j.Producer type=openrtb.Producer kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Producer kind=struct */
@@ -1064,7 +1069,7 @@ handle_Producer:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Producer)
+		err = json.Unmarshal(tbuf, &j.Producer)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1075,7 +1080,7 @@ handle_Producer:
 
 handle_URL:
 
-	/* handler: uj.URL type=string kind=string quoted=false*/
+	/* handler: j.URL type=string kind=string quoted=false*/
 
 	{
 
@@ -1091,7 +1096,7 @@ handle_URL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.URL = string(string(outBuf))
+			j.URL = string(string(outBuf))
 
 		}
 	}
@@ -1101,7 +1106,7 @@ handle_URL:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1112,16 +1117,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1142,7 +1147,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -1158,12 +1163,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -1174,7 +1180,7 @@ handle_Cat:
 
 handle_ProdQuality:
 
-	/* handler: uj.ProdQuality type=int kind=int quoted=false*/
+	/* handler: j.ProdQuality type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1194,7 +1200,7 @@ handle_ProdQuality:
 				return fs.WrapErr(err)
 			}
 
-			uj.ProdQuality = int(tval)
+			j.ProdQuality = int(tval)
 
 		}
 	}
@@ -1204,7 +1210,7 @@ handle_ProdQuality:
 
 handle_VideoQuality:
 
-	/* handler: uj.VideoQuality type=int kind=int quoted=false*/
+	/* handler: j.VideoQuality type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1224,7 +1230,7 @@ handle_VideoQuality:
 				return fs.WrapErr(err)
 			}
 
-			uj.VideoQuality = int(tval)
+			j.VideoQuality = int(tval)
 
 		}
 	}
@@ -1234,7 +1240,7 @@ handle_VideoQuality:
 
 handle_Context:
 
-	/* handler: uj.Context type=int kind=int quoted=false*/
+	/* handler: j.Context type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1254,7 +1260,7 @@ handle_Context:
 				return fs.WrapErr(err)
 			}
 
-			uj.Context = int(tval)
+			j.Context = int(tval)
 
 		}
 	}
@@ -1264,7 +1270,7 @@ handle_Context:
 
 handle_ContentRating:
 
-	/* handler: uj.ContentRating type=string kind=string quoted=false*/
+	/* handler: j.ContentRating type=string kind=string quoted=false*/
 
 	{
 
@@ -1280,7 +1286,7 @@ handle_ContentRating:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ContentRating = string(string(outBuf))
+			j.ContentRating = string(string(outBuf))
 
 		}
 	}
@@ -1290,7 +1296,7 @@ handle_ContentRating:
 
 handle_UserRating:
 
-	/* handler: uj.UserRating type=string kind=string quoted=false*/
+	/* handler: j.UserRating type=string kind=string quoted=false*/
 
 	{
 
@@ -1306,7 +1312,7 @@ handle_UserRating:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.UserRating = string(string(outBuf))
+			j.UserRating = string(string(outBuf))
 
 		}
 	}
@@ -1316,7 +1322,7 @@ handle_UserRating:
 
 handle_QAGMediaRating:
 
-	/* handler: uj.QAGMediaRating type=int kind=int quoted=false*/
+	/* handler: j.QAGMediaRating type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1336,7 +1342,7 @@ handle_QAGMediaRating:
 				return fs.WrapErr(err)
 			}
 
-			uj.QAGMediaRating = int(tval)
+			j.QAGMediaRating = int(tval)
 
 		}
 	}
@@ -1346,7 +1352,7 @@ handle_QAGMediaRating:
 
 handle_Keywords:
 
-	/* handler: uj.Keywords type=string kind=string quoted=false*/
+	/* handler: j.Keywords type=string kind=string quoted=false*/
 
 	{
 
@@ -1362,7 +1368,7 @@ handle_Keywords:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Keywords = string(string(outBuf))
+			j.Keywords = string(string(outBuf))
 
 		}
 	}
@@ -1372,7 +1378,7 @@ handle_Keywords:
 
 handle_LiveStream:
 
-	/* handler: uj.LiveStream type=int kind=int quoted=false*/
+	/* handler: j.LiveStream type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1392,7 +1398,7 @@ handle_LiveStream:
 				return fs.WrapErr(err)
 			}
 
-			uj.LiveStream = int(tval)
+			j.LiveStream = int(tval)
 
 		}
 	}
@@ -1402,7 +1408,7 @@ handle_LiveStream:
 
 handle_SourceRelationship:
 
-	/* handler: uj.SourceRelationship type=int kind=int quoted=false*/
+	/* handler: j.SourceRelationship type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1422,7 +1428,7 @@ handle_SourceRelationship:
 				return fs.WrapErr(err)
 			}
 
-			uj.SourceRelationship = int(tval)
+			j.SourceRelationship = int(tval)
 
 		}
 	}
@@ -1432,7 +1438,7 @@ handle_SourceRelationship:
 
 handle_Len:
 
-	/* handler: uj.Len type=int kind=int quoted=false*/
+	/* handler: j.Len type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1452,7 +1458,7 @@ handle_Len:
 				return fs.WrapErr(err)
 			}
 
-			uj.Len = int(tval)
+			j.Len = int(tval)
 
 		}
 	}
@@ -1462,7 +1468,7 @@ handle_Len:
 
 handle_Language:
 
-	/* handler: uj.Language type=string kind=string quoted=false*/
+	/* handler: j.Language type=string kind=string quoted=false*/
 
 	{
 
@@ -1478,7 +1484,7 @@ handle_Language:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Language = string(string(outBuf))
+			j.Language = string(string(outBuf))
 
 		}
 	}
@@ -1488,7 +1494,7 @@ handle_Language:
 
 handle_Embeddable:
 
-	/* handler: uj.Embeddable type=int kind=int quoted=false*/
+	/* handler: j.Embeddable type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1508,7 +1514,7 @@ handle_Embeddable:
 				return fs.WrapErr(err)
 			}
 
-			uj.Embeddable = int(tval)
+			j.Embeddable = int(tval)
 
 		}
 	}
@@ -1518,7 +1524,7 @@ handle_Embeddable:
 
 handle_Data:
 
-	/* handler: uj.Data type=[]openrtb.Data kind=slice quoted=false*/
+	/* handler: j.Data type=[]openrtb.Data kind=slice quoted=false*/
 
 	{
 
@@ -1529,16 +1535,16 @@ handle_Data:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Data = nil
+			j.Data = nil
 		} else {
 
-			uj.Data = make([]Data, 0)
+			j.Data = []Data{}
 
 			wantVal := true
 
 			for {
 
-				var v Data
+				var tmpJData Data
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1559,7 +1565,7 @@ handle_Data:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Data kind=struct quoted=false*/
+				/* handler: tmpJData type=openrtb.Data kind=struct quoted=false*/
 
 				{
 					/* Falling back. type=openrtb.Data kind=struct */
@@ -1568,13 +1574,14 @@ handle_Data:
 						return fs.WrapErr(err)
 					}
 
-					err = json.Unmarshal(tbuf, &v)
+					err = json.Unmarshal(tbuf, &tmpJData)
 					if err != nil {
 						return fs.WrapErr(err)
 					}
 				}
 
-				uj.Data = append(uj.Data, v)
+				j.Data = append(j.Data, tmpJData)
+
 				wantVal = false
 			}
 		}
@@ -1585,7 +1592,7 @@ handle_Data:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1599,7 +1606,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1623,5 +1630,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

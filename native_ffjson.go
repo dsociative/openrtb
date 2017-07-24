@@ -11,20 +11,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Native) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Native) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -33,18 +36,18 @@ func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "request":`)
-	fflib.WriteJsonString(buf, string(mj.Request))
+	fflib.WriteJsonString(buf, string(j.Request))
 	buf.WriteByte(',')
-	if len(mj.Ver) != 0 {
+	if len(j.Ver) != 0 {
 		buf.WriteString(`"ver":`)
-		fflib.WriteJsonString(buf, string(mj.Ver))
+		fflib.WriteJsonString(buf, string(j.Ver))
 		buf.WriteByte(',')
 	}
-	if len(mj.API) != 0 {
+	if len(j.API) != 0 {
 		buf.WriteString(`"api":`)
-		if mj.API != nil {
+		if j.API != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.API {
+			for i, v := range j.API {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -56,11 +59,11 @@ func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.BAttr) != 0 {
+	if len(j.BAttr) != 0 {
 		buf.WriteString(`"battr":`)
-		if mj.BAttr != nil {
+		if j.BAttr != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BAttr {
+			for i, v := range j.BAttr {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -72,12 +75,12 @@ func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -92,38 +95,40 @@ func (mj *Native) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Nativebase = iota
-	ffj_t_Nativeno_such_key
+	ffjtNativebase = iota
+	ffjtNativenosuchkey
 
-	ffj_t_Native_Request
+	ffjtNativeRequest
 
-	ffj_t_Native_Ver
+	ffjtNativeVer
 
-	ffj_t_Native_API
+	ffjtNativeAPI
 
-	ffj_t_Native_BAttr
+	ffjtNativeBAttr
 
-	ffj_t_Native_Ext
+	ffjtNativeExt
 )
 
-var ffj_key_Native_Request = []byte("request")
+var ffjKeyNativeRequest = []byte("request")
 
-var ffj_key_Native_Ver = []byte("ver")
+var ffjKeyNativeVer = []byte("ver")
 
-var ffj_key_Native_API = []byte("api")
+var ffjKeyNativeAPI = []byte("api")
 
-var ffj_key_Native_BAttr = []byte("battr")
+var ffjKeyNativeBAttr = []byte("battr")
 
-var ffj_key_Native_Ext = []byte("ext")
+var ffjKeyNativeExt = []byte("ext")
 
-func (uj *Native) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Native) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Native) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Nativebase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Native) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtNativebase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -169,7 +174,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Nativeno_such_key
+				currentKey = ffjtNativenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -177,77 +182,77 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Native_API, kn) {
-						currentKey = ffj_t_Native_API
+					if bytes.Equal(ffjKeyNativeAPI, kn) {
+						currentKey = ffjtNativeAPI
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_Native_BAttr, kn) {
-						currentKey = ffj_t_Native_BAttr
+					if bytes.Equal(ffjKeyNativeBAttr, kn) {
+						currentKey = ffjtNativeBAttr
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Native_Ext, kn) {
-						currentKey = ffj_t_Native_Ext
+					if bytes.Equal(ffjKeyNativeExt, kn) {
+						currentKey = ffjtNativeExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'r':
 
-					if bytes.Equal(ffj_key_Native_Request, kn) {
-						currentKey = ffj_t_Native_Request
+					if bytes.Equal(ffjKeyNativeRequest, kn) {
+						currentKey = ffjtNativeRequest
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_Native_Ver, kn) {
-						currentKey = ffj_t_Native_Ver
+					if bytes.Equal(ffjKeyNativeVer, kn) {
+						currentKey = ffjtNativeVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Native_Ext, kn) {
-					currentKey = ffj_t_Native_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyNativeExt, kn) {
+					currentKey = ffjtNativeExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Native_BAttr, kn) {
-					currentKey = ffj_t_Native_BAttr
+				if fflib.SimpleLetterEqualFold(ffjKeyNativeBAttr, kn) {
+					currentKey = ffjtNativeBAttr
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Native_API, kn) {
-					currentKey = ffj_t_Native_API
+				if fflib.SimpleLetterEqualFold(ffjKeyNativeAPI, kn) {
+					currentKey = ffjtNativeAPI
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Native_Ver, kn) {
-					currentKey = ffj_t_Native_Ver
+				if fflib.SimpleLetterEqualFold(ffjKeyNativeVer, kn) {
+					currentKey = ffjtNativeVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Native_Request, kn) {
-					currentKey = ffj_t_Native_Request
+				if fflib.EqualFoldRight(ffjKeyNativeRequest, kn) {
+					currentKey = ffjtNativeRequest
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Nativeno_such_key
+				currentKey = ffjtNativenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -264,22 +269,22 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Native_Request:
+				case ffjtNativeRequest:
 					goto handle_Request
 
-				case ffj_t_Native_Ver:
+				case ffjtNativeVer:
 					goto handle_Ver
 
-				case ffj_t_Native_API:
+				case ffjtNativeAPI:
 					goto handle_API
 
-				case ffj_t_Native_BAttr:
+				case ffjtNativeBAttr:
 					goto handle_BAttr
 
-				case ffj_t_Native_Ext:
+				case ffjtNativeExt:
 					goto handle_Ext
 
-				case ffj_t_Nativeno_such_key:
+				case ffjtNativenosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -295,7 +300,7 @@ mainparse:
 
 handle_Request:
 
-	/* handler: uj.Request type=string kind=string quoted=false*/
+	/* handler: j.Request type=string kind=string quoted=false*/
 
 	{
 
@@ -311,7 +316,7 @@ handle_Request:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Request = string(string(outBuf))
+			j.Request = string(string(outBuf))
 
 		}
 	}
@@ -321,7 +326,7 @@ handle_Request:
 
 handle_Ver:
 
-	/* handler: uj.Ver type=string kind=string quoted=false*/
+	/* handler: j.Ver type=string kind=string quoted=false*/
 
 	{
 
@@ -337,7 +342,7 @@ handle_Ver:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Ver = string(string(outBuf))
+			j.Ver = string(string(outBuf))
 
 		}
 	}
@@ -347,7 +352,7 @@ handle_Ver:
 
 handle_API:
 
-	/* handler: uj.API type=[]int kind=slice quoted=false*/
+	/* handler: j.API type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -358,16 +363,16 @@ handle_API:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.API = nil
+			j.API = nil
 		} else {
 
-			uj.API = make([]int, 0)
+			j.API = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJAPI int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -388,7 +393,7 @@ handle_API:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJAPI type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -408,12 +413,13 @@ handle_API:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJAPI = int(tval)
 
 					}
 				}
 
-				uj.API = append(uj.API, v)
+				j.API = append(j.API, tmpJAPI)
+
 				wantVal = false
 			}
 		}
@@ -424,7 +430,7 @@ handle_API:
 
 handle_BAttr:
 
-	/* handler: uj.BAttr type=[]int kind=slice quoted=false*/
+	/* handler: j.BAttr type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -435,16 +441,16 @@ handle_BAttr:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BAttr = nil
+			j.BAttr = nil
 		} else {
 
-			uj.BAttr = make([]int, 0)
+			j.BAttr = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJBAttr int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -465,7 +471,7 @@ handle_BAttr:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJBAttr type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -485,12 +491,13 @@ handle_BAttr:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJBAttr = int(tval)
 
 					}
 				}
 
-				uj.BAttr = append(uj.BAttr, v)
+				j.BAttr = append(j.BAttr, tmpJBAttr)
+
 				wantVal = false
 			}
 		}
@@ -501,7 +508,7 @@ handle_BAttr:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -515,7 +522,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -539,5 +546,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

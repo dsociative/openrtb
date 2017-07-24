@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Banner) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Banner) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,21 +37,21 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if mj.W != 0 {
+	if j.W != 0 {
 		buf.WriteString(`"w":`)
-		fflib.FormatBits2(buf, uint64(mj.W), 10, mj.W < 0)
+		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
 		buf.WriteByte(',')
 	}
-	if mj.H != 0 {
+	if j.H != 0 {
 		buf.WriteString(`"h":`)
-		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
+		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Format) != 0 {
+	if len(j.Format) != 0 {
 		buf.WriteString(`"format":`)
-		if mj.Format != nil {
+		if j.Format != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Format {
+			for i, v := range j.Format {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -64,36 +67,36 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.WMax != 0 {
+	if j.WMax != 0 {
 		buf.WriteString(`"wmax":`)
-		fflib.FormatBits2(buf, uint64(mj.WMax), 10, mj.WMax < 0)
+		fflib.FormatBits2(buf, uint64(j.WMax), 10, j.WMax < 0)
 		buf.WriteByte(',')
 	}
-	if mj.HMax != 0 {
+	if j.HMax != 0 {
 		buf.WriteString(`"hmax":`)
-		fflib.FormatBits2(buf, uint64(mj.HMax), 10, mj.HMax < 0)
+		fflib.FormatBits2(buf, uint64(j.HMax), 10, j.HMax < 0)
 		buf.WriteByte(',')
 	}
-	if mj.WMin != 0 {
+	if j.WMin != 0 {
 		buf.WriteString(`"wmin":`)
-		fflib.FormatBits2(buf, uint64(mj.WMin), 10, mj.WMin < 0)
+		fflib.FormatBits2(buf, uint64(j.WMin), 10, j.WMin < 0)
 		buf.WriteByte(',')
 	}
-	if mj.HMin != 0 {
+	if j.HMin != 0 {
 		buf.WriteString(`"hmin":`)
-		fflib.FormatBits2(buf, uint64(mj.HMin), 10, mj.HMin < 0)
+		fflib.FormatBits2(buf, uint64(j.HMin), 10, j.HMin < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.BType) != 0 {
+	if len(j.BType) != 0 {
 		buf.WriteString(`"btype":`)
-		if mj.BType != nil {
+		if j.BType != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BType {
+			for i, v := range j.BType {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -105,11 +108,11 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.BAttr) != 0 {
+	if len(j.BAttr) != 0 {
 		buf.WriteString(`"battr":`)
-		if mj.BAttr != nil {
+		if j.BAttr != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BAttr {
+			for i, v := range j.BAttr {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -121,16 +124,16 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Pos != 0 {
+	if j.Pos != 0 {
 		buf.WriteString(`"pos":`)
-		fflib.FormatBits2(buf, uint64(mj.Pos), 10, mj.Pos < 0)
+		fflib.FormatBits2(buf, uint64(j.Pos), 10, j.Pos < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Mimes) != 0 {
+	if len(j.Mimes) != 0 {
 		buf.WriteString(`"mimes":`)
-		if mj.Mimes != nil {
+		if j.Mimes != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Mimes {
+			for i, v := range j.Mimes {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -142,16 +145,16 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.TopFrame != 0 {
+	if j.TopFrame != 0 {
 		buf.WriteString(`"topframe":`)
-		fflib.FormatBits2(buf, uint64(mj.TopFrame), 10, mj.TopFrame < 0)
+		fflib.FormatBits2(buf, uint64(j.TopFrame), 10, j.TopFrame < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.ExpDir) != 0 {
+	if len(j.ExpDir) != 0 {
 		buf.WriteString(`"expdir":`)
-		if mj.ExpDir != nil {
+		if j.ExpDir != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.ExpDir {
+			for i, v := range j.ExpDir {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -163,11 +166,11 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Api) != 0 {
+	if len(j.Api) != 0 {
 		buf.WriteString(`"api":`)
-		if mj.Api != nil {
+		if j.Api != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Api {
+			for i, v := range j.Api {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -179,12 +182,12 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -199,82 +202,84 @@ func (mj *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Bannerbase = iota
-	ffj_t_Bannerno_such_key
+	ffjtBannerbase = iota
+	ffjtBannernosuchkey
 
-	ffj_t_Banner_W
+	ffjtBannerW
 
-	ffj_t_Banner_H
+	ffjtBannerH
 
-	ffj_t_Banner_Format
+	ffjtBannerFormat
 
-	ffj_t_Banner_WMax
+	ffjtBannerWMax
 
-	ffj_t_Banner_HMax
+	ffjtBannerHMax
 
-	ffj_t_Banner_WMin
+	ffjtBannerWMin
 
-	ffj_t_Banner_HMin
+	ffjtBannerHMin
 
-	ffj_t_Banner_ID
+	ffjtBannerID
 
-	ffj_t_Banner_BType
+	ffjtBannerBType
 
-	ffj_t_Banner_BAttr
+	ffjtBannerBAttr
 
-	ffj_t_Banner_Pos
+	ffjtBannerPos
 
-	ffj_t_Banner_Mimes
+	ffjtBannerMimes
 
-	ffj_t_Banner_TopFrame
+	ffjtBannerTopFrame
 
-	ffj_t_Banner_ExpDir
+	ffjtBannerExpDir
 
-	ffj_t_Banner_Api
+	ffjtBannerApi
 
-	ffj_t_Banner_Ext
+	ffjtBannerExt
 )
 
-var ffj_key_Banner_W = []byte("w")
+var ffjKeyBannerW = []byte("w")
 
-var ffj_key_Banner_H = []byte("h")
+var ffjKeyBannerH = []byte("h")
 
-var ffj_key_Banner_Format = []byte("format")
+var ffjKeyBannerFormat = []byte("format")
 
-var ffj_key_Banner_WMax = []byte("wmax")
+var ffjKeyBannerWMax = []byte("wmax")
 
-var ffj_key_Banner_HMax = []byte("hmax")
+var ffjKeyBannerHMax = []byte("hmax")
 
-var ffj_key_Banner_WMin = []byte("wmin")
+var ffjKeyBannerWMin = []byte("wmin")
 
-var ffj_key_Banner_HMin = []byte("hmin")
+var ffjKeyBannerHMin = []byte("hmin")
 
-var ffj_key_Banner_ID = []byte("id")
+var ffjKeyBannerID = []byte("id")
 
-var ffj_key_Banner_BType = []byte("btype")
+var ffjKeyBannerBType = []byte("btype")
 
-var ffj_key_Banner_BAttr = []byte("battr")
+var ffjKeyBannerBAttr = []byte("battr")
 
-var ffj_key_Banner_Pos = []byte("pos")
+var ffjKeyBannerPos = []byte("pos")
 
-var ffj_key_Banner_Mimes = []byte("mimes")
+var ffjKeyBannerMimes = []byte("mimes")
 
-var ffj_key_Banner_TopFrame = []byte("topframe")
+var ffjKeyBannerTopFrame = []byte("topframe")
 
-var ffj_key_Banner_ExpDir = []byte("expdir")
+var ffjKeyBannerExpDir = []byte("expdir")
 
-var ffj_key_Banner_Api = []byte("api")
+var ffjKeyBannerApi = []byte("api")
 
-var ffj_key_Banner_Ext = []byte("ext")
+var ffjKeyBannerExt = []byte("ext")
 
-func (uj *Banner) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Banner) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Banner) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Bannerbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Banner) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtBannerbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -320,7 +325,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Bannerno_such_key
+				currentKey = ffjtBannernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -328,213 +333,213 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Banner_Api, kn) {
-						currentKey = ffj_t_Banner_Api
+					if bytes.Equal(ffjKeyBannerApi, kn) {
+						currentKey = ffjtBannerApi
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_Banner_BType, kn) {
-						currentKey = ffj_t_Banner_BType
+					if bytes.Equal(ffjKeyBannerBType, kn) {
+						currentKey = ffjtBannerBType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_BAttr, kn) {
-						currentKey = ffj_t_Banner_BAttr
+					} else if bytes.Equal(ffjKeyBannerBAttr, kn) {
+						currentKey = ffjtBannerBAttr
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Banner_ExpDir, kn) {
-						currentKey = ffj_t_Banner_ExpDir
+					if bytes.Equal(ffjKeyBannerExpDir, kn) {
+						currentKey = ffjtBannerExpDir
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_Ext, kn) {
-						currentKey = ffj_t_Banner_Ext
+					} else if bytes.Equal(ffjKeyBannerExt, kn) {
+						currentKey = ffjtBannerExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'f':
 
-					if bytes.Equal(ffj_key_Banner_Format, kn) {
-						currentKey = ffj_t_Banner_Format
+					if bytes.Equal(ffjKeyBannerFormat, kn) {
+						currentKey = ffjtBannerFormat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'h':
 
-					if bytes.Equal(ffj_key_Banner_H, kn) {
-						currentKey = ffj_t_Banner_H
+					if bytes.Equal(ffjKeyBannerH, kn) {
+						currentKey = ffjtBannerH
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_HMax, kn) {
-						currentKey = ffj_t_Banner_HMax
+					} else if bytes.Equal(ffjKeyBannerHMax, kn) {
+						currentKey = ffjtBannerHMax
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_HMin, kn) {
-						currentKey = ffj_t_Banner_HMin
+					} else if bytes.Equal(ffjKeyBannerHMin, kn) {
+						currentKey = ffjtBannerHMin
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Banner_ID, kn) {
-						currentKey = ffj_t_Banner_ID
+					if bytes.Equal(ffjKeyBannerID, kn) {
+						currentKey = ffjtBannerID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'm':
 
-					if bytes.Equal(ffj_key_Banner_Mimes, kn) {
-						currentKey = ffj_t_Banner_Mimes
+					if bytes.Equal(ffjKeyBannerMimes, kn) {
+						currentKey = ffjtBannerMimes
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Banner_Pos, kn) {
-						currentKey = ffj_t_Banner_Pos
+					if bytes.Equal(ffjKeyBannerPos, kn) {
+						currentKey = ffjtBannerPos
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_Banner_TopFrame, kn) {
-						currentKey = ffj_t_Banner_TopFrame
+					if bytes.Equal(ffjKeyBannerTopFrame, kn) {
+						currentKey = ffjtBannerTopFrame
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'w':
 
-					if bytes.Equal(ffj_key_Banner_W, kn) {
-						currentKey = ffj_t_Banner_W
+					if bytes.Equal(ffjKeyBannerW, kn) {
+						currentKey = ffjtBannerW
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_WMax, kn) {
-						currentKey = ffj_t_Banner_WMax
+					} else if bytes.Equal(ffjKeyBannerWMax, kn) {
+						currentKey = ffjtBannerWMax
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Banner_WMin, kn) {
-						currentKey = ffj_t_Banner_WMin
+					} else if bytes.Equal(ffjKeyBannerWMin, kn) {
+						currentKey = ffjtBannerWMin
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_Ext, kn) {
-					currentKey = ffj_t_Banner_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerExt, kn) {
+					currentKey = ffjtBannerExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_Api, kn) {
-					currentKey = ffj_t_Banner_Api
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerApi, kn) {
+					currentKey = ffjtBannerApi
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_ExpDir, kn) {
-					currentKey = ffj_t_Banner_ExpDir
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerExpDir, kn) {
+					currentKey = ffjtBannerExpDir
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_TopFrame, kn) {
-					currentKey = ffj_t_Banner_TopFrame
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerTopFrame, kn) {
+					currentKey = ffjtBannerTopFrame
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Banner_Mimes, kn) {
-					currentKey = ffj_t_Banner_Mimes
+				if fflib.EqualFoldRight(ffjKeyBannerMimes, kn) {
+					currentKey = ffjtBannerMimes
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Banner_Pos, kn) {
-					currentKey = ffj_t_Banner_Pos
+				if fflib.EqualFoldRight(ffjKeyBannerPos, kn) {
+					currentKey = ffjtBannerPos
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_BAttr, kn) {
-					currentKey = ffj_t_Banner_BAttr
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerBAttr, kn) {
+					currentKey = ffjtBannerBAttr
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_BType, kn) {
-					currentKey = ffj_t_Banner_BType
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerBType, kn) {
+					currentKey = ffjtBannerBType
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_ID, kn) {
-					currentKey = ffj_t_Banner_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerID, kn) {
+					currentKey = ffjtBannerID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_HMin, kn) {
-					currentKey = ffj_t_Banner_HMin
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerHMin, kn) {
+					currentKey = ffjtBannerHMin
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_WMin, kn) {
-					currentKey = ffj_t_Banner_WMin
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerWMin, kn) {
+					currentKey = ffjtBannerWMin
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_HMax, kn) {
-					currentKey = ffj_t_Banner_HMax
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerHMax, kn) {
+					currentKey = ffjtBannerHMax
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_WMax, kn) {
-					currentKey = ffj_t_Banner_WMax
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerWMax, kn) {
+					currentKey = ffjtBannerWMax
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_Format, kn) {
-					currentKey = ffj_t_Banner_Format
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerFormat, kn) {
+					currentKey = ffjtBannerFormat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_H, kn) {
-					currentKey = ffj_t_Banner_H
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerH, kn) {
+					currentKey = ffjtBannerH
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Banner_W, kn) {
-					currentKey = ffj_t_Banner_W
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerW, kn) {
+					currentKey = ffjtBannerW
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Bannerno_such_key
+				currentKey = ffjtBannernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -551,55 +556,55 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Banner_W:
+				case ffjtBannerW:
 					goto handle_W
 
-				case ffj_t_Banner_H:
+				case ffjtBannerH:
 					goto handle_H
 
-				case ffj_t_Banner_Format:
+				case ffjtBannerFormat:
 					goto handle_Format
 
-				case ffj_t_Banner_WMax:
+				case ffjtBannerWMax:
 					goto handle_WMax
 
-				case ffj_t_Banner_HMax:
+				case ffjtBannerHMax:
 					goto handle_HMax
 
-				case ffj_t_Banner_WMin:
+				case ffjtBannerWMin:
 					goto handle_WMin
 
-				case ffj_t_Banner_HMin:
+				case ffjtBannerHMin:
 					goto handle_HMin
 
-				case ffj_t_Banner_ID:
+				case ffjtBannerID:
 					goto handle_ID
 
-				case ffj_t_Banner_BType:
+				case ffjtBannerBType:
 					goto handle_BType
 
-				case ffj_t_Banner_BAttr:
+				case ffjtBannerBAttr:
 					goto handle_BAttr
 
-				case ffj_t_Banner_Pos:
+				case ffjtBannerPos:
 					goto handle_Pos
 
-				case ffj_t_Banner_Mimes:
+				case ffjtBannerMimes:
 					goto handle_Mimes
 
-				case ffj_t_Banner_TopFrame:
+				case ffjtBannerTopFrame:
 					goto handle_TopFrame
 
-				case ffj_t_Banner_ExpDir:
+				case ffjtBannerExpDir:
 					goto handle_ExpDir
 
-				case ffj_t_Banner_Api:
+				case ffjtBannerApi:
 					goto handle_Api
 
-				case ffj_t_Banner_Ext:
+				case ffjtBannerExt:
 					goto handle_Ext
 
-				case ffj_t_Bannerno_such_key:
+				case ffjtBannernosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -615,7 +620,7 @@ mainparse:
 
 handle_W:
 
-	/* handler: uj.W type=int kind=int quoted=false*/
+	/* handler: j.W type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -635,7 +640,7 @@ handle_W:
 				return fs.WrapErr(err)
 			}
 
-			uj.W = int(tval)
+			j.W = int(tval)
 
 		}
 	}
@@ -645,7 +650,7 @@ handle_W:
 
 handle_H:
 
-	/* handler: uj.H type=int kind=int quoted=false*/
+	/* handler: j.H type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -665,7 +670,7 @@ handle_H:
 				return fs.WrapErr(err)
 			}
 
-			uj.H = int(tval)
+			j.H = int(tval)
 
 		}
 	}
@@ -675,7 +680,7 @@ handle_H:
 
 handle_Format:
 
-	/* handler: uj.Format type=[]openrtb.Format kind=slice quoted=false*/
+	/* handler: j.Format type=[]openrtb.Format kind=slice quoted=false*/
 
 	{
 
@@ -686,16 +691,16 @@ handle_Format:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Format = nil
+			j.Format = nil
 		} else {
 
-			uj.Format = make([]Format, 0)
+			j.Format = []Format{}
 
 			wantVal := true
 
 			for {
 
-				var v Format
+				var tmpJFormat Format
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -716,7 +721,7 @@ handle_Format:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Format kind=struct quoted=false*/
+				/* handler: tmpJFormat type=openrtb.Format kind=struct quoted=false*/
 
 				{
 					/* Falling back. type=openrtb.Format kind=struct */
@@ -725,13 +730,14 @@ handle_Format:
 						return fs.WrapErr(err)
 					}
 
-					err = json.Unmarshal(tbuf, &v)
+					err = json.Unmarshal(tbuf, &tmpJFormat)
 					if err != nil {
 						return fs.WrapErr(err)
 					}
 				}
 
-				uj.Format = append(uj.Format, v)
+				j.Format = append(j.Format, tmpJFormat)
+
 				wantVal = false
 			}
 		}
@@ -742,7 +748,7 @@ handle_Format:
 
 handle_WMax:
 
-	/* handler: uj.WMax type=int kind=int quoted=false*/
+	/* handler: j.WMax type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -762,7 +768,7 @@ handle_WMax:
 				return fs.WrapErr(err)
 			}
 
-			uj.WMax = int(tval)
+			j.WMax = int(tval)
 
 		}
 	}
@@ -772,7 +778,7 @@ handle_WMax:
 
 handle_HMax:
 
-	/* handler: uj.HMax type=int kind=int quoted=false*/
+	/* handler: j.HMax type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -792,7 +798,7 @@ handle_HMax:
 				return fs.WrapErr(err)
 			}
 
-			uj.HMax = int(tval)
+			j.HMax = int(tval)
 
 		}
 	}
@@ -802,7 +808,7 @@ handle_HMax:
 
 handle_WMin:
 
-	/* handler: uj.WMin type=int kind=int quoted=false*/
+	/* handler: j.WMin type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -822,7 +828,7 @@ handle_WMin:
 				return fs.WrapErr(err)
 			}
 
-			uj.WMin = int(tval)
+			j.WMin = int(tval)
 
 		}
 	}
@@ -832,7 +838,7 @@ handle_WMin:
 
 handle_HMin:
 
-	/* handler: uj.HMin type=int kind=int quoted=false*/
+	/* handler: j.HMin type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -852,7 +858,7 @@ handle_HMin:
 				return fs.WrapErr(err)
 			}
 
-			uj.HMin = int(tval)
+			j.HMin = int(tval)
 
 		}
 	}
@@ -862,7 +868,7 @@ handle_HMin:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -878,7 +884,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -888,7 +894,7 @@ handle_ID:
 
 handle_BType:
 
-	/* handler: uj.BType type=[]int kind=slice quoted=false*/
+	/* handler: j.BType type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -899,16 +905,16 @@ handle_BType:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BType = nil
+			j.BType = nil
 		} else {
 
-			uj.BType = make([]int, 0)
+			j.BType = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJBType int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -929,7 +935,7 @@ handle_BType:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJBType type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -949,12 +955,13 @@ handle_BType:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJBType = int(tval)
 
 					}
 				}
 
-				uj.BType = append(uj.BType, v)
+				j.BType = append(j.BType, tmpJBType)
+
 				wantVal = false
 			}
 		}
@@ -965,7 +972,7 @@ handle_BType:
 
 handle_BAttr:
 
-	/* handler: uj.BAttr type=[]int kind=slice quoted=false*/
+	/* handler: j.BAttr type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -976,16 +983,16 @@ handle_BAttr:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BAttr = nil
+			j.BAttr = nil
 		} else {
 
-			uj.BAttr = make([]int, 0)
+			j.BAttr = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJBAttr int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1006,7 +1013,7 @@ handle_BAttr:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJBAttr type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1026,12 +1033,13 @@ handle_BAttr:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJBAttr = int(tval)
 
 					}
 				}
 
-				uj.BAttr = append(uj.BAttr, v)
+				j.BAttr = append(j.BAttr, tmpJBAttr)
+
 				wantVal = false
 			}
 		}
@@ -1042,7 +1050,7 @@ handle_BAttr:
 
 handle_Pos:
 
-	/* handler: uj.Pos type=int kind=int quoted=false*/
+	/* handler: j.Pos type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1062,7 +1070,7 @@ handle_Pos:
 				return fs.WrapErr(err)
 			}
 
-			uj.Pos = int(tval)
+			j.Pos = int(tval)
 
 		}
 	}
@@ -1072,7 +1080,7 @@ handle_Pos:
 
 handle_Mimes:
 
-	/* handler: uj.Mimes type=[]string kind=slice quoted=false*/
+	/* handler: j.Mimes type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1083,16 +1091,16 @@ handle_Mimes:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Mimes = nil
+			j.Mimes = nil
 		} else {
 
-			uj.Mimes = make([]string, 0)
+			j.Mimes = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJMimes string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1113,7 +1121,7 @@ handle_Mimes:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJMimes type=string kind=string quoted=false*/
 
 				{
 
@@ -1129,12 +1137,13 @@ handle_Mimes:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJMimes = string(string(outBuf))
 
 					}
 				}
 
-				uj.Mimes = append(uj.Mimes, v)
+				j.Mimes = append(j.Mimes, tmpJMimes)
+
 				wantVal = false
 			}
 		}
@@ -1145,7 +1154,7 @@ handle_Mimes:
 
 handle_TopFrame:
 
-	/* handler: uj.TopFrame type=int kind=int quoted=false*/
+	/* handler: j.TopFrame type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1165,7 +1174,7 @@ handle_TopFrame:
 				return fs.WrapErr(err)
 			}
 
-			uj.TopFrame = int(tval)
+			j.TopFrame = int(tval)
 
 		}
 	}
@@ -1175,7 +1184,7 @@ handle_TopFrame:
 
 handle_ExpDir:
 
-	/* handler: uj.ExpDir type=[]int kind=slice quoted=false*/
+	/* handler: j.ExpDir type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -1186,16 +1195,16 @@ handle_ExpDir:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.ExpDir = nil
+			j.ExpDir = nil
 		} else {
 
-			uj.ExpDir = make([]int, 0)
+			j.ExpDir = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJExpDir int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1216,7 +1225,7 @@ handle_ExpDir:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJExpDir type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1236,12 +1245,13 @@ handle_ExpDir:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJExpDir = int(tval)
 
 					}
 				}
 
-				uj.ExpDir = append(uj.ExpDir, v)
+				j.ExpDir = append(j.ExpDir, tmpJExpDir)
+
 				wantVal = false
 			}
 		}
@@ -1252,7 +1262,7 @@ handle_ExpDir:
 
 handle_Api:
 
-	/* handler: uj.Api type=[]int kind=slice quoted=false*/
+	/* handler: j.Api type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -1263,16 +1273,16 @@ handle_Api:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Api = nil
+			j.Api = nil
 		} else {
 
-			uj.Api = make([]int, 0)
+			j.Api = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJApi int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1293,7 +1303,7 @@ handle_Api:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJApi type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1313,12 +1323,13 @@ handle_Api:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJApi = int(tval)
 
 					}
 				}
 
-				uj.Api = append(uj.Api, v)
+				j.Api = append(j.Api, tmpJApi)
+
 				wantVal = false
 			}
 		}
@@ -1329,7 +1340,7 @@ handle_Api:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1343,7 +1354,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1367,5 +1378,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

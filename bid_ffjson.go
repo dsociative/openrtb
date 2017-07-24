@@ -11,20 +11,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Bid) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Bid) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -33,42 +36,42 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "id":`)
-	fflib.WriteJsonString(buf, string(mj.ID))
+	fflib.WriteJsonString(buf, string(j.ID))
 	buf.WriteString(`,"impid":`)
-	fflib.WriteJsonString(buf, string(mj.ImpID))
+	fflib.WriteJsonString(buf, string(j.ImpID))
 	buf.WriteString(`,"price":`)
-	fflib.AppendFloat(buf, float64(mj.Price), 'g', -1, 64)
+	fflib.AppendFloat(buf, float64(j.Price), 'g', -1, 64)
 	buf.WriteByte(',')
-	if len(mj.AdID) != 0 {
+	if len(j.AdID) != 0 {
 		buf.WriteString(`"adid":`)
-		fflib.WriteJsonString(buf, string(mj.AdID))
+		fflib.WriteJsonString(buf, string(j.AdID))
 		buf.WriteByte(',')
 	}
-	if len(mj.NURL) != 0 {
+	if len(j.NURL) != 0 {
 		buf.WriteString(`"nurl":`)
-		fflib.WriteJsonString(buf, string(mj.NURL))
+		fflib.WriteJsonString(buf, string(j.NURL))
 		buf.WriteByte(',')
 	}
-	if len(mj.BURL) != 0 {
+	if len(j.BURL) != 0 {
 		buf.WriteString(`"burl":`)
-		fflib.WriteJsonString(buf, string(mj.BURL))
+		fflib.WriteJsonString(buf, string(j.BURL))
 		buf.WriteByte(',')
 	}
-	if len(mj.LURL) != 0 {
+	if len(j.LURL) != 0 {
 		buf.WriteString(`"lurl":`)
-		fflib.WriteJsonString(buf, string(mj.LURL))
+		fflib.WriteJsonString(buf, string(j.LURL))
 		buf.WriteByte(',')
 	}
-	if len(mj.AdMarkup) != 0 {
+	if len(j.AdMarkup) != 0 {
 		buf.WriteString(`"adm":`)
-		fflib.WriteJsonString(buf, string(mj.AdMarkup))
+		fflib.WriteJsonString(buf, string(j.AdMarkup))
 		buf.WriteByte(',')
 	}
-	if len(mj.AdvDomain) != 0 {
+	if len(j.AdvDomain) != 0 {
 		buf.WriteString(`"adomain":`)
-		if mj.AdvDomain != nil {
+		if j.AdvDomain != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.AdvDomain {
+			for i, v := range j.AdvDomain {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -80,36 +83,36 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Bundle) != 0 {
+	if len(j.Bundle) != 0 {
 		buf.WriteString(`"bundle":`)
-		fflib.WriteJsonString(buf, string(mj.Bundle))
+		fflib.WriteJsonString(buf, string(j.Bundle))
 		buf.WriteByte(',')
 	}
-	if len(mj.IURL) != 0 {
+	if len(j.IURL) != 0 {
 		buf.WriteString(`"iurl":`)
-		fflib.WriteJsonString(buf, string(mj.IURL))
+		fflib.WriteJsonString(buf, string(j.IURL))
 		buf.WriteByte(',')
 	}
-	if len(mj.CampaignID) != 0 {
+	if len(j.CampaignID) != 0 {
 		buf.WriteString(`"cid":`)
-		fflib.WriteJsonString(buf, string(mj.CampaignID))
+		fflib.WriteJsonString(buf, string(j.CampaignID))
 		buf.WriteByte(',')
 	}
-	if len(mj.CreativeID) != 0 {
+	if len(j.CreativeID) != 0 {
 		buf.WriteString(`"crid":`)
-		fflib.WriteJsonString(buf, string(mj.CreativeID))
+		fflib.WriteJsonString(buf, string(j.CreativeID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Tactic) != 0 {
+	if len(j.Tactic) != 0 {
 		buf.WriteString(`"tactic":`)
-		fflib.WriteJsonString(buf, string(mj.Tactic))
+		fflib.WriteJsonString(buf, string(j.Tactic))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -121,11 +124,11 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Attr) != 0 {
+	if len(j.Attr) != 0 {
 		buf.WriteString(`"attr":`)
-		if mj.Attr != nil {
+		if j.Attr != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Attr {
+			for i, v := range j.Attr {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -137,54 +140,54 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.API != 0 {
+	if j.API != 0 {
 		buf.WriteString(`"api":`)
-		fflib.FormatBits2(buf, uint64(mj.API), 10, mj.API < 0)
+		fflib.FormatBits2(buf, uint64(j.API), 10, j.API < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Protocol != 0 {
+	if j.Protocol != 0 {
 		buf.WriteString(`"protocol":`)
-		fflib.FormatBits2(buf, uint64(mj.Protocol), 10, mj.Protocol < 0)
+		fflib.FormatBits2(buf, uint64(j.Protocol), 10, j.Protocol < 0)
 		buf.WriteByte(',')
 	}
-	if mj.QAGMediaRating != 0 {
+	if j.QAGMediaRating != 0 {
 		buf.WriteString(`"qagmediarating":`)
-		fflib.FormatBits2(buf, uint64(mj.QAGMediaRating), 10, mj.QAGMediaRating < 0)
+		fflib.FormatBits2(buf, uint64(j.QAGMediaRating), 10, j.QAGMediaRating < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Language) != 0 {
+	if len(j.Language) != 0 {
 		buf.WriteString(`"language":`)
-		fflib.WriteJsonString(buf, string(mj.Language))
+		fflib.WriteJsonString(buf, string(j.Language))
 		buf.WriteByte(',')
 	}
-	if len(mj.DealID) != 0 {
+	if len(j.DealID) != 0 {
 		buf.WriteString(`"dealid":`)
-		fflib.WriteJsonString(buf, string(mj.DealID))
+		fflib.WriteJsonString(buf, string(j.DealID))
 		buf.WriteByte(',')
 	}
-	if mj.H != 0 {
+	if j.H != 0 {
 		buf.WriteString(`"h":`)
-		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
+		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
 		buf.WriteByte(',')
 	}
-	if mj.W != 0 {
+	if j.W != 0 {
 		buf.WriteString(`"w":`)
-		fflib.FormatBits2(buf, uint64(mj.W), 10, mj.W < 0)
+		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
 		buf.WriteByte(',')
 	}
-	if mj.WRatio != 0 {
+	if j.WRatio != 0 {
 		buf.WriteString(`"wratio":`)
-		fflib.FormatBits2(buf, uint64(mj.WRatio), 10, mj.WRatio < 0)
+		fflib.FormatBits2(buf, uint64(j.WRatio), 10, j.WRatio < 0)
 		buf.WriteByte(',')
 	}
-	if mj.HRatio != 0 {
+	if j.HRatio != 0 {
 		buf.WriteString(`"hratio":`)
-		fflib.FormatBits2(buf, uint64(mj.HRatio), 10, mj.HRatio < 0)
+		fflib.FormatBits2(buf, uint64(j.HRatio), 10, j.HRatio < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Exp != 0 {
+	if j.Exp != 0 {
 		buf.WriteString(`"exp":`)
-		fflib.FormatBits2(buf, uint64(mj.Exp), 10, mj.Exp < 0)
+		fflib.FormatBits2(buf, uint64(j.Exp), 10, j.Exp < 0)
 		buf.WriteByte(',')
 	}
 	if true {
@@ -192,7 +195,7 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Ext.MarshalJSONBuf(buf)
+			err = j.Ext.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -206,126 +209,128 @@ func (mj *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Bidbase = iota
-	ffj_t_Bidno_such_key
+	ffjtBidbase = iota
+	ffjtBidnosuchkey
 
-	ffj_t_Bid_ID
+	ffjtBidID
 
-	ffj_t_Bid_ImpID
+	ffjtBidImpID
 
-	ffj_t_Bid_Price
+	ffjtBidPrice
 
-	ffj_t_Bid_AdID
+	ffjtBidAdID
 
-	ffj_t_Bid_NURL
+	ffjtBidNURL
 
-	ffj_t_Bid_BURL
+	ffjtBidBURL
 
-	ffj_t_Bid_LURL
+	ffjtBidLURL
 
-	ffj_t_Bid_AdMarkup
+	ffjtBidAdMarkup
 
-	ffj_t_Bid_AdvDomain
+	ffjtBidAdvDomain
 
-	ffj_t_Bid_Bundle
+	ffjtBidBundle
 
-	ffj_t_Bid_IURL
+	ffjtBidIURL
 
-	ffj_t_Bid_CampaignID
+	ffjtBidCampaignID
 
-	ffj_t_Bid_CreativeID
+	ffjtBidCreativeID
 
-	ffj_t_Bid_Tactic
+	ffjtBidTactic
 
-	ffj_t_Bid_Cat
+	ffjtBidCat
 
-	ffj_t_Bid_Attr
+	ffjtBidAttr
 
-	ffj_t_Bid_API
+	ffjtBidAPI
 
-	ffj_t_Bid_Protocol
+	ffjtBidProtocol
 
-	ffj_t_Bid_QAGMediaRating
+	ffjtBidQAGMediaRating
 
-	ffj_t_Bid_Language
+	ffjtBidLanguage
 
-	ffj_t_Bid_DealID
+	ffjtBidDealID
 
-	ffj_t_Bid_H
+	ffjtBidH
 
-	ffj_t_Bid_W
+	ffjtBidW
 
-	ffj_t_Bid_WRatio
+	ffjtBidWRatio
 
-	ffj_t_Bid_HRatio
+	ffjtBidHRatio
 
-	ffj_t_Bid_Exp
+	ffjtBidExp
 
-	ffj_t_Bid_Ext
+	ffjtBidExt
 )
 
-var ffj_key_Bid_ID = []byte("id")
+var ffjKeyBidID = []byte("id")
 
-var ffj_key_Bid_ImpID = []byte("impid")
+var ffjKeyBidImpID = []byte("impid")
 
-var ffj_key_Bid_Price = []byte("price")
+var ffjKeyBidPrice = []byte("price")
 
-var ffj_key_Bid_AdID = []byte("adid")
+var ffjKeyBidAdID = []byte("adid")
 
-var ffj_key_Bid_NURL = []byte("nurl")
+var ffjKeyBidNURL = []byte("nurl")
 
-var ffj_key_Bid_BURL = []byte("burl")
+var ffjKeyBidBURL = []byte("burl")
 
-var ffj_key_Bid_LURL = []byte("lurl")
+var ffjKeyBidLURL = []byte("lurl")
 
-var ffj_key_Bid_AdMarkup = []byte("adm")
+var ffjKeyBidAdMarkup = []byte("adm")
 
-var ffj_key_Bid_AdvDomain = []byte("adomain")
+var ffjKeyBidAdvDomain = []byte("adomain")
 
-var ffj_key_Bid_Bundle = []byte("bundle")
+var ffjKeyBidBundle = []byte("bundle")
 
-var ffj_key_Bid_IURL = []byte("iurl")
+var ffjKeyBidIURL = []byte("iurl")
 
-var ffj_key_Bid_CampaignID = []byte("cid")
+var ffjKeyBidCampaignID = []byte("cid")
 
-var ffj_key_Bid_CreativeID = []byte("crid")
+var ffjKeyBidCreativeID = []byte("crid")
 
-var ffj_key_Bid_Tactic = []byte("tactic")
+var ffjKeyBidTactic = []byte("tactic")
 
-var ffj_key_Bid_Cat = []byte("cat")
+var ffjKeyBidCat = []byte("cat")
 
-var ffj_key_Bid_Attr = []byte("attr")
+var ffjKeyBidAttr = []byte("attr")
 
-var ffj_key_Bid_API = []byte("api")
+var ffjKeyBidAPI = []byte("api")
 
-var ffj_key_Bid_Protocol = []byte("protocol")
+var ffjKeyBidProtocol = []byte("protocol")
 
-var ffj_key_Bid_QAGMediaRating = []byte("qagmediarating")
+var ffjKeyBidQAGMediaRating = []byte("qagmediarating")
 
-var ffj_key_Bid_Language = []byte("language")
+var ffjKeyBidLanguage = []byte("language")
 
-var ffj_key_Bid_DealID = []byte("dealid")
+var ffjKeyBidDealID = []byte("dealid")
 
-var ffj_key_Bid_H = []byte("h")
+var ffjKeyBidH = []byte("h")
 
-var ffj_key_Bid_W = []byte("w")
+var ffjKeyBidW = []byte("w")
 
-var ffj_key_Bid_WRatio = []byte("wratio")
+var ffjKeyBidWRatio = []byte("wratio")
 
-var ffj_key_Bid_HRatio = []byte("hratio")
+var ffjKeyBidHRatio = []byte("hratio")
 
-var ffj_key_Bid_Exp = []byte("exp")
+var ffjKeyBidExp = []byte("exp")
 
-var ffj_key_Bid_Ext = []byte("ext")
+var ffjKeyBidExt = []byte("ext")
 
-func (uj *Bid) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Bid) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Bid) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Bidbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Bid) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtBidbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -371,7 +376,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Bidno_such_key
+				currentKey = ffjtBidnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -379,343 +384,343 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Bid_AdID, kn) {
-						currentKey = ffj_t_Bid_AdID
+					if bytes.Equal(ffjKeyBidAdID, kn) {
+						currentKey = ffjtBidAdID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_AdMarkup, kn) {
-						currentKey = ffj_t_Bid_AdMarkup
+					} else if bytes.Equal(ffjKeyBidAdMarkup, kn) {
+						currentKey = ffjtBidAdMarkup
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_AdvDomain, kn) {
-						currentKey = ffj_t_Bid_AdvDomain
+					} else if bytes.Equal(ffjKeyBidAdvDomain, kn) {
+						currentKey = ffjtBidAdvDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Attr, kn) {
-						currentKey = ffj_t_Bid_Attr
+					} else if bytes.Equal(ffjKeyBidAttr, kn) {
+						currentKey = ffjtBidAttr
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_API, kn) {
-						currentKey = ffj_t_Bid_API
+					} else if bytes.Equal(ffjKeyBidAPI, kn) {
+						currentKey = ffjtBidAPI
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_Bid_BURL, kn) {
-						currentKey = ffj_t_Bid_BURL
+					if bytes.Equal(ffjKeyBidBURL, kn) {
+						currentKey = ffjtBidBURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Bundle, kn) {
-						currentKey = ffj_t_Bid_Bundle
+					} else if bytes.Equal(ffjKeyBidBundle, kn) {
+						currentKey = ffjtBidBundle
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Bid_CampaignID, kn) {
-						currentKey = ffj_t_Bid_CampaignID
+					if bytes.Equal(ffjKeyBidCampaignID, kn) {
+						currentKey = ffjtBidCampaignID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_CreativeID, kn) {
-						currentKey = ffj_t_Bid_CreativeID
+					} else if bytes.Equal(ffjKeyBidCreativeID, kn) {
+						currentKey = ffjtBidCreativeID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Cat, kn) {
-						currentKey = ffj_t_Bid_Cat
+					} else if bytes.Equal(ffjKeyBidCat, kn) {
+						currentKey = ffjtBidCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Bid_DealID, kn) {
-						currentKey = ffj_t_Bid_DealID
+					if bytes.Equal(ffjKeyBidDealID, kn) {
+						currentKey = ffjtBidDealID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Bid_Exp, kn) {
-						currentKey = ffj_t_Bid_Exp
+					if bytes.Equal(ffjKeyBidExp, kn) {
+						currentKey = ffjtBidExp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Ext, kn) {
-						currentKey = ffj_t_Bid_Ext
+					} else if bytes.Equal(ffjKeyBidExt, kn) {
+						currentKey = ffjtBidExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'h':
 
-					if bytes.Equal(ffj_key_Bid_H, kn) {
-						currentKey = ffj_t_Bid_H
+					if bytes.Equal(ffjKeyBidH, kn) {
+						currentKey = ffjtBidH
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_HRatio, kn) {
-						currentKey = ffj_t_Bid_HRatio
+					} else if bytes.Equal(ffjKeyBidHRatio, kn) {
+						currentKey = ffjtBidHRatio
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Bid_ID, kn) {
-						currentKey = ffj_t_Bid_ID
+					if bytes.Equal(ffjKeyBidID, kn) {
+						currentKey = ffjtBidID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_ImpID, kn) {
-						currentKey = ffj_t_Bid_ImpID
+					} else if bytes.Equal(ffjKeyBidImpID, kn) {
+						currentKey = ffjtBidImpID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_IURL, kn) {
-						currentKey = ffj_t_Bid_IURL
+					} else if bytes.Equal(ffjKeyBidIURL, kn) {
+						currentKey = ffjtBidIURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'l':
 
-					if bytes.Equal(ffj_key_Bid_LURL, kn) {
-						currentKey = ffj_t_Bid_LURL
+					if bytes.Equal(ffjKeyBidLURL, kn) {
+						currentKey = ffjtBidLURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Language, kn) {
-						currentKey = ffj_t_Bid_Language
+					} else if bytes.Equal(ffjKeyBidLanguage, kn) {
+						currentKey = ffjtBidLanguage
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Bid_NURL, kn) {
-						currentKey = ffj_t_Bid_NURL
+					if bytes.Equal(ffjKeyBidNURL, kn) {
+						currentKey = ffjtBidNURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Bid_Price, kn) {
-						currentKey = ffj_t_Bid_Price
+					if bytes.Equal(ffjKeyBidPrice, kn) {
+						currentKey = ffjtBidPrice
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_Protocol, kn) {
-						currentKey = ffj_t_Bid_Protocol
+					} else if bytes.Equal(ffjKeyBidProtocol, kn) {
+						currentKey = ffjtBidProtocol
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'q':
 
-					if bytes.Equal(ffj_key_Bid_QAGMediaRating, kn) {
-						currentKey = ffj_t_Bid_QAGMediaRating
+					if bytes.Equal(ffjKeyBidQAGMediaRating, kn) {
+						currentKey = ffjtBidQAGMediaRating
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_Bid_Tactic, kn) {
-						currentKey = ffj_t_Bid_Tactic
+					if bytes.Equal(ffjKeyBidTactic, kn) {
+						currentKey = ffjtBidTactic
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'w':
 
-					if bytes.Equal(ffj_key_Bid_W, kn) {
-						currentKey = ffj_t_Bid_W
+					if bytes.Equal(ffjKeyBidW, kn) {
+						currentKey = ffjtBidW
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Bid_WRatio, kn) {
-						currentKey = ffj_t_Bid_WRatio
+					} else if bytes.Equal(ffjKeyBidWRatio, kn) {
+						currentKey = ffjtBidWRatio
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Ext, kn) {
-					currentKey = ffj_t_Bid_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyBidExt, kn) {
+					currentKey = ffjtBidExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Exp, kn) {
-					currentKey = ffj_t_Bid_Exp
+				if fflib.SimpleLetterEqualFold(ffjKeyBidExp, kn) {
+					currentKey = ffjtBidExp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_HRatio, kn) {
-					currentKey = ffj_t_Bid_HRatio
+				if fflib.SimpleLetterEqualFold(ffjKeyBidHRatio, kn) {
+					currentKey = ffjtBidHRatio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_WRatio, kn) {
-					currentKey = ffj_t_Bid_WRatio
+				if fflib.SimpleLetterEqualFold(ffjKeyBidWRatio, kn) {
+					currentKey = ffjtBidWRatio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_W, kn) {
-					currentKey = ffj_t_Bid_W
+				if fflib.SimpleLetterEqualFold(ffjKeyBidW, kn) {
+					currentKey = ffjtBidW
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_H, kn) {
-					currentKey = ffj_t_Bid_H
+				if fflib.SimpleLetterEqualFold(ffjKeyBidH, kn) {
+					currentKey = ffjtBidH
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_DealID, kn) {
-					currentKey = ffj_t_Bid_DealID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidDealID, kn) {
+					currentKey = ffjtBidDealID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Language, kn) {
-					currentKey = ffj_t_Bid_Language
+				if fflib.SimpleLetterEqualFold(ffjKeyBidLanguage, kn) {
+					currentKey = ffjtBidLanguage
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_QAGMediaRating, kn) {
-					currentKey = ffj_t_Bid_QAGMediaRating
+				if fflib.SimpleLetterEqualFold(ffjKeyBidQAGMediaRating, kn) {
+					currentKey = ffjtBidQAGMediaRating
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Protocol, kn) {
-					currentKey = ffj_t_Bid_Protocol
+				if fflib.SimpleLetterEqualFold(ffjKeyBidProtocol, kn) {
+					currentKey = ffjtBidProtocol
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_API, kn) {
-					currentKey = ffj_t_Bid_API
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAPI, kn) {
+					currentKey = ffjtBidAPI
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Attr, kn) {
-					currentKey = ffj_t_Bid_Attr
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAttr, kn) {
+					currentKey = ffjtBidAttr
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Cat, kn) {
-					currentKey = ffj_t_Bid_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyBidCat, kn) {
+					currentKey = ffjtBidCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Tactic, kn) {
-					currentKey = ffj_t_Bid_Tactic
+				if fflib.SimpleLetterEqualFold(ffjKeyBidTactic, kn) {
+					currentKey = ffjtBidTactic
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_CreativeID, kn) {
-					currentKey = ffj_t_Bid_CreativeID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidCreativeID, kn) {
+					currentKey = ffjtBidCreativeID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_CampaignID, kn) {
-					currentKey = ffj_t_Bid_CampaignID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidCampaignID, kn) {
+					currentKey = ffjtBidCampaignID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_IURL, kn) {
-					currentKey = ffj_t_Bid_IURL
+				if fflib.SimpleLetterEqualFold(ffjKeyBidIURL, kn) {
+					currentKey = ffjtBidIURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Bundle, kn) {
-					currentKey = ffj_t_Bid_Bundle
+				if fflib.SimpleLetterEqualFold(ffjKeyBidBundle, kn) {
+					currentKey = ffjtBidBundle
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_AdvDomain, kn) {
-					currentKey = ffj_t_Bid_AdvDomain
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAdvDomain, kn) {
+					currentKey = ffjtBidAdvDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_AdMarkup, kn) {
-					currentKey = ffj_t_Bid_AdMarkup
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAdMarkup, kn) {
+					currentKey = ffjtBidAdMarkup
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_LURL, kn) {
-					currentKey = ffj_t_Bid_LURL
+				if fflib.SimpleLetterEqualFold(ffjKeyBidLURL, kn) {
+					currentKey = ffjtBidLURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_BURL, kn) {
-					currentKey = ffj_t_Bid_BURL
+				if fflib.SimpleLetterEqualFold(ffjKeyBidBURL, kn) {
+					currentKey = ffjtBidBURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_NURL, kn) {
-					currentKey = ffj_t_Bid_NURL
+				if fflib.SimpleLetterEqualFold(ffjKeyBidNURL, kn) {
+					currentKey = ffjtBidNURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_AdID, kn) {
-					currentKey = ffj_t_Bid_AdID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAdID, kn) {
+					currentKey = ffjtBidAdID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_Price, kn) {
-					currentKey = ffj_t_Bid_Price
+				if fflib.SimpleLetterEqualFold(ffjKeyBidPrice, kn) {
+					currentKey = ffjtBidPrice
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_ImpID, kn) {
-					currentKey = ffj_t_Bid_ImpID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidImpID, kn) {
+					currentKey = ffjtBidImpID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Bid_ID, kn) {
-					currentKey = ffj_t_Bid_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidID, kn) {
+					currentKey = ffjtBidID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Bidno_such_key
+				currentKey = ffjtBidnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -732,88 +737,88 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Bid_ID:
+				case ffjtBidID:
 					goto handle_ID
 
-				case ffj_t_Bid_ImpID:
+				case ffjtBidImpID:
 					goto handle_ImpID
 
-				case ffj_t_Bid_Price:
+				case ffjtBidPrice:
 					goto handle_Price
 
-				case ffj_t_Bid_AdID:
+				case ffjtBidAdID:
 					goto handle_AdID
 
-				case ffj_t_Bid_NURL:
+				case ffjtBidNURL:
 					goto handle_NURL
 
-				case ffj_t_Bid_BURL:
+				case ffjtBidBURL:
 					goto handle_BURL
 
-				case ffj_t_Bid_LURL:
+				case ffjtBidLURL:
 					goto handle_LURL
 
-				case ffj_t_Bid_AdMarkup:
+				case ffjtBidAdMarkup:
 					goto handle_AdMarkup
 
-				case ffj_t_Bid_AdvDomain:
+				case ffjtBidAdvDomain:
 					goto handle_AdvDomain
 
-				case ffj_t_Bid_Bundle:
+				case ffjtBidBundle:
 					goto handle_Bundle
 
-				case ffj_t_Bid_IURL:
+				case ffjtBidIURL:
 					goto handle_IURL
 
-				case ffj_t_Bid_CampaignID:
+				case ffjtBidCampaignID:
 					goto handle_CampaignID
 
-				case ffj_t_Bid_CreativeID:
+				case ffjtBidCreativeID:
 					goto handle_CreativeID
 
-				case ffj_t_Bid_Tactic:
+				case ffjtBidTactic:
 					goto handle_Tactic
 
-				case ffj_t_Bid_Cat:
+				case ffjtBidCat:
 					goto handle_Cat
 
-				case ffj_t_Bid_Attr:
+				case ffjtBidAttr:
 					goto handle_Attr
 
-				case ffj_t_Bid_API:
+				case ffjtBidAPI:
 					goto handle_API
 
-				case ffj_t_Bid_Protocol:
+				case ffjtBidProtocol:
 					goto handle_Protocol
 
-				case ffj_t_Bid_QAGMediaRating:
+				case ffjtBidQAGMediaRating:
 					goto handle_QAGMediaRating
 
-				case ffj_t_Bid_Language:
+				case ffjtBidLanguage:
 					goto handle_Language
 
-				case ffj_t_Bid_DealID:
+				case ffjtBidDealID:
 					goto handle_DealID
 
-				case ffj_t_Bid_H:
+				case ffjtBidH:
 					goto handle_H
 
-				case ffj_t_Bid_W:
+				case ffjtBidW:
 					goto handle_W
 
-				case ffj_t_Bid_WRatio:
+				case ffjtBidWRatio:
 					goto handle_WRatio
 
-				case ffj_t_Bid_HRatio:
+				case ffjtBidHRatio:
 					goto handle_HRatio
 
-				case ffj_t_Bid_Exp:
+				case ffjtBidExp:
 					goto handle_Exp
 
-				case ffj_t_Bid_Ext:
+				case ffjtBidExt:
 					goto handle_Ext
 
-				case ffj_t_Bidno_such_key:
+				case ffjtBidnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -829,7 +834,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -845,7 +850,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -855,7 +860,7 @@ handle_ID:
 
 handle_ImpID:
 
-	/* handler: uj.ImpID type=string kind=string quoted=false*/
+	/* handler: j.ImpID type=string kind=string quoted=false*/
 
 	{
 
@@ -871,7 +876,7 @@ handle_ImpID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ImpID = string(string(outBuf))
+			j.ImpID = string(string(outBuf))
 
 		}
 	}
@@ -881,7 +886,7 @@ handle_ImpID:
 
 handle_Price:
 
-	/* handler: uj.Price type=float64 kind=float64 quoted=false*/
+	/* handler: j.Price type=float64 kind=float64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -901,7 +906,7 @@ handle_Price:
 				return fs.WrapErr(err)
 			}
 
-			uj.Price = float64(tval)
+			j.Price = float64(tval)
 
 		}
 	}
@@ -911,7 +916,7 @@ handle_Price:
 
 handle_AdID:
 
-	/* handler: uj.AdID type=string kind=string quoted=false*/
+	/* handler: j.AdID type=string kind=string quoted=false*/
 
 	{
 
@@ -927,7 +932,7 @@ handle_AdID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.AdID = string(string(outBuf))
+			j.AdID = string(string(outBuf))
 
 		}
 	}
@@ -937,7 +942,7 @@ handle_AdID:
 
 handle_NURL:
 
-	/* handler: uj.NURL type=string kind=string quoted=false*/
+	/* handler: j.NURL type=string kind=string quoted=false*/
 
 	{
 
@@ -953,7 +958,7 @@ handle_NURL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.NURL = string(string(outBuf))
+			j.NURL = string(string(outBuf))
 
 		}
 	}
@@ -963,7 +968,7 @@ handle_NURL:
 
 handle_BURL:
 
-	/* handler: uj.BURL type=string kind=string quoted=false*/
+	/* handler: j.BURL type=string kind=string quoted=false*/
 
 	{
 
@@ -979,7 +984,7 @@ handle_BURL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.BURL = string(string(outBuf))
+			j.BURL = string(string(outBuf))
 
 		}
 	}
@@ -989,7 +994,7 @@ handle_BURL:
 
 handle_LURL:
 
-	/* handler: uj.LURL type=string kind=string quoted=false*/
+	/* handler: j.LURL type=string kind=string quoted=false*/
 
 	{
 
@@ -1005,7 +1010,7 @@ handle_LURL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.LURL = string(string(outBuf))
+			j.LURL = string(string(outBuf))
 
 		}
 	}
@@ -1015,7 +1020,7 @@ handle_LURL:
 
 handle_AdMarkup:
 
-	/* handler: uj.AdMarkup type=string kind=string quoted=false*/
+	/* handler: j.AdMarkup type=string kind=string quoted=false*/
 
 	{
 
@@ -1031,7 +1036,7 @@ handle_AdMarkup:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.AdMarkup = string(string(outBuf))
+			j.AdMarkup = string(string(outBuf))
 
 		}
 	}
@@ -1041,7 +1046,7 @@ handle_AdMarkup:
 
 handle_AdvDomain:
 
-	/* handler: uj.AdvDomain type=[]string kind=slice quoted=false*/
+	/* handler: j.AdvDomain type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1052,16 +1057,16 @@ handle_AdvDomain:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.AdvDomain = nil
+			j.AdvDomain = nil
 		} else {
 
-			uj.AdvDomain = make([]string, 0)
+			j.AdvDomain = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJAdvDomain string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1082,7 +1087,7 @@ handle_AdvDomain:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJAdvDomain type=string kind=string quoted=false*/
 
 				{
 
@@ -1098,12 +1103,13 @@ handle_AdvDomain:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJAdvDomain = string(string(outBuf))
 
 					}
 				}
 
-				uj.AdvDomain = append(uj.AdvDomain, v)
+				j.AdvDomain = append(j.AdvDomain, tmpJAdvDomain)
+
 				wantVal = false
 			}
 		}
@@ -1114,7 +1120,7 @@ handle_AdvDomain:
 
 handle_Bundle:
 
-	/* handler: uj.Bundle type=string kind=string quoted=false*/
+	/* handler: j.Bundle type=string kind=string quoted=false*/
 
 	{
 
@@ -1130,7 +1136,7 @@ handle_Bundle:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Bundle = string(string(outBuf))
+			j.Bundle = string(string(outBuf))
 
 		}
 	}
@@ -1140,7 +1146,7 @@ handle_Bundle:
 
 handle_IURL:
 
-	/* handler: uj.IURL type=string kind=string quoted=false*/
+	/* handler: j.IURL type=string kind=string quoted=false*/
 
 	{
 
@@ -1156,7 +1162,7 @@ handle_IURL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IURL = string(string(outBuf))
+			j.IURL = string(string(outBuf))
 
 		}
 	}
@@ -1166,33 +1172,7 @@ handle_IURL:
 
 handle_CampaignID:
 
-	/* handler: uj.CampaignID type=openrtb.StringOrNumber kind=string quoted=false*/
-
-	{
-		if tok == fflib.FFTok_null {
-
-			state = fflib.FFParse_after_value
-			goto mainparse
-		}
-
-		tbuf, err := fs.CaptureField(tok)
-		if err != nil {
-			return fs.WrapErr(err)
-		}
-
-		err = uj.CampaignID.UnmarshalJSON(tbuf)
-		if err != nil {
-			return fs.WrapErr(err)
-		}
-		state = fflib.FFParse_after_value
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_CreativeID:
-
-	/* handler: uj.CreativeID type=string kind=string quoted=false*/
+	/* handler: j.CampaignID type=string kind=string quoted=false*/
 
 	{
 
@@ -1208,7 +1188,33 @@ handle_CreativeID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.CreativeID = string(string(outBuf))
+			j.CampaignID = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_CreativeID:
+
+	/* handler: j.CreativeID type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.CreativeID = string(string(outBuf))
 
 		}
 	}
@@ -1218,7 +1224,7 @@ handle_CreativeID:
 
 handle_Tactic:
 
-	/* handler: uj.Tactic type=string kind=string quoted=false*/
+	/* handler: j.Tactic type=string kind=string quoted=false*/
 
 	{
 
@@ -1234,7 +1240,7 @@ handle_Tactic:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Tactic = string(string(outBuf))
+			j.Tactic = string(string(outBuf))
 
 		}
 	}
@@ -1244,7 +1250,7 @@ handle_Tactic:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1255,16 +1261,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1285,7 +1291,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -1301,12 +1307,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -1317,7 +1324,7 @@ handle_Cat:
 
 handle_Attr:
 
-	/* handler: uj.Attr type=[]int kind=slice quoted=false*/
+	/* handler: j.Attr type=[]int kind=slice quoted=false*/
 
 	{
 
@@ -1328,16 +1335,16 @@ handle_Attr:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Attr = nil
+			j.Attr = nil
 		} else {
 
-			uj.Attr = make([]int, 0)
+			j.Attr = []int{}
 
 			wantVal := true
 
 			for {
 
-				var v int
+				var tmpJAttr int
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1358,7 +1365,7 @@ handle_Attr:
 					wantVal = true
 				}
 
-				/* handler: v type=int kind=int quoted=false*/
+				/* handler: tmpJAttr type=int kind=int quoted=false*/
 
 				{
 					if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1378,12 +1385,13 @@ handle_Attr:
 							return fs.WrapErr(err)
 						}
 
-						v = int(tval)
+						tmpJAttr = int(tval)
 
 					}
 				}
 
-				uj.Attr = append(uj.Attr, v)
+				j.Attr = append(j.Attr, tmpJAttr)
+
 				wantVal = false
 			}
 		}
@@ -1394,7 +1402,7 @@ handle_Attr:
 
 handle_API:
 
-	/* handler: uj.API type=int kind=int quoted=false*/
+	/* handler: j.API type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1414,7 +1422,7 @@ handle_API:
 				return fs.WrapErr(err)
 			}
 
-			uj.API = int(tval)
+			j.API = int(tval)
 
 		}
 	}
@@ -1424,7 +1432,7 @@ handle_API:
 
 handle_Protocol:
 
-	/* handler: uj.Protocol type=int kind=int quoted=false*/
+	/* handler: j.Protocol type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1444,7 +1452,7 @@ handle_Protocol:
 				return fs.WrapErr(err)
 			}
 
-			uj.Protocol = int(tval)
+			j.Protocol = int(tval)
 
 		}
 	}
@@ -1454,7 +1462,7 @@ handle_Protocol:
 
 handle_QAGMediaRating:
 
-	/* handler: uj.QAGMediaRating type=int kind=int quoted=false*/
+	/* handler: j.QAGMediaRating type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1474,7 +1482,7 @@ handle_QAGMediaRating:
 				return fs.WrapErr(err)
 			}
 
-			uj.QAGMediaRating = int(tval)
+			j.QAGMediaRating = int(tval)
 
 		}
 	}
@@ -1484,7 +1492,7 @@ handle_QAGMediaRating:
 
 handle_Language:
 
-	/* handler: uj.Language type=string kind=string quoted=false*/
+	/* handler: j.Language type=string kind=string quoted=false*/
 
 	{
 
@@ -1500,7 +1508,7 @@ handle_Language:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Language = string(string(outBuf))
+			j.Language = string(string(outBuf))
 
 		}
 	}
@@ -1510,7 +1518,7 @@ handle_Language:
 
 handle_DealID:
 
-	/* handler: uj.DealID type=string kind=string quoted=false*/
+	/* handler: j.DealID type=string kind=string quoted=false*/
 
 	{
 
@@ -1526,7 +1534,7 @@ handle_DealID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.DealID = string(string(outBuf))
+			j.DealID = string(string(outBuf))
 
 		}
 	}
@@ -1536,7 +1544,7 @@ handle_DealID:
 
 handle_H:
 
-	/* handler: uj.H type=int kind=int quoted=false*/
+	/* handler: j.H type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1556,7 +1564,7 @@ handle_H:
 				return fs.WrapErr(err)
 			}
 
-			uj.H = int(tval)
+			j.H = int(tval)
 
 		}
 	}
@@ -1566,7 +1574,7 @@ handle_H:
 
 handle_W:
 
-	/* handler: uj.W type=int kind=int quoted=false*/
+	/* handler: j.W type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1586,7 +1594,7 @@ handle_W:
 				return fs.WrapErr(err)
 			}
 
-			uj.W = int(tval)
+			j.W = int(tval)
 
 		}
 	}
@@ -1596,7 +1604,7 @@ handle_W:
 
 handle_WRatio:
 
-	/* handler: uj.WRatio type=int kind=int quoted=false*/
+	/* handler: j.WRatio type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1616,7 +1624,7 @@ handle_WRatio:
 				return fs.WrapErr(err)
 			}
 
-			uj.WRatio = int(tval)
+			j.WRatio = int(tval)
 
 		}
 	}
@@ -1626,7 +1634,7 @@ handle_WRatio:
 
 handle_HRatio:
 
-	/* handler: uj.HRatio type=int kind=int quoted=false*/
+	/* handler: j.HRatio type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1646,7 +1654,7 @@ handle_HRatio:
 				return fs.WrapErr(err)
 			}
 
-			uj.HRatio = int(tval)
+			j.HRatio = int(tval)
 
 		}
 	}
@@ -1656,7 +1664,7 @@ handle_HRatio:
 
 handle_Exp:
 
-	/* handler: uj.Exp type=int kind=int quoted=false*/
+	/* handler: j.Exp type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1676,7 +1684,7 @@ handle_Exp:
 				return fs.WrapErr(err)
 			}
 
-			uj.Exp = int(tval)
+			j.Exp = int(tval)
 
 		}
 	}
@@ -1686,7 +1694,7 @@ handle_Exp:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.BidExt kind=struct quoted=false*/
+	/* handler: j.Ext type=openrtb.BidExt kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1695,7 +1703,7 @@ handle_Ext:
 			goto mainparse
 		}
 
-		err = uj.Ext.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Ext.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -1719,23 +1727,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *BidExt) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *BidExt) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -1744,11 +1756,11 @@ func (mj *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ImpressionTrackingUrl) != 0 {
+	if len(j.ImpressionTrackingUrl) != 0 {
 		buf.WriteString(`"impression_tracking_url":`)
-		if mj.ImpressionTrackingUrl != nil {
+		if j.ImpressionTrackingUrl != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.ImpressionTrackingUrl {
+			for i, v := range j.ImpressionTrackingUrl {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -1760,14 +1772,14 @@ func (mj *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Duration != 0 {
+	if j.Duration != 0 {
 		buf.WriteString(`"duration":`)
-		fflib.FormatBits2(buf, uint64(mj.Duration), 10, mj.Duration < 0)
+		fflib.FormatBits2(buf, uint64(j.Duration), 10, j.Duration < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.VastUrl) != 0 {
+	if len(j.VastUrl) != 0 {
 		buf.WriteString(`"vast_url":`)
-		fflib.WriteJsonString(buf, string(mj.VastUrl))
+		fflib.WriteJsonString(buf, string(j.VastUrl))
 		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
@@ -1776,30 +1788,32 @@ func (mj *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_BidExtbase = iota
-	ffj_t_BidExtno_such_key
+	ffjtBidExtbase = iota
+	ffjtBidExtnosuchkey
 
-	ffj_t_BidExt_ImpressionTrackingUrl
+	ffjtBidExtImpressionTrackingUrl
 
-	ffj_t_BidExt_Duration
+	ffjtBidExtDuration
 
-	ffj_t_BidExt_VastUrl
+	ffjtBidExtVastUrl
 )
 
-var ffj_key_BidExt_ImpressionTrackingUrl = []byte("impression_tracking_url")
+var ffjKeyBidExtImpressionTrackingUrl = []byte("impression_tracking_url")
 
-var ffj_key_BidExt_Duration = []byte("duration")
+var ffjKeyBidExtDuration = []byte("duration")
 
-var ffj_key_BidExt_VastUrl = []byte("vast_url")
+var ffjKeyBidExtVastUrl = []byte("vast_url")
 
-func (uj *BidExt) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *BidExt) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *BidExt) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_BidExtbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *BidExt) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtBidExtbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -1845,7 +1859,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_BidExtno_such_key
+				currentKey = ffjtBidExtnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -1853,49 +1867,49 @@ mainparse:
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_BidExt_Duration, kn) {
-						currentKey = ffj_t_BidExt_Duration
+					if bytes.Equal(ffjKeyBidExtDuration, kn) {
+						currentKey = ffjtBidExtDuration
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_BidExt_ImpressionTrackingUrl, kn) {
-						currentKey = ffj_t_BidExt_ImpressionTrackingUrl
+					if bytes.Equal(ffjKeyBidExtImpressionTrackingUrl, kn) {
+						currentKey = ffjtBidExtImpressionTrackingUrl
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_BidExt_VastUrl, kn) {
-						currentKey = ffj_t_BidExt_VastUrl
+					if bytes.Equal(ffjKeyBidExtVastUrl, kn) {
+						currentKey = ffjtBidExtVastUrl
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidExt_VastUrl, kn) {
-					currentKey = ffj_t_BidExt_VastUrl
+				if fflib.EqualFoldRight(ffjKeyBidExtVastUrl, kn) {
+					currentKey = ffjtBidExtVastUrl
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidExt_Duration, kn) {
-					currentKey = ffj_t_BidExt_Duration
+				if fflib.SimpleLetterEqualFold(ffjKeyBidExtDuration, kn) {
+					currentKey = ffjtBidExtDuration
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidExt_ImpressionTrackingUrl, kn) {
-					currentKey = ffj_t_BidExt_ImpressionTrackingUrl
+				if fflib.EqualFoldRight(ffjKeyBidExtImpressionTrackingUrl, kn) {
+					currentKey = ffjtBidExtImpressionTrackingUrl
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_BidExtno_such_key
+				currentKey = ffjtBidExtnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -1912,16 +1926,16 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_BidExt_ImpressionTrackingUrl:
+				case ffjtBidExtImpressionTrackingUrl:
 					goto handle_ImpressionTrackingUrl
 
-				case ffj_t_BidExt_Duration:
+				case ffjtBidExtDuration:
 					goto handle_Duration
 
-				case ffj_t_BidExt_VastUrl:
+				case ffjtBidExtVastUrl:
 					goto handle_VastUrl
 
-				case ffj_t_BidExtno_such_key:
+				case ffjtBidExtnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -1937,7 +1951,7 @@ mainparse:
 
 handle_ImpressionTrackingUrl:
 
-	/* handler: uj.ImpressionTrackingUrl type=[]string kind=slice quoted=false*/
+	/* handler: j.ImpressionTrackingUrl type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1948,16 +1962,16 @@ handle_ImpressionTrackingUrl:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.ImpressionTrackingUrl = nil
+			j.ImpressionTrackingUrl = nil
 		} else {
 
-			uj.ImpressionTrackingUrl = make([]string, 0)
+			j.ImpressionTrackingUrl = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJImpressionTrackingUrl string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1978,7 +1992,7 @@ handle_ImpressionTrackingUrl:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJImpressionTrackingUrl type=string kind=string quoted=false*/
 
 				{
 
@@ -1994,12 +2008,13 @@ handle_ImpressionTrackingUrl:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJImpressionTrackingUrl = string(string(outBuf))
 
 					}
 				}
 
-				uj.ImpressionTrackingUrl = append(uj.ImpressionTrackingUrl, v)
+				j.ImpressionTrackingUrl = append(j.ImpressionTrackingUrl, tmpJImpressionTrackingUrl)
+
 				wantVal = false
 			}
 		}
@@ -2010,7 +2025,7 @@ handle_ImpressionTrackingUrl:
 
 handle_Duration:
 
-	/* handler: uj.Duration type=int64 kind=int64 quoted=false*/
+	/* handler: j.Duration type=int64 kind=int64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -2030,7 +2045,7 @@ handle_Duration:
 				return fs.WrapErr(err)
 			}
 
-			uj.Duration = int64(tval)
+			j.Duration = int64(tval)
 
 		}
 	}
@@ -2040,7 +2055,7 @@ handle_Duration:
 
 handle_VastUrl:
 
-	/* handler: uj.VastUrl type=string kind=string quoted=false*/
+	/* handler: j.VastUrl type=string kind=string quoted=false*/
 
 	{
 
@@ -2056,7 +2071,7 @@ handle_VastUrl:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.VastUrl = string(string(outBuf))
+			j.VastUrl = string(string(outBuf))
 
 		}
 	}
@@ -2078,5 +2093,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Device) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Device) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,166 +37,166 @@ func (mj *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.UA) != 0 {
+	if len(j.UA) != 0 {
 		buf.WriteString(`"ua":`)
-		fflib.WriteJsonString(buf, string(mj.UA))
+		fflib.WriteJsonString(buf, string(j.UA))
 		buf.WriteByte(',')
 	}
 	if true {
 		/* Struct fall back. type=openrtb.Geo kind=struct */
 		buf.WriteString(`"geo":`)
-		err = buf.Encode(&mj.Geo)
+		err = buf.Encode(&j.Geo)
 		if err != nil {
 			return err
 		}
 		buf.WriteByte(',')
 	}
-	if mj.DNT != 0 {
+	if j.DNT != 0 {
 		buf.WriteString(`"dnt":`)
-		fflib.FormatBits2(buf, uint64(mj.DNT), 10, mj.DNT < 0)
+		fflib.FormatBits2(buf, uint64(j.DNT), 10, j.DNT < 0)
 		buf.WriteByte(',')
 	}
-	if mj.LMT != 0 {
+	if j.LMT != 0 {
 		buf.WriteString(`"lmt":`)
-		fflib.FormatBits2(buf, uint64(mj.LMT), 10, mj.LMT < 0)
+		fflib.FormatBits2(buf, uint64(j.LMT), 10, j.LMT < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.IP) != 0 {
+	if len(j.IP) != 0 {
 		buf.WriteString(`"ip":`)
-		fflib.WriteJsonString(buf, string(mj.IP))
+		fflib.WriteJsonString(buf, string(j.IP))
 		buf.WriteByte(',')
 	}
-	if len(mj.IPv6) != 0 {
+	if len(j.IPv6) != 0 {
 		buf.WriteString(`"ipv6":`)
-		fflib.WriteJsonString(buf, string(mj.IPv6))
+		fflib.WriteJsonString(buf, string(j.IPv6))
 		buf.WriteByte(',')
 	}
-	if mj.DeviceType != 0 {
+	if j.DeviceType != 0 {
 		buf.WriteString(`"devicetype":`)
-		fflib.FormatBits2(buf, uint64(mj.DeviceType), 10, mj.DeviceType < 0)
+		fflib.FormatBits2(buf, uint64(j.DeviceType), 10, j.DeviceType < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Make) != 0 {
+	if len(j.Make) != 0 {
 		buf.WriteString(`"make":`)
-		fflib.WriteJsonString(buf, string(mj.Make))
+		fflib.WriteJsonString(buf, string(j.Make))
 		buf.WriteByte(',')
 	}
-	if len(mj.Model) != 0 {
+	if len(j.Model) != 0 {
 		buf.WriteString(`"model":`)
-		fflib.WriteJsonString(buf, string(mj.Model))
+		fflib.WriteJsonString(buf, string(j.Model))
 		buf.WriteByte(',')
 	}
-	if len(mj.OS) != 0 {
+	if len(j.OS) != 0 {
 		buf.WriteString(`"os":`)
-		fflib.WriteJsonString(buf, string(mj.OS))
+		fflib.WriteJsonString(buf, string(j.OS))
 		buf.WriteByte(',')
 	}
-	if len(mj.OSVer) != 0 {
+	if len(j.OSVer) != 0 {
 		buf.WriteString(`"osv":`)
-		fflib.WriteJsonString(buf, string(mj.OSVer))
+		fflib.WriteJsonString(buf, string(j.OSVer))
 		buf.WriteByte(',')
 	}
-	if len(mj.HwVer) != 0 {
+	if len(j.HwVer) != 0 {
 		buf.WriteString(`"hwv":`)
-		fflib.WriteJsonString(buf, string(mj.HwVer))
+		fflib.WriteJsonString(buf, string(j.HwVer))
 		buf.WriteByte(',')
 	}
-	if mj.H != 0 {
+	if j.H != 0 {
 		buf.WriteString(`"h":`)
-		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
+		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
 		buf.WriteByte(',')
 	}
-	if mj.W != 0 {
+	if j.W != 0 {
 		buf.WriteString(`"w":`)
-		fflib.FormatBits2(buf, uint64(mj.W), 10, mj.W < 0)
+		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
 		buf.WriteByte(',')
 	}
-	if mj.PPI != 0 {
+	if j.PPI != 0 {
 		buf.WriteString(`"ppi":`)
-		fflib.FormatBits2(buf, uint64(mj.PPI), 10, mj.PPI < 0)
+		fflib.FormatBits2(buf, uint64(j.PPI), 10, j.PPI < 0)
 		buf.WriteByte(',')
 	}
-	if mj.PxRatio != 0 {
+	if j.PxRatio != 0 {
 		buf.WriteString(`"pxratio":`)
-		fflib.AppendFloat(buf, float64(mj.PxRatio), 'g', -1, 64)
+		fflib.AppendFloat(buf, float64(j.PxRatio), 'g', -1, 64)
 		buf.WriteByte(',')
 	}
-	if mj.JS != 0 {
+	if j.JS != 0 {
 		buf.WriteString(`"js":`)
-		fflib.FormatBits2(buf, uint64(mj.JS), 10, mj.JS < 0)
+		fflib.FormatBits2(buf, uint64(j.JS), 10, j.JS < 0)
 		buf.WriteByte(',')
 	}
-	if mj.GeoFetch != 0 {
+	if j.GeoFetch != 0 {
 		buf.WriteString(`"geofetch":`)
-		fflib.FormatBits2(buf, uint64(mj.GeoFetch), 10, mj.GeoFetch < 0)
+		fflib.FormatBits2(buf, uint64(j.GeoFetch), 10, j.GeoFetch < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.FlashVer) != 0 {
+	if len(j.FlashVer) != 0 {
 		buf.WriteString(`"flashver":`)
-		fflib.WriteJsonString(buf, string(mj.FlashVer))
+		fflib.WriteJsonString(buf, string(j.FlashVer))
 		buf.WriteByte(',')
 	}
-	if len(mj.Language) != 0 {
+	if len(j.Language) != 0 {
 		buf.WriteString(`"language":`)
-		fflib.WriteJsonString(buf, string(mj.Language))
+		fflib.WriteJsonString(buf, string(j.Language))
 		buf.WriteByte(',')
 	}
-	if len(mj.Carrier) != 0 {
+	if len(j.Carrier) != 0 {
 		buf.WriteString(`"carrier":`)
-		fflib.WriteJsonString(buf, string(mj.Carrier))
+		fflib.WriteJsonString(buf, string(j.Carrier))
 		buf.WriteByte(',')
 	}
-	if len(mj.MCCMNC) != 0 {
+	if len(j.MCCMNC) != 0 {
 		buf.WriteString(`"mccmnc":`)
-		fflib.WriteJsonString(buf, string(mj.MCCMNC))
+		fflib.WriteJsonString(buf, string(j.MCCMNC))
 		buf.WriteByte(',')
 	}
-	if mj.ConnType != 0 {
+	if j.ConnType != 0 {
 		buf.WriteString(`"connectiontype":`)
-		fflib.FormatBits2(buf, uint64(mj.ConnType), 10, mj.ConnType < 0)
+		fflib.FormatBits2(buf, uint64(j.ConnType), 10, j.ConnType < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.IFA) != 0 {
+	if len(j.IFA) != 0 {
 		buf.WriteString(`"ifa":`)
-		fflib.WriteJsonString(buf, string(mj.IFA))
+		fflib.WriteJsonString(buf, string(j.IFA))
 		buf.WriteByte(',')
 	}
-	if len(mj.IDSHA1) != 0 {
+	if len(j.IDSHA1) != 0 {
 		buf.WriteString(`"didsha1":`)
-		fflib.WriteJsonString(buf, string(mj.IDSHA1))
+		fflib.WriteJsonString(buf, string(j.IDSHA1))
 		buf.WriteByte(',')
 	}
-	if len(mj.IDMD5) != 0 {
+	if len(j.IDMD5) != 0 {
 		buf.WriteString(`"didmd5":`)
-		fflib.WriteJsonString(buf, string(mj.IDMD5))
+		fflib.WriteJsonString(buf, string(j.IDMD5))
 		buf.WriteByte(',')
 	}
-	if len(mj.PIDSHA1) != 0 {
+	if len(j.PIDSHA1) != 0 {
 		buf.WriteString(`"dpidsha1":`)
-		fflib.WriteJsonString(buf, string(mj.PIDSHA1))
+		fflib.WriteJsonString(buf, string(j.PIDSHA1))
 		buf.WriteByte(',')
 	}
-	if len(mj.PIDMD5) != 0 {
+	if len(j.PIDMD5) != 0 {
 		buf.WriteString(`"dpidmd5":`)
-		fflib.WriteJsonString(buf, string(mj.PIDMD5))
+		fflib.WriteJsonString(buf, string(j.PIDMD5))
 		buf.WriteByte(',')
 	}
-	if len(mj.MacSHA1) != 0 {
+	if len(j.MacSHA1) != 0 {
 		buf.WriteString(`"macsha1":`)
-		fflib.WriteJsonString(buf, string(mj.MacSHA1))
+		fflib.WriteJsonString(buf, string(j.MacSHA1))
 		buf.WriteByte(',')
 	}
-	if len(mj.MacMD5) != 0 {
+	if len(j.MacMD5) != 0 {
 		buf.WriteString(`"macmd5":`)
-		fflib.WriteJsonString(buf, string(mj.MacMD5))
+		fflib.WriteJsonString(buf, string(j.MacMD5))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -208,142 +211,144 @@ func (mj *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Devicebase = iota
-	ffj_t_Deviceno_such_key
+	ffjtDevicebase = iota
+	ffjtDevicenosuchkey
 
-	ffj_t_Device_UA
+	ffjtDeviceUA
 
-	ffj_t_Device_Geo
+	ffjtDeviceGeo
 
-	ffj_t_Device_DNT
+	ffjtDeviceDNT
 
-	ffj_t_Device_LMT
+	ffjtDeviceLMT
 
-	ffj_t_Device_IP
+	ffjtDeviceIP
 
-	ffj_t_Device_IPv6
+	ffjtDeviceIPv6
 
-	ffj_t_Device_DeviceType
+	ffjtDeviceDeviceType
 
-	ffj_t_Device_Make
+	ffjtDeviceMake
 
-	ffj_t_Device_Model
+	ffjtDeviceModel
 
-	ffj_t_Device_OS
+	ffjtDeviceOS
 
-	ffj_t_Device_OSVer
+	ffjtDeviceOSVer
 
-	ffj_t_Device_HwVer
+	ffjtDeviceHwVer
 
-	ffj_t_Device_H
+	ffjtDeviceH
 
-	ffj_t_Device_W
+	ffjtDeviceW
 
-	ffj_t_Device_PPI
+	ffjtDevicePPI
 
-	ffj_t_Device_PxRatio
+	ffjtDevicePxRatio
 
-	ffj_t_Device_JS
+	ffjtDeviceJS
 
-	ffj_t_Device_GeoFetch
+	ffjtDeviceGeoFetch
 
-	ffj_t_Device_FlashVer
+	ffjtDeviceFlashVer
 
-	ffj_t_Device_Language
+	ffjtDeviceLanguage
 
-	ffj_t_Device_Carrier
+	ffjtDeviceCarrier
 
-	ffj_t_Device_MCCMNC
+	ffjtDeviceMCCMNC
 
-	ffj_t_Device_ConnType
+	ffjtDeviceConnType
 
-	ffj_t_Device_IFA
+	ffjtDeviceIFA
 
-	ffj_t_Device_IDSHA1
+	ffjtDeviceIDSHA1
 
-	ffj_t_Device_IDMD5
+	ffjtDeviceIDMD5
 
-	ffj_t_Device_PIDSHA1
+	ffjtDevicePIDSHA1
 
-	ffj_t_Device_PIDMD5
+	ffjtDevicePIDMD5
 
-	ffj_t_Device_MacSHA1
+	ffjtDeviceMacSHA1
 
-	ffj_t_Device_MacMD5
+	ffjtDeviceMacMD5
 
-	ffj_t_Device_Ext
+	ffjtDeviceExt
 )
 
-var ffj_key_Device_UA = []byte("ua")
+var ffjKeyDeviceUA = []byte("ua")
 
-var ffj_key_Device_Geo = []byte("geo")
+var ffjKeyDeviceGeo = []byte("geo")
 
-var ffj_key_Device_DNT = []byte("dnt")
+var ffjKeyDeviceDNT = []byte("dnt")
 
-var ffj_key_Device_LMT = []byte("lmt")
+var ffjKeyDeviceLMT = []byte("lmt")
 
-var ffj_key_Device_IP = []byte("ip")
+var ffjKeyDeviceIP = []byte("ip")
 
-var ffj_key_Device_IPv6 = []byte("ipv6")
+var ffjKeyDeviceIPv6 = []byte("ipv6")
 
-var ffj_key_Device_DeviceType = []byte("devicetype")
+var ffjKeyDeviceDeviceType = []byte("devicetype")
 
-var ffj_key_Device_Make = []byte("make")
+var ffjKeyDeviceMake = []byte("make")
 
-var ffj_key_Device_Model = []byte("model")
+var ffjKeyDeviceModel = []byte("model")
 
-var ffj_key_Device_OS = []byte("os")
+var ffjKeyDeviceOS = []byte("os")
 
-var ffj_key_Device_OSVer = []byte("osv")
+var ffjKeyDeviceOSVer = []byte("osv")
 
-var ffj_key_Device_HwVer = []byte("hwv")
+var ffjKeyDeviceHwVer = []byte("hwv")
 
-var ffj_key_Device_H = []byte("h")
+var ffjKeyDeviceH = []byte("h")
 
-var ffj_key_Device_W = []byte("w")
+var ffjKeyDeviceW = []byte("w")
 
-var ffj_key_Device_PPI = []byte("ppi")
+var ffjKeyDevicePPI = []byte("ppi")
 
-var ffj_key_Device_PxRatio = []byte("pxratio")
+var ffjKeyDevicePxRatio = []byte("pxratio")
 
-var ffj_key_Device_JS = []byte("js")
+var ffjKeyDeviceJS = []byte("js")
 
-var ffj_key_Device_GeoFetch = []byte("geofetch")
+var ffjKeyDeviceGeoFetch = []byte("geofetch")
 
-var ffj_key_Device_FlashVer = []byte("flashver")
+var ffjKeyDeviceFlashVer = []byte("flashver")
 
-var ffj_key_Device_Language = []byte("language")
+var ffjKeyDeviceLanguage = []byte("language")
 
-var ffj_key_Device_Carrier = []byte("carrier")
+var ffjKeyDeviceCarrier = []byte("carrier")
 
-var ffj_key_Device_MCCMNC = []byte("mccmnc")
+var ffjKeyDeviceMCCMNC = []byte("mccmnc")
 
-var ffj_key_Device_ConnType = []byte("connectiontype")
+var ffjKeyDeviceConnType = []byte("connectiontype")
 
-var ffj_key_Device_IFA = []byte("ifa")
+var ffjKeyDeviceIFA = []byte("ifa")
 
-var ffj_key_Device_IDSHA1 = []byte("didsha1")
+var ffjKeyDeviceIDSHA1 = []byte("didsha1")
 
-var ffj_key_Device_IDMD5 = []byte("didmd5")
+var ffjKeyDeviceIDMD5 = []byte("didmd5")
 
-var ffj_key_Device_PIDSHA1 = []byte("dpidsha1")
+var ffjKeyDevicePIDSHA1 = []byte("dpidsha1")
 
-var ffj_key_Device_PIDMD5 = []byte("dpidmd5")
+var ffjKeyDevicePIDMD5 = []byte("dpidmd5")
 
-var ffj_key_Device_MacSHA1 = []byte("macsha1")
+var ffjKeyDeviceMacSHA1 = []byte("macsha1")
 
-var ffj_key_Device_MacMD5 = []byte("macmd5")
+var ffjKeyDeviceMacMD5 = []byte("macmd5")
 
-var ffj_key_Device_Ext = []byte("ext")
+var ffjKeyDeviceExt = []byte("ext")
 
-func (uj *Device) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Device) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Device) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Devicebase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Device) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtDevicebase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -389,7 +394,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Deviceno_such_key
+				currentKey = ffjtDevicenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -397,390 +402,390 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Device_Carrier, kn) {
-						currentKey = ffj_t_Device_Carrier
+					if bytes.Equal(ffjKeyDeviceCarrier, kn) {
+						currentKey = ffjtDeviceCarrier
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_ConnType, kn) {
-						currentKey = ffj_t_Device_ConnType
+					} else if bytes.Equal(ffjKeyDeviceConnType, kn) {
+						currentKey = ffjtDeviceConnType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Device_DNT, kn) {
-						currentKey = ffj_t_Device_DNT
+					if bytes.Equal(ffjKeyDeviceDNT, kn) {
+						currentKey = ffjtDeviceDNT
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_DeviceType, kn) {
-						currentKey = ffj_t_Device_DeviceType
+					} else if bytes.Equal(ffjKeyDeviceDeviceType, kn) {
+						currentKey = ffjtDeviceDeviceType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_IDSHA1, kn) {
-						currentKey = ffj_t_Device_IDSHA1
+					} else if bytes.Equal(ffjKeyDeviceIDSHA1, kn) {
+						currentKey = ffjtDeviceIDSHA1
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_IDMD5, kn) {
-						currentKey = ffj_t_Device_IDMD5
+					} else if bytes.Equal(ffjKeyDeviceIDMD5, kn) {
+						currentKey = ffjtDeviceIDMD5
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_PIDSHA1, kn) {
-						currentKey = ffj_t_Device_PIDSHA1
+					} else if bytes.Equal(ffjKeyDevicePIDSHA1, kn) {
+						currentKey = ffjtDevicePIDSHA1
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_PIDMD5, kn) {
-						currentKey = ffj_t_Device_PIDMD5
+					} else if bytes.Equal(ffjKeyDevicePIDMD5, kn) {
+						currentKey = ffjtDevicePIDMD5
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Device_Ext, kn) {
-						currentKey = ffj_t_Device_Ext
+					if bytes.Equal(ffjKeyDeviceExt, kn) {
+						currentKey = ffjtDeviceExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'f':
 
-					if bytes.Equal(ffj_key_Device_FlashVer, kn) {
-						currentKey = ffj_t_Device_FlashVer
+					if bytes.Equal(ffjKeyDeviceFlashVer, kn) {
+						currentKey = ffjtDeviceFlashVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'g':
 
-					if bytes.Equal(ffj_key_Device_Geo, kn) {
-						currentKey = ffj_t_Device_Geo
+					if bytes.Equal(ffjKeyDeviceGeo, kn) {
+						currentKey = ffjtDeviceGeo
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_GeoFetch, kn) {
-						currentKey = ffj_t_Device_GeoFetch
+					} else if bytes.Equal(ffjKeyDeviceGeoFetch, kn) {
+						currentKey = ffjtDeviceGeoFetch
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'h':
 
-					if bytes.Equal(ffj_key_Device_HwVer, kn) {
-						currentKey = ffj_t_Device_HwVer
+					if bytes.Equal(ffjKeyDeviceHwVer, kn) {
+						currentKey = ffjtDeviceHwVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_H, kn) {
-						currentKey = ffj_t_Device_H
+					} else if bytes.Equal(ffjKeyDeviceH, kn) {
+						currentKey = ffjtDeviceH
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Device_IP, kn) {
-						currentKey = ffj_t_Device_IP
+					if bytes.Equal(ffjKeyDeviceIP, kn) {
+						currentKey = ffjtDeviceIP
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_IPv6, kn) {
-						currentKey = ffj_t_Device_IPv6
+					} else if bytes.Equal(ffjKeyDeviceIPv6, kn) {
+						currentKey = ffjtDeviceIPv6
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_IFA, kn) {
-						currentKey = ffj_t_Device_IFA
+					} else if bytes.Equal(ffjKeyDeviceIFA, kn) {
+						currentKey = ffjtDeviceIFA
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'j':
 
-					if bytes.Equal(ffj_key_Device_JS, kn) {
-						currentKey = ffj_t_Device_JS
+					if bytes.Equal(ffjKeyDeviceJS, kn) {
+						currentKey = ffjtDeviceJS
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'l':
 
-					if bytes.Equal(ffj_key_Device_LMT, kn) {
-						currentKey = ffj_t_Device_LMT
+					if bytes.Equal(ffjKeyDeviceLMT, kn) {
+						currentKey = ffjtDeviceLMT
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_Language, kn) {
-						currentKey = ffj_t_Device_Language
+					} else if bytes.Equal(ffjKeyDeviceLanguage, kn) {
+						currentKey = ffjtDeviceLanguage
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'm':
 
-					if bytes.Equal(ffj_key_Device_Make, kn) {
-						currentKey = ffj_t_Device_Make
+					if bytes.Equal(ffjKeyDeviceMake, kn) {
+						currentKey = ffjtDeviceMake
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_Model, kn) {
-						currentKey = ffj_t_Device_Model
+					} else if bytes.Equal(ffjKeyDeviceModel, kn) {
+						currentKey = ffjtDeviceModel
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_MCCMNC, kn) {
-						currentKey = ffj_t_Device_MCCMNC
+					} else if bytes.Equal(ffjKeyDeviceMCCMNC, kn) {
+						currentKey = ffjtDeviceMCCMNC
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_MacSHA1, kn) {
-						currentKey = ffj_t_Device_MacSHA1
+					} else if bytes.Equal(ffjKeyDeviceMacSHA1, kn) {
+						currentKey = ffjtDeviceMacSHA1
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_MacMD5, kn) {
-						currentKey = ffj_t_Device_MacMD5
+					} else if bytes.Equal(ffjKeyDeviceMacMD5, kn) {
+						currentKey = ffjtDeviceMacMD5
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'o':
 
-					if bytes.Equal(ffj_key_Device_OS, kn) {
-						currentKey = ffj_t_Device_OS
+					if bytes.Equal(ffjKeyDeviceOS, kn) {
+						currentKey = ffjtDeviceOS
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_OSVer, kn) {
-						currentKey = ffj_t_Device_OSVer
+					} else if bytes.Equal(ffjKeyDeviceOSVer, kn) {
+						currentKey = ffjtDeviceOSVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Device_PPI, kn) {
-						currentKey = ffj_t_Device_PPI
+					if bytes.Equal(ffjKeyDevicePPI, kn) {
+						currentKey = ffjtDevicePPI
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Device_PxRatio, kn) {
-						currentKey = ffj_t_Device_PxRatio
+					} else if bytes.Equal(ffjKeyDevicePxRatio, kn) {
+						currentKey = ffjtDevicePxRatio
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'u':
 
-					if bytes.Equal(ffj_key_Device_UA, kn) {
-						currentKey = ffj_t_Device_UA
+					if bytes.Equal(ffjKeyDeviceUA, kn) {
+						currentKey = ffjtDeviceUA
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'w':
 
-					if bytes.Equal(ffj_key_Device_W, kn) {
-						currentKey = ffj_t_Device_W
+					if bytes.Equal(ffjKeyDeviceW, kn) {
+						currentKey = ffjtDeviceW
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_Ext, kn) {
-					currentKey = ffj_t_Device_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceExt, kn) {
+					currentKey = ffjtDeviceExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.AsciiEqualFold(ffj_key_Device_MacMD5, kn) {
-					currentKey = ffj_t_Device_MacMD5
+				if fflib.AsciiEqualFold(ffjKeyDeviceMacMD5, kn) {
+					currentKey = ffjtDeviceMacMD5
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_MacSHA1, kn) {
-					currentKey = ffj_t_Device_MacSHA1
+				if fflib.EqualFoldRight(ffjKeyDeviceMacSHA1, kn) {
+					currentKey = ffjtDeviceMacSHA1
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.AsciiEqualFold(ffj_key_Device_PIDMD5, kn) {
-					currentKey = ffj_t_Device_PIDMD5
+				if fflib.AsciiEqualFold(ffjKeyDevicePIDMD5, kn) {
+					currentKey = ffjtDevicePIDMD5
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_PIDSHA1, kn) {
-					currentKey = ffj_t_Device_PIDSHA1
+				if fflib.EqualFoldRight(ffjKeyDevicePIDSHA1, kn) {
+					currentKey = ffjtDevicePIDSHA1
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.AsciiEqualFold(ffj_key_Device_IDMD5, kn) {
-					currentKey = ffj_t_Device_IDMD5
+				if fflib.AsciiEqualFold(ffjKeyDeviceIDMD5, kn) {
+					currentKey = ffjtDeviceIDMD5
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_IDSHA1, kn) {
-					currentKey = ffj_t_Device_IDSHA1
+				if fflib.EqualFoldRight(ffjKeyDeviceIDSHA1, kn) {
+					currentKey = ffjtDeviceIDSHA1
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_IFA, kn) {
-					currentKey = ffj_t_Device_IFA
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceIFA, kn) {
+					currentKey = ffjtDeviceIFA
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_ConnType, kn) {
-					currentKey = ffj_t_Device_ConnType
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceConnType, kn) {
+					currentKey = ffjtDeviceConnType
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_MCCMNC, kn) {
-					currentKey = ffj_t_Device_MCCMNC
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceMCCMNC, kn) {
+					currentKey = ffjtDeviceMCCMNC
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_Carrier, kn) {
-					currentKey = ffj_t_Device_Carrier
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceCarrier, kn) {
+					currentKey = ffjtDeviceCarrier
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_Language, kn) {
-					currentKey = ffj_t_Device_Language
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceLanguage, kn) {
+					currentKey = ffjtDeviceLanguage
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_FlashVer, kn) {
-					currentKey = ffj_t_Device_FlashVer
+				if fflib.EqualFoldRight(ffjKeyDeviceFlashVer, kn) {
+					currentKey = ffjtDeviceFlashVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_GeoFetch, kn) {
-					currentKey = ffj_t_Device_GeoFetch
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceGeoFetch, kn) {
+					currentKey = ffjtDeviceGeoFetch
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_JS, kn) {
-					currentKey = ffj_t_Device_JS
+				if fflib.EqualFoldRight(ffjKeyDeviceJS, kn) {
+					currentKey = ffjtDeviceJS
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_PxRatio, kn) {
-					currentKey = ffj_t_Device_PxRatio
+				if fflib.SimpleLetterEqualFold(ffjKeyDevicePxRatio, kn) {
+					currentKey = ffjtDevicePxRatio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_PPI, kn) {
-					currentKey = ffj_t_Device_PPI
+				if fflib.SimpleLetterEqualFold(ffjKeyDevicePPI, kn) {
+					currentKey = ffjtDevicePPI
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_W, kn) {
-					currentKey = ffj_t_Device_W
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceW, kn) {
+					currentKey = ffjtDeviceW
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_H, kn) {
-					currentKey = ffj_t_Device_H
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceH, kn) {
+					currentKey = ffjtDeviceH
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_HwVer, kn) {
-					currentKey = ffj_t_Device_HwVer
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceHwVer, kn) {
+					currentKey = ffjtDeviceHwVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_OSVer, kn) {
-					currentKey = ffj_t_Device_OSVer
+				if fflib.EqualFoldRight(ffjKeyDeviceOSVer, kn) {
+					currentKey = ffjtDeviceOSVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_OS, kn) {
-					currentKey = ffj_t_Device_OS
+				if fflib.EqualFoldRight(ffjKeyDeviceOS, kn) {
+					currentKey = ffjtDeviceOS
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_Model, kn) {
-					currentKey = ffj_t_Device_Model
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceModel, kn) {
+					currentKey = ffjtDeviceModel
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Device_Make, kn) {
-					currentKey = ffj_t_Device_Make
+				if fflib.EqualFoldRight(ffjKeyDeviceMake, kn) {
+					currentKey = ffjtDeviceMake
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_DeviceType, kn) {
-					currentKey = ffj_t_Device_DeviceType
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceDeviceType, kn) {
+					currentKey = ffjtDeviceDeviceType
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.AsciiEqualFold(ffj_key_Device_IPv6, kn) {
-					currentKey = ffj_t_Device_IPv6
+				if fflib.AsciiEqualFold(ffjKeyDeviceIPv6, kn) {
+					currentKey = ffjtDeviceIPv6
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_IP, kn) {
-					currentKey = ffj_t_Device_IP
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceIP, kn) {
+					currentKey = ffjtDeviceIP
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_LMT, kn) {
-					currentKey = ffj_t_Device_LMT
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceLMT, kn) {
+					currentKey = ffjtDeviceLMT
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_DNT, kn) {
-					currentKey = ffj_t_Device_DNT
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceDNT, kn) {
+					currentKey = ffjtDeviceDNT
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_Geo, kn) {
-					currentKey = ffj_t_Device_Geo
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceGeo, kn) {
+					currentKey = ffjtDeviceGeo
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Device_UA, kn) {
-					currentKey = ffj_t_Device_UA
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceUA, kn) {
+					currentKey = ffjtDeviceUA
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Deviceno_such_key
+				currentKey = ffjtDevicenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -797,100 +802,100 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Device_UA:
+				case ffjtDeviceUA:
 					goto handle_UA
 
-				case ffj_t_Device_Geo:
+				case ffjtDeviceGeo:
 					goto handle_Geo
 
-				case ffj_t_Device_DNT:
+				case ffjtDeviceDNT:
 					goto handle_DNT
 
-				case ffj_t_Device_LMT:
+				case ffjtDeviceLMT:
 					goto handle_LMT
 
-				case ffj_t_Device_IP:
+				case ffjtDeviceIP:
 					goto handle_IP
 
-				case ffj_t_Device_IPv6:
+				case ffjtDeviceIPv6:
 					goto handle_IPv6
 
-				case ffj_t_Device_DeviceType:
+				case ffjtDeviceDeviceType:
 					goto handle_DeviceType
 
-				case ffj_t_Device_Make:
+				case ffjtDeviceMake:
 					goto handle_Make
 
-				case ffj_t_Device_Model:
+				case ffjtDeviceModel:
 					goto handle_Model
 
-				case ffj_t_Device_OS:
+				case ffjtDeviceOS:
 					goto handle_OS
 
-				case ffj_t_Device_OSVer:
+				case ffjtDeviceOSVer:
 					goto handle_OSVer
 
-				case ffj_t_Device_HwVer:
+				case ffjtDeviceHwVer:
 					goto handle_HwVer
 
-				case ffj_t_Device_H:
+				case ffjtDeviceH:
 					goto handle_H
 
-				case ffj_t_Device_W:
+				case ffjtDeviceW:
 					goto handle_W
 
-				case ffj_t_Device_PPI:
+				case ffjtDevicePPI:
 					goto handle_PPI
 
-				case ffj_t_Device_PxRatio:
+				case ffjtDevicePxRatio:
 					goto handle_PxRatio
 
-				case ffj_t_Device_JS:
+				case ffjtDeviceJS:
 					goto handle_JS
 
-				case ffj_t_Device_GeoFetch:
+				case ffjtDeviceGeoFetch:
 					goto handle_GeoFetch
 
-				case ffj_t_Device_FlashVer:
+				case ffjtDeviceFlashVer:
 					goto handle_FlashVer
 
-				case ffj_t_Device_Language:
+				case ffjtDeviceLanguage:
 					goto handle_Language
 
-				case ffj_t_Device_Carrier:
+				case ffjtDeviceCarrier:
 					goto handle_Carrier
 
-				case ffj_t_Device_MCCMNC:
+				case ffjtDeviceMCCMNC:
 					goto handle_MCCMNC
 
-				case ffj_t_Device_ConnType:
+				case ffjtDeviceConnType:
 					goto handle_ConnType
 
-				case ffj_t_Device_IFA:
+				case ffjtDeviceIFA:
 					goto handle_IFA
 
-				case ffj_t_Device_IDSHA1:
+				case ffjtDeviceIDSHA1:
 					goto handle_IDSHA1
 
-				case ffj_t_Device_IDMD5:
+				case ffjtDeviceIDMD5:
 					goto handle_IDMD5
 
-				case ffj_t_Device_PIDSHA1:
+				case ffjtDevicePIDSHA1:
 					goto handle_PIDSHA1
 
-				case ffj_t_Device_PIDMD5:
+				case ffjtDevicePIDMD5:
 					goto handle_PIDMD5
 
-				case ffj_t_Device_MacSHA1:
+				case ffjtDeviceMacSHA1:
 					goto handle_MacSHA1
 
-				case ffj_t_Device_MacMD5:
+				case ffjtDeviceMacMD5:
 					goto handle_MacMD5
 
-				case ffj_t_Device_Ext:
+				case ffjtDeviceExt:
 					goto handle_Ext
 
-				case ffj_t_Deviceno_such_key:
+				case ffjtDevicenosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -906,7 +911,7 @@ mainparse:
 
 handle_UA:
 
-	/* handler: uj.UA type=string kind=string quoted=false*/
+	/* handler: j.UA type=string kind=string quoted=false*/
 
 	{
 
@@ -922,7 +927,7 @@ handle_UA:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.UA = string(string(outBuf))
+			j.UA = string(string(outBuf))
 
 		}
 	}
@@ -932,7 +937,7 @@ handle_UA:
 
 handle_Geo:
 
-	/* handler: uj.Geo type=openrtb.Geo kind=struct quoted=false*/
+	/* handler: j.Geo type=openrtb.Geo kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Geo kind=struct */
@@ -941,7 +946,7 @@ handle_Geo:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Geo)
+		err = json.Unmarshal(tbuf, &j.Geo)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -952,7 +957,7 @@ handle_Geo:
 
 handle_DNT:
 
-	/* handler: uj.DNT type=int kind=int quoted=false*/
+	/* handler: j.DNT type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -972,7 +977,7 @@ handle_DNT:
 				return fs.WrapErr(err)
 			}
 
-			uj.DNT = int(tval)
+			j.DNT = int(tval)
 
 		}
 	}
@@ -982,7 +987,7 @@ handle_DNT:
 
 handle_LMT:
 
-	/* handler: uj.LMT type=int kind=int quoted=false*/
+	/* handler: j.LMT type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1002,7 +1007,7 @@ handle_LMT:
 				return fs.WrapErr(err)
 			}
 
-			uj.LMT = int(tval)
+			j.LMT = int(tval)
 
 		}
 	}
@@ -1012,7 +1017,7 @@ handle_LMT:
 
 handle_IP:
 
-	/* handler: uj.IP type=string kind=string quoted=false*/
+	/* handler: j.IP type=string kind=string quoted=false*/
 
 	{
 
@@ -1028,7 +1033,7 @@ handle_IP:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IP = string(string(outBuf))
+			j.IP = string(string(outBuf))
 
 		}
 	}
@@ -1038,7 +1043,7 @@ handle_IP:
 
 handle_IPv6:
 
-	/* handler: uj.IPv6 type=string kind=string quoted=false*/
+	/* handler: j.IPv6 type=string kind=string quoted=false*/
 
 	{
 
@@ -1054,7 +1059,7 @@ handle_IPv6:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IPv6 = string(string(outBuf))
+			j.IPv6 = string(string(outBuf))
 
 		}
 	}
@@ -1064,7 +1069,7 @@ handle_IPv6:
 
 handle_DeviceType:
 
-	/* handler: uj.DeviceType type=int kind=int quoted=false*/
+	/* handler: j.DeviceType type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1084,7 +1089,7 @@ handle_DeviceType:
 				return fs.WrapErr(err)
 			}
 
-			uj.DeviceType = int(tval)
+			j.DeviceType = int(tval)
 
 		}
 	}
@@ -1094,7 +1099,7 @@ handle_DeviceType:
 
 handle_Make:
 
-	/* handler: uj.Make type=string kind=string quoted=false*/
+	/* handler: j.Make type=string kind=string quoted=false*/
 
 	{
 
@@ -1110,7 +1115,7 @@ handle_Make:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Make = string(string(outBuf))
+			j.Make = string(string(outBuf))
 
 		}
 	}
@@ -1120,7 +1125,7 @@ handle_Make:
 
 handle_Model:
 
-	/* handler: uj.Model type=string kind=string quoted=false*/
+	/* handler: j.Model type=string kind=string quoted=false*/
 
 	{
 
@@ -1136,7 +1141,7 @@ handle_Model:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Model = string(string(outBuf))
+			j.Model = string(string(outBuf))
 
 		}
 	}
@@ -1146,7 +1151,7 @@ handle_Model:
 
 handle_OS:
 
-	/* handler: uj.OS type=string kind=string quoted=false*/
+	/* handler: j.OS type=string kind=string quoted=false*/
 
 	{
 
@@ -1162,7 +1167,7 @@ handle_OS:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.OS = string(string(outBuf))
+			j.OS = string(string(outBuf))
 
 		}
 	}
@@ -1172,7 +1177,7 @@ handle_OS:
 
 handle_OSVer:
 
-	/* handler: uj.OSVer type=string kind=string quoted=false*/
+	/* handler: j.OSVer type=string kind=string quoted=false*/
 
 	{
 
@@ -1188,7 +1193,7 @@ handle_OSVer:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.OSVer = string(string(outBuf))
+			j.OSVer = string(string(outBuf))
 
 		}
 	}
@@ -1198,7 +1203,7 @@ handle_OSVer:
 
 handle_HwVer:
 
-	/* handler: uj.HwVer type=string kind=string quoted=false*/
+	/* handler: j.HwVer type=string kind=string quoted=false*/
 
 	{
 
@@ -1214,7 +1219,7 @@ handle_HwVer:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.HwVer = string(string(outBuf))
+			j.HwVer = string(string(outBuf))
 
 		}
 	}
@@ -1224,7 +1229,7 @@ handle_HwVer:
 
 handle_H:
 
-	/* handler: uj.H type=int kind=int quoted=false*/
+	/* handler: j.H type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1244,7 +1249,7 @@ handle_H:
 				return fs.WrapErr(err)
 			}
 
-			uj.H = int(tval)
+			j.H = int(tval)
 
 		}
 	}
@@ -1254,7 +1259,7 @@ handle_H:
 
 handle_W:
 
-	/* handler: uj.W type=int kind=int quoted=false*/
+	/* handler: j.W type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1274,7 +1279,7 @@ handle_W:
 				return fs.WrapErr(err)
 			}
 
-			uj.W = int(tval)
+			j.W = int(tval)
 
 		}
 	}
@@ -1284,7 +1289,7 @@ handle_W:
 
 handle_PPI:
 
-	/* handler: uj.PPI type=int kind=int quoted=false*/
+	/* handler: j.PPI type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1304,7 +1309,7 @@ handle_PPI:
 				return fs.WrapErr(err)
 			}
 
-			uj.PPI = int(tval)
+			j.PPI = int(tval)
 
 		}
 	}
@@ -1314,7 +1319,7 @@ handle_PPI:
 
 handle_PxRatio:
 
-	/* handler: uj.PxRatio type=float64 kind=float64 quoted=false*/
+	/* handler: j.PxRatio type=float64 kind=float64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1334,7 +1339,7 @@ handle_PxRatio:
 				return fs.WrapErr(err)
 			}
 
-			uj.PxRatio = float64(tval)
+			j.PxRatio = float64(tval)
 
 		}
 	}
@@ -1344,7 +1349,7 @@ handle_PxRatio:
 
 handle_JS:
 
-	/* handler: uj.JS type=int kind=int quoted=false*/
+	/* handler: j.JS type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1364,7 +1369,7 @@ handle_JS:
 				return fs.WrapErr(err)
 			}
 
-			uj.JS = int(tval)
+			j.JS = int(tval)
 
 		}
 	}
@@ -1374,7 +1379,7 @@ handle_JS:
 
 handle_GeoFetch:
 
-	/* handler: uj.GeoFetch type=int kind=int quoted=false*/
+	/* handler: j.GeoFetch type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1394,7 +1399,7 @@ handle_GeoFetch:
 				return fs.WrapErr(err)
 			}
 
-			uj.GeoFetch = int(tval)
+			j.GeoFetch = int(tval)
 
 		}
 	}
@@ -1404,7 +1409,7 @@ handle_GeoFetch:
 
 handle_FlashVer:
 
-	/* handler: uj.FlashVer type=string kind=string quoted=false*/
+	/* handler: j.FlashVer type=string kind=string quoted=false*/
 
 	{
 
@@ -1420,7 +1425,7 @@ handle_FlashVer:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.FlashVer = string(string(outBuf))
+			j.FlashVer = string(string(outBuf))
 
 		}
 	}
@@ -1430,7 +1435,7 @@ handle_FlashVer:
 
 handle_Language:
 
-	/* handler: uj.Language type=string kind=string quoted=false*/
+	/* handler: j.Language type=string kind=string quoted=false*/
 
 	{
 
@@ -1446,7 +1451,7 @@ handle_Language:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Language = string(string(outBuf))
+			j.Language = string(string(outBuf))
 
 		}
 	}
@@ -1456,7 +1461,7 @@ handle_Language:
 
 handle_Carrier:
 
-	/* handler: uj.Carrier type=string kind=string quoted=false*/
+	/* handler: j.Carrier type=string kind=string quoted=false*/
 
 	{
 
@@ -1472,7 +1477,7 @@ handle_Carrier:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Carrier = string(string(outBuf))
+			j.Carrier = string(string(outBuf))
 
 		}
 	}
@@ -1482,7 +1487,7 @@ handle_Carrier:
 
 handle_MCCMNC:
 
-	/* handler: uj.MCCMNC type=string kind=string quoted=false*/
+	/* handler: j.MCCMNC type=string kind=string quoted=false*/
 
 	{
 
@@ -1498,7 +1503,7 @@ handle_MCCMNC:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.MCCMNC = string(string(outBuf))
+			j.MCCMNC = string(string(outBuf))
 
 		}
 	}
@@ -1508,7 +1513,7 @@ handle_MCCMNC:
 
 handle_ConnType:
 
-	/* handler: uj.ConnType type=int kind=int quoted=false*/
+	/* handler: j.ConnType type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1528,7 +1533,7 @@ handle_ConnType:
 				return fs.WrapErr(err)
 			}
 
-			uj.ConnType = int(tval)
+			j.ConnType = int(tval)
 
 		}
 	}
@@ -1538,7 +1543,7 @@ handle_ConnType:
 
 handle_IFA:
 
-	/* handler: uj.IFA type=string kind=string quoted=false*/
+	/* handler: j.IFA type=string kind=string quoted=false*/
 
 	{
 
@@ -1554,7 +1559,7 @@ handle_IFA:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IFA = string(string(outBuf))
+			j.IFA = string(string(outBuf))
 
 		}
 	}
@@ -1564,7 +1569,7 @@ handle_IFA:
 
 handle_IDSHA1:
 
-	/* handler: uj.IDSHA1 type=string kind=string quoted=false*/
+	/* handler: j.IDSHA1 type=string kind=string quoted=false*/
 
 	{
 
@@ -1580,7 +1585,7 @@ handle_IDSHA1:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IDSHA1 = string(string(outBuf))
+			j.IDSHA1 = string(string(outBuf))
 
 		}
 	}
@@ -1590,7 +1595,7 @@ handle_IDSHA1:
 
 handle_IDMD5:
 
-	/* handler: uj.IDMD5 type=string kind=string quoted=false*/
+	/* handler: j.IDMD5 type=string kind=string quoted=false*/
 
 	{
 
@@ -1606,7 +1611,7 @@ handle_IDMD5:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.IDMD5 = string(string(outBuf))
+			j.IDMD5 = string(string(outBuf))
 
 		}
 	}
@@ -1616,7 +1621,7 @@ handle_IDMD5:
 
 handle_PIDSHA1:
 
-	/* handler: uj.PIDSHA1 type=string kind=string quoted=false*/
+	/* handler: j.PIDSHA1 type=string kind=string quoted=false*/
 
 	{
 
@@ -1632,7 +1637,7 @@ handle_PIDSHA1:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.PIDSHA1 = string(string(outBuf))
+			j.PIDSHA1 = string(string(outBuf))
 
 		}
 	}
@@ -1642,7 +1647,7 @@ handle_PIDSHA1:
 
 handle_PIDMD5:
 
-	/* handler: uj.PIDMD5 type=string kind=string quoted=false*/
+	/* handler: j.PIDMD5 type=string kind=string quoted=false*/
 
 	{
 
@@ -1658,7 +1663,7 @@ handle_PIDMD5:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.PIDMD5 = string(string(outBuf))
+			j.PIDMD5 = string(string(outBuf))
 
 		}
 	}
@@ -1668,7 +1673,7 @@ handle_PIDMD5:
 
 handle_MacSHA1:
 
-	/* handler: uj.MacSHA1 type=string kind=string quoted=false*/
+	/* handler: j.MacSHA1 type=string kind=string quoted=false*/
 
 	{
 
@@ -1684,7 +1689,7 @@ handle_MacSHA1:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.MacSHA1 = string(string(outBuf))
+			j.MacSHA1 = string(string(outBuf))
 
 		}
 	}
@@ -1694,7 +1699,7 @@ handle_MacSHA1:
 
 handle_MacMD5:
 
-	/* handler: uj.MacMD5 type=string kind=string quoted=false*/
+	/* handler: j.MacMD5 type=string kind=string quoted=false*/
 
 	{
 
@@ -1710,7 +1715,7 @@ handle_MacMD5:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.MacMD5 = string(string(outBuf))
+			j.MacMD5 = string(string(outBuf))
 
 		}
 	}
@@ -1720,7 +1725,7 @@ handle_MacMD5:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1734,7 +1739,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1758,5 +1763,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

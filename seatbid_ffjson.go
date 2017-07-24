@@ -11,20 +11,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *SeatBid) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *SeatBid) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -33,9 +36,9 @@ func (mj *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "bid":`)
-	if mj.Bid != nil {
+	if j.Bid != nil {
 		buf.WriteString(`[`)
-		for i, v := range mj.Bid {
+		for i, v := range j.Bid {
 			if i != 0 {
 				buf.WriteString(`,`)
 			}
@@ -54,22 +57,22 @@ func (mj *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		buf.WriteString(`null`)
 	}
 	buf.WriteByte(',')
-	if len(mj.Seat) != 0 {
+	if len(j.Seat) != 0 {
 		buf.WriteString(`"seat":`)
-		fflib.WriteJsonString(buf, string(mj.Seat))
+		fflib.WriteJsonString(buf, string(j.Seat))
 		buf.WriteByte(',')
 	}
-	if mj.Group != 0 {
+	if j.Group != 0 {
 		buf.WriteString(`"group":`)
-		fflib.FormatBits2(buf, uint64(mj.Group), 10, mj.Group < 0)
+		fflib.FormatBits2(buf, uint64(j.Group), 10, j.Group < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -84,34 +87,36 @@ func (mj *SeatBid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_SeatBidbase = iota
-	ffj_t_SeatBidno_such_key
+	ffjtSeatBidbase = iota
+	ffjtSeatBidnosuchkey
 
-	ffj_t_SeatBid_Bid
+	ffjtSeatBidBid
 
-	ffj_t_SeatBid_Seat
+	ffjtSeatBidSeat
 
-	ffj_t_SeatBid_Group
+	ffjtSeatBidGroup
 
-	ffj_t_SeatBid_Ext
+	ffjtSeatBidExt
 )
 
-var ffj_key_SeatBid_Bid = []byte("bid")
+var ffjKeySeatBidBid = []byte("bid")
 
-var ffj_key_SeatBid_Seat = []byte("seat")
+var ffjKeySeatBidSeat = []byte("seat")
 
-var ffj_key_SeatBid_Group = []byte("group")
+var ffjKeySeatBidGroup = []byte("group")
 
-var ffj_key_SeatBid_Ext = []byte("ext")
+var ffjKeySeatBidExt = []byte("ext")
 
-func (uj *SeatBid) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *SeatBid) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *SeatBid) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_SeatBidbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *SeatBid) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtSeatBidbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -157,7 +162,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_SeatBidno_such_key
+				currentKey = ffjtSeatBidnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -165,63 +170,63 @@ mainparse:
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_SeatBid_Bid, kn) {
-						currentKey = ffj_t_SeatBid_Bid
+					if bytes.Equal(ffjKeySeatBidBid, kn) {
+						currentKey = ffjtSeatBidBid
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_SeatBid_Ext, kn) {
-						currentKey = ffj_t_SeatBid_Ext
+					if bytes.Equal(ffjKeySeatBidExt, kn) {
+						currentKey = ffjtSeatBidExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'g':
 
-					if bytes.Equal(ffj_key_SeatBid_Group, kn) {
-						currentKey = ffj_t_SeatBid_Group
+					if bytes.Equal(ffjKeySeatBidGroup, kn) {
+						currentKey = ffjtSeatBidGroup
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_SeatBid_Seat, kn) {
-						currentKey = ffj_t_SeatBid_Seat
+					if bytes.Equal(ffjKeySeatBidSeat, kn) {
+						currentKey = ffjtSeatBidSeat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_SeatBid_Ext, kn) {
-					currentKey = ffj_t_SeatBid_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeySeatBidExt, kn) {
+					currentKey = ffjtSeatBidExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_SeatBid_Group, kn) {
-					currentKey = ffj_t_SeatBid_Group
+				if fflib.SimpleLetterEqualFold(ffjKeySeatBidGroup, kn) {
+					currentKey = ffjtSeatBidGroup
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_SeatBid_Seat, kn) {
-					currentKey = ffj_t_SeatBid_Seat
+				if fflib.EqualFoldRight(ffjKeySeatBidSeat, kn) {
+					currentKey = ffjtSeatBidSeat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_SeatBid_Bid, kn) {
-					currentKey = ffj_t_SeatBid_Bid
+				if fflib.SimpleLetterEqualFold(ffjKeySeatBidBid, kn) {
+					currentKey = ffjtSeatBidBid
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_SeatBidno_such_key
+				currentKey = ffjtSeatBidnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -238,19 +243,19 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_SeatBid_Bid:
+				case ffjtSeatBidBid:
 					goto handle_Bid
 
-				case ffj_t_SeatBid_Seat:
+				case ffjtSeatBidSeat:
 					goto handle_Seat
 
-				case ffj_t_SeatBid_Group:
+				case ffjtSeatBidGroup:
 					goto handle_Group
 
-				case ffj_t_SeatBid_Ext:
+				case ffjtSeatBidExt:
 					goto handle_Ext
 
-				case ffj_t_SeatBidno_such_key:
+				case ffjtSeatBidnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -266,7 +271,7 @@ mainparse:
 
 handle_Bid:
 
-	/* handler: uj.Bid type=[]openrtb.Bid kind=slice quoted=false*/
+	/* handler: j.Bid type=[]openrtb.Bid kind=slice quoted=false*/
 
 	{
 
@@ -277,16 +282,16 @@ handle_Bid:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Bid = nil
+			j.Bid = nil
 		} else {
 
-			uj.Bid = make([]Bid, 0)
+			j.Bid = []Bid{}
 
 			wantVal := true
 
 			for {
 
-				var v Bid
+				var tmpJBid Bid
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -307,7 +312,7 @@ handle_Bid:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Bid kind=struct quoted=false*/
+				/* handler: tmpJBid type=openrtb.Bid kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -316,14 +321,15 @@ handle_Bid:
 						goto mainparse
 					}
 
-					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = tmpJBid.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Bid = append(uj.Bid, v)
+				j.Bid = append(j.Bid, tmpJBid)
+
 				wantVal = false
 			}
 		}
@@ -334,7 +340,7 @@ handle_Bid:
 
 handle_Seat:
 
-	/* handler: uj.Seat type=string kind=string quoted=false*/
+	/* handler: j.Seat type=string kind=string quoted=false*/
 
 	{
 
@@ -350,7 +356,7 @@ handle_Seat:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Seat = string(string(outBuf))
+			j.Seat = string(string(outBuf))
 
 		}
 	}
@@ -360,7 +366,7 @@ handle_Seat:
 
 handle_Group:
 
-	/* handler: uj.Group type=int kind=int quoted=false*/
+	/* handler: j.Group type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -380,7 +386,7 @@ handle_Group:
 				return fs.WrapErr(err)
 			}
 
-			uj.Group = int(tval)
+			j.Group = int(tval)
 
 		}
 	}
@@ -390,7 +396,7 @@ handle_Group:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -404,7 +410,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -428,5 +434,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

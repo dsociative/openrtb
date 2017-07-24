@@ -11,20 +11,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Data) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Data) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -33,21 +36,21 @@ func (mj *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Segment) != 0 {
+	if len(j.Segment) != 0 {
 		buf.WriteString(`"segment":`)
-		if mj.Segment != nil {
+		if j.Segment != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Segment {
+			for i, v := range j.Segment {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -67,12 +70,12 @@ func (mj *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -87,34 +90,36 @@ func (mj *Data) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Database = iota
-	ffj_t_Datano_such_key
+	ffjtDatabase = iota
+	ffjtDatanosuchkey
 
-	ffj_t_Data_ID
+	ffjtDataID
 
-	ffj_t_Data_Name
+	ffjtDataName
 
-	ffj_t_Data_Segment
+	ffjtDataSegment
 
-	ffj_t_Data_Ext
+	ffjtDataExt
 )
 
-var ffj_key_Data_ID = []byte("id")
+var ffjKeyDataID = []byte("id")
 
-var ffj_key_Data_Name = []byte("name")
+var ffjKeyDataName = []byte("name")
 
-var ffj_key_Data_Segment = []byte("segment")
+var ffjKeyDataSegment = []byte("segment")
 
-var ffj_key_Data_Ext = []byte("ext")
+var ffjKeyDataExt = []byte("ext")
 
-func (uj *Data) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Data) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Data) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Database
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Data) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtDatabase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -160,7 +165,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Datano_such_key
+				currentKey = ffjtDatanosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -168,63 +173,63 @@ mainparse:
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Data_Ext, kn) {
-						currentKey = ffj_t_Data_Ext
+					if bytes.Equal(ffjKeyDataExt, kn) {
+						currentKey = ffjtDataExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Data_ID, kn) {
-						currentKey = ffj_t_Data_ID
+					if bytes.Equal(ffjKeyDataID, kn) {
+						currentKey = ffjtDataID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Data_Name, kn) {
-						currentKey = ffj_t_Data_Name
+					if bytes.Equal(ffjKeyDataName, kn) {
+						currentKey = ffjtDataName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_Data_Segment, kn) {
-						currentKey = ffj_t_Data_Segment
+					if bytes.Equal(ffjKeyDataSegment, kn) {
+						currentKey = ffjtDataSegment
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Data_Ext, kn) {
-					currentKey = ffj_t_Data_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyDataExt, kn) {
+					currentKey = ffjtDataExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Data_Segment, kn) {
-					currentKey = ffj_t_Data_Segment
+				if fflib.EqualFoldRight(ffjKeyDataSegment, kn) {
+					currentKey = ffjtDataSegment
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Data_Name, kn) {
-					currentKey = ffj_t_Data_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyDataName, kn) {
+					currentKey = ffjtDataName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Data_ID, kn) {
-					currentKey = ffj_t_Data_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyDataID, kn) {
+					currentKey = ffjtDataID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Datano_such_key
+				currentKey = ffjtDatanosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -241,19 +246,19 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Data_ID:
+				case ffjtDataID:
 					goto handle_ID
 
-				case ffj_t_Data_Name:
+				case ffjtDataName:
 					goto handle_Name
 
-				case ffj_t_Data_Segment:
+				case ffjtDataSegment:
 					goto handle_Segment
 
-				case ffj_t_Data_Ext:
+				case ffjtDataExt:
 					goto handle_Ext
 
-				case ffj_t_Datano_such_key:
+				case ffjtDatanosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -269,7 +274,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -285,7 +290,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -295,7 +300,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -311,7 +316,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -321,7 +326,7 @@ handle_Name:
 
 handle_Segment:
 
-	/* handler: uj.Segment type=[]openrtb.Segment kind=slice quoted=false*/
+	/* handler: j.Segment type=[]openrtb.Segment kind=slice quoted=false*/
 
 	{
 
@@ -332,16 +337,16 @@ handle_Segment:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Segment = nil
+			j.Segment = nil
 		} else {
 
-			uj.Segment = make([]Segment, 0)
+			j.Segment = []Segment{}
 
 			wantVal := true
 
 			for {
 
-				var v Segment
+				var tmpJSegment Segment
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -362,7 +367,7 @@ handle_Segment:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Segment kind=struct quoted=false*/
+				/* handler: tmpJSegment type=openrtb.Segment kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -371,14 +376,15 @@ handle_Segment:
 						goto mainparse
 					}
 
-					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = tmpJSegment.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Segment = append(uj.Segment, v)
+				j.Segment = append(j.Segment, tmpJSegment)
+
 				wantVal = false
 			}
 		}
@@ -389,7 +395,7 @@ handle_Segment:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -403,7 +409,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -427,23 +433,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Format) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Format) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Format) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Format) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -452,22 +462,22 @@ func (mj *Format) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if mj.W != 0 {
+	if j.W != 0 {
 		buf.WriteString(`"w":`)
-		fflib.FormatBits2(buf, uint64(mj.W), 10, mj.W < 0)
+		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
 		buf.WriteByte(',')
 	}
-	if mj.H != 0 {
+	if j.H != 0 {
 		buf.WriteString(`"h":`)
-		fflib.FormatBits2(buf, uint64(mj.H), 10, mj.H < 0)
+		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -482,30 +492,32 @@ func (mj *Format) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Formatbase = iota
-	ffj_t_Formatno_such_key
+	ffjtFormatbase = iota
+	ffjtFormatnosuchkey
 
-	ffj_t_Format_W
+	ffjtFormatW
 
-	ffj_t_Format_H
+	ffjtFormatH
 
-	ffj_t_Format_Ext
+	ffjtFormatExt
 )
 
-var ffj_key_Format_W = []byte("w")
+var ffjKeyFormatW = []byte("w")
 
-var ffj_key_Format_H = []byte("h")
+var ffjKeyFormatH = []byte("h")
 
-var ffj_key_Format_Ext = []byte("ext")
+var ffjKeyFormatExt = []byte("ext")
 
-func (uj *Format) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Format) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Format) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Formatbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Format) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtFormatbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -551,7 +563,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Formatno_such_key
+				currentKey = ffjtFormatnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -559,49 +571,49 @@ mainparse:
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Format_Ext, kn) {
-						currentKey = ffj_t_Format_Ext
+					if bytes.Equal(ffjKeyFormatExt, kn) {
+						currentKey = ffjtFormatExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'h':
 
-					if bytes.Equal(ffj_key_Format_H, kn) {
-						currentKey = ffj_t_Format_H
+					if bytes.Equal(ffjKeyFormatH, kn) {
+						currentKey = ffjtFormatH
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'w':
 
-					if bytes.Equal(ffj_key_Format_W, kn) {
-						currentKey = ffj_t_Format_W
+					if bytes.Equal(ffjKeyFormatW, kn) {
+						currentKey = ffjtFormatW
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Format_Ext, kn) {
-					currentKey = ffj_t_Format_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyFormatExt, kn) {
+					currentKey = ffjtFormatExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Format_H, kn) {
-					currentKey = ffj_t_Format_H
+				if fflib.SimpleLetterEqualFold(ffjKeyFormatH, kn) {
+					currentKey = ffjtFormatH
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Format_W, kn) {
-					currentKey = ffj_t_Format_W
+				if fflib.SimpleLetterEqualFold(ffjKeyFormatW, kn) {
+					currentKey = ffjtFormatW
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Formatno_such_key
+				currentKey = ffjtFormatnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -618,16 +630,16 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Format_W:
+				case ffjtFormatW:
 					goto handle_W
 
-				case ffj_t_Format_H:
+				case ffjtFormatH:
 					goto handle_H
 
-				case ffj_t_Format_Ext:
+				case ffjtFormatExt:
 					goto handle_Ext
 
-				case ffj_t_Formatno_such_key:
+				case ffjtFormatnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -643,7 +655,7 @@ mainparse:
 
 handle_W:
 
-	/* handler: uj.W type=int kind=int quoted=false*/
+	/* handler: j.W type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -663,7 +675,7 @@ handle_W:
 				return fs.WrapErr(err)
 			}
 
-			uj.W = int(tval)
+			j.W = int(tval)
 
 		}
 	}
@@ -673,7 +685,7 @@ handle_W:
 
 handle_H:
 
-	/* handler: uj.H type=int kind=int quoted=false*/
+	/* handler: j.H type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -693,7 +705,7 @@ handle_H:
 				return fs.WrapErr(err)
 			}
 
-			uj.H = int(tval)
+			j.H = int(tval)
 
 		}
 	}
@@ -703,7 +715,7 @@ handle_H:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -717,7 +729,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -741,23 +753,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Geo) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Geo) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -766,77 +782,77 @@ func (mj *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if mj.Lat != 0 {
+	if j.Lat != 0 {
 		buf.WriteString(`"lat":`)
-		fflib.AppendFloat(buf, float64(mj.Lat), 'g', -1, 64)
+		fflib.AppendFloat(buf, float64(j.Lat), 'g', -1, 64)
 		buf.WriteByte(',')
 	}
-	if mj.Lon != 0 {
+	if j.Lon != 0 {
 		buf.WriteString(`"lon":`)
-		fflib.AppendFloat(buf, float64(mj.Lon), 'g', -1, 64)
+		fflib.AppendFloat(buf, float64(j.Lon), 'g', -1, 64)
 		buf.WriteByte(',')
 	}
-	if mj.Type != 0 {
+	if j.Type != 0 {
 		buf.WriteString(`"type":`)
-		fflib.FormatBits2(buf, uint64(mj.Type), 10, mj.Type < 0)
+		fflib.FormatBits2(buf, uint64(j.Type), 10, j.Type < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Accuracy != 0 {
+	if j.Accuracy != 0 {
 		buf.WriteString(`"accuracy":`)
-		fflib.FormatBits2(buf, uint64(mj.Accuracy), 10, mj.Accuracy < 0)
+		fflib.FormatBits2(buf, uint64(j.Accuracy), 10, j.Accuracy < 0)
 		buf.WriteByte(',')
 	}
-	if mj.LastFix != 0 {
+	if j.LastFix != 0 {
 		buf.WriteString(`"lastfix":`)
-		fflib.FormatBits2(buf, uint64(mj.LastFix), 10, mj.LastFix < 0)
+		fflib.FormatBits2(buf, uint64(j.LastFix), 10, j.LastFix < 0)
 		buf.WriteByte(',')
 	}
-	if mj.IPService != 0 {
+	if j.IPService != 0 {
 		buf.WriteString(`"ipservice":`)
-		fflib.FormatBits2(buf, uint64(mj.IPService), 10, mj.IPService < 0)
+		fflib.FormatBits2(buf, uint64(j.IPService), 10, j.IPService < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Country) != 0 {
+	if len(j.Country) != 0 {
 		buf.WriteString(`"country":`)
-		fflib.WriteJsonString(buf, string(mj.Country))
+		fflib.WriteJsonString(buf, string(j.Country))
 		buf.WriteByte(',')
 	}
-	if len(mj.Region) != 0 {
+	if len(j.Region) != 0 {
 		buf.WriteString(`"region":`)
-		fflib.WriteJsonString(buf, string(mj.Region))
+		fflib.WriteJsonString(buf, string(j.Region))
 		buf.WriteByte(',')
 	}
-	if len(mj.RegionFIPS104) != 0 {
+	if len(j.RegionFIPS104) != 0 {
 		buf.WriteString(`"regionFIPS104":`)
-		fflib.WriteJsonString(buf, string(mj.RegionFIPS104))
+		fflib.WriteJsonString(buf, string(j.RegionFIPS104))
 		buf.WriteByte(',')
 	}
-	if len(mj.Metro) != 0 {
+	if len(j.Metro) != 0 {
 		buf.WriteString(`"metro":`)
-		fflib.WriteJsonString(buf, string(mj.Metro))
+		fflib.WriteJsonString(buf, string(j.Metro))
 		buf.WriteByte(',')
 	}
-	if len(mj.City) != 0 {
+	if len(j.City) != 0 {
 		buf.WriteString(`"city":`)
-		fflib.WriteJsonString(buf, string(mj.City))
+		fflib.WriteJsonString(buf, string(j.City))
 		buf.WriteByte(',')
 	}
-	if len(mj.Zip) != 0 {
+	if len(j.Zip) != 0 {
 		buf.WriteString(`"zip":`)
-		fflib.WriteJsonString(buf, string(mj.Zip))
+		fflib.WriteJsonString(buf, string(j.Zip))
 		buf.WriteByte(',')
 	}
-	if mj.UTCOffset != 0 {
+	if j.UTCOffset != 0 {
 		buf.WriteString(`"utcoffset":`)
-		fflib.FormatBits2(buf, uint64(mj.UTCOffset), 10, mj.UTCOffset < 0)
+		fflib.FormatBits2(buf, uint64(j.UTCOffset), 10, j.UTCOffset < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -851,74 +867,76 @@ func (mj *Geo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Geobase = iota
-	ffj_t_Geono_such_key
+	ffjtGeobase = iota
+	ffjtGeonosuchkey
 
-	ffj_t_Geo_Lat
+	ffjtGeoLat
 
-	ffj_t_Geo_Lon
+	ffjtGeoLon
 
-	ffj_t_Geo_Type
+	ffjtGeoType
 
-	ffj_t_Geo_Accuracy
+	ffjtGeoAccuracy
 
-	ffj_t_Geo_LastFix
+	ffjtGeoLastFix
 
-	ffj_t_Geo_IPService
+	ffjtGeoIPService
 
-	ffj_t_Geo_Country
+	ffjtGeoCountry
 
-	ffj_t_Geo_Region
+	ffjtGeoRegion
 
-	ffj_t_Geo_RegionFIPS104
+	ffjtGeoRegionFIPS104
 
-	ffj_t_Geo_Metro
+	ffjtGeoMetro
 
-	ffj_t_Geo_City
+	ffjtGeoCity
 
-	ffj_t_Geo_Zip
+	ffjtGeoZip
 
-	ffj_t_Geo_UTCOffset
+	ffjtGeoUTCOffset
 
-	ffj_t_Geo_Ext
+	ffjtGeoExt
 )
 
-var ffj_key_Geo_Lat = []byte("lat")
+var ffjKeyGeoLat = []byte("lat")
 
-var ffj_key_Geo_Lon = []byte("lon")
+var ffjKeyGeoLon = []byte("lon")
 
-var ffj_key_Geo_Type = []byte("type")
+var ffjKeyGeoType = []byte("type")
 
-var ffj_key_Geo_Accuracy = []byte("accuracy")
+var ffjKeyGeoAccuracy = []byte("accuracy")
 
-var ffj_key_Geo_LastFix = []byte("lastfix")
+var ffjKeyGeoLastFix = []byte("lastfix")
 
-var ffj_key_Geo_IPService = []byte("ipservice")
+var ffjKeyGeoIPService = []byte("ipservice")
 
-var ffj_key_Geo_Country = []byte("country")
+var ffjKeyGeoCountry = []byte("country")
 
-var ffj_key_Geo_Region = []byte("region")
+var ffjKeyGeoRegion = []byte("region")
 
-var ffj_key_Geo_RegionFIPS104 = []byte("regionFIPS104")
+var ffjKeyGeoRegionFIPS104 = []byte("regionFIPS104")
 
-var ffj_key_Geo_Metro = []byte("metro")
+var ffjKeyGeoMetro = []byte("metro")
 
-var ffj_key_Geo_City = []byte("city")
+var ffjKeyGeoCity = []byte("city")
 
-var ffj_key_Geo_Zip = []byte("zip")
+var ffjKeyGeoZip = []byte("zip")
 
-var ffj_key_Geo_UTCOffset = []byte("utcoffset")
+var ffjKeyGeoUTCOffset = []byte("utcoffset")
 
-var ffj_key_Geo_Ext = []byte("ext")
+var ffjKeyGeoExt = []byte("ext")
 
-func (uj *Geo) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Geo) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Geo) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Geobase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Geo) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtGeobase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -964,7 +982,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Geono_such_key
+				currentKey = ffjtGeonosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -972,191 +990,191 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Geo_Accuracy, kn) {
-						currentKey = ffj_t_Geo_Accuracy
+					if bytes.Equal(ffjKeyGeoAccuracy, kn) {
+						currentKey = ffjtGeoAccuracy
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Geo_Country, kn) {
-						currentKey = ffj_t_Geo_Country
+					if bytes.Equal(ffjKeyGeoCountry, kn) {
+						currentKey = ffjtGeoCountry
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Geo_City, kn) {
-						currentKey = ffj_t_Geo_City
+					} else if bytes.Equal(ffjKeyGeoCity, kn) {
+						currentKey = ffjtGeoCity
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Geo_Ext, kn) {
-						currentKey = ffj_t_Geo_Ext
+					if bytes.Equal(ffjKeyGeoExt, kn) {
+						currentKey = ffjtGeoExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Geo_IPService, kn) {
-						currentKey = ffj_t_Geo_IPService
+					if bytes.Equal(ffjKeyGeoIPService, kn) {
+						currentKey = ffjtGeoIPService
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'l':
 
-					if bytes.Equal(ffj_key_Geo_Lat, kn) {
-						currentKey = ffj_t_Geo_Lat
+					if bytes.Equal(ffjKeyGeoLat, kn) {
+						currentKey = ffjtGeoLat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Geo_Lon, kn) {
-						currentKey = ffj_t_Geo_Lon
+					} else if bytes.Equal(ffjKeyGeoLon, kn) {
+						currentKey = ffjtGeoLon
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Geo_LastFix, kn) {
-						currentKey = ffj_t_Geo_LastFix
+					} else if bytes.Equal(ffjKeyGeoLastFix, kn) {
+						currentKey = ffjtGeoLastFix
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'm':
 
-					if bytes.Equal(ffj_key_Geo_Metro, kn) {
-						currentKey = ffj_t_Geo_Metro
+					if bytes.Equal(ffjKeyGeoMetro, kn) {
+						currentKey = ffjtGeoMetro
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'r':
 
-					if bytes.Equal(ffj_key_Geo_Region, kn) {
-						currentKey = ffj_t_Geo_Region
+					if bytes.Equal(ffjKeyGeoRegion, kn) {
+						currentKey = ffjtGeoRegion
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Geo_RegionFIPS104, kn) {
-						currentKey = ffj_t_Geo_RegionFIPS104
+					} else if bytes.Equal(ffjKeyGeoRegionFIPS104, kn) {
+						currentKey = ffjtGeoRegionFIPS104
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_Geo_Type, kn) {
-						currentKey = ffj_t_Geo_Type
+					if bytes.Equal(ffjKeyGeoType, kn) {
+						currentKey = ffjtGeoType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'u':
 
-					if bytes.Equal(ffj_key_Geo_UTCOffset, kn) {
-						currentKey = ffj_t_Geo_UTCOffset
+					if bytes.Equal(ffjKeyGeoUTCOffset, kn) {
+						currentKey = ffjtGeoUTCOffset
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'z':
 
-					if bytes.Equal(ffj_key_Geo_Zip, kn) {
-						currentKey = ffj_t_Geo_Zip
+					if bytes.Equal(ffjKeyGeoZip, kn) {
+						currentKey = ffjtGeoZip
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Ext, kn) {
-					currentKey = ffj_t_Geo_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoExt, kn) {
+					currentKey = ffjtGeoExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Geo_UTCOffset, kn) {
-					currentKey = ffj_t_Geo_UTCOffset
+				if fflib.EqualFoldRight(ffjKeyGeoUTCOffset, kn) {
+					currentKey = ffjtGeoUTCOffset
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Zip, kn) {
-					currentKey = ffj_t_Geo_Zip
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoZip, kn) {
+					currentKey = ffjtGeoZip
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_City, kn) {
-					currentKey = ffj_t_Geo_City
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoCity, kn) {
+					currentKey = ffjtGeoCity
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Metro, kn) {
-					currentKey = ffj_t_Geo_Metro
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoMetro, kn) {
+					currentKey = ffjtGeoMetro
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Geo_RegionFIPS104, kn) {
-					currentKey = ffj_t_Geo_RegionFIPS104
+				if fflib.EqualFoldRight(ffjKeyGeoRegionFIPS104, kn) {
+					currentKey = ffjtGeoRegionFIPS104
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Region, kn) {
-					currentKey = ffj_t_Geo_Region
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoRegion, kn) {
+					currentKey = ffjtGeoRegion
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Country, kn) {
-					currentKey = ffj_t_Geo_Country
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoCountry, kn) {
+					currentKey = ffjtGeoCountry
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Geo_IPService, kn) {
-					currentKey = ffj_t_Geo_IPService
+				if fflib.EqualFoldRight(ffjKeyGeoIPService, kn) {
+					currentKey = ffjtGeoIPService
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Geo_LastFix, kn) {
-					currentKey = ffj_t_Geo_LastFix
+				if fflib.EqualFoldRight(ffjKeyGeoLastFix, kn) {
+					currentKey = ffjtGeoLastFix
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Accuracy, kn) {
-					currentKey = ffj_t_Geo_Accuracy
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoAccuracy, kn) {
+					currentKey = ffjtGeoAccuracy
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Type, kn) {
-					currentKey = ffj_t_Geo_Type
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoType, kn) {
+					currentKey = ffjtGeoType
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Lon, kn) {
-					currentKey = ffj_t_Geo_Lon
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoLon, kn) {
+					currentKey = ffjtGeoLon
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Geo_Lat, kn) {
-					currentKey = ffj_t_Geo_Lat
+				if fflib.SimpleLetterEqualFold(ffjKeyGeoLat, kn) {
+					currentKey = ffjtGeoLat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Geono_such_key
+				currentKey = ffjtGeonosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -1173,49 +1191,49 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Geo_Lat:
+				case ffjtGeoLat:
 					goto handle_Lat
 
-				case ffj_t_Geo_Lon:
+				case ffjtGeoLon:
 					goto handle_Lon
 
-				case ffj_t_Geo_Type:
+				case ffjtGeoType:
 					goto handle_Type
 
-				case ffj_t_Geo_Accuracy:
+				case ffjtGeoAccuracy:
 					goto handle_Accuracy
 
-				case ffj_t_Geo_LastFix:
+				case ffjtGeoLastFix:
 					goto handle_LastFix
 
-				case ffj_t_Geo_IPService:
+				case ffjtGeoIPService:
 					goto handle_IPService
 
-				case ffj_t_Geo_Country:
+				case ffjtGeoCountry:
 					goto handle_Country
 
-				case ffj_t_Geo_Region:
+				case ffjtGeoRegion:
 					goto handle_Region
 
-				case ffj_t_Geo_RegionFIPS104:
+				case ffjtGeoRegionFIPS104:
 					goto handle_RegionFIPS104
 
-				case ffj_t_Geo_Metro:
+				case ffjtGeoMetro:
 					goto handle_Metro
 
-				case ffj_t_Geo_City:
+				case ffjtGeoCity:
 					goto handle_City
 
-				case ffj_t_Geo_Zip:
+				case ffjtGeoZip:
 					goto handle_Zip
 
-				case ffj_t_Geo_UTCOffset:
+				case ffjtGeoUTCOffset:
 					goto handle_UTCOffset
 
-				case ffj_t_Geo_Ext:
+				case ffjtGeoExt:
 					goto handle_Ext
 
-				case ffj_t_Geono_such_key:
+				case ffjtGeonosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -1231,7 +1249,7 @@ mainparse:
 
 handle_Lat:
 
-	/* handler: uj.Lat type=float64 kind=float64 quoted=false*/
+	/* handler: j.Lat type=float64 kind=float64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1251,7 +1269,7 @@ handle_Lat:
 				return fs.WrapErr(err)
 			}
 
-			uj.Lat = float64(tval)
+			j.Lat = float64(tval)
 
 		}
 	}
@@ -1261,7 +1279,7 @@ handle_Lat:
 
 handle_Lon:
 
-	/* handler: uj.Lon type=float64 kind=float64 quoted=false*/
+	/* handler: j.Lon type=float64 kind=float64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1281,7 +1299,7 @@ handle_Lon:
 				return fs.WrapErr(err)
 			}
 
-			uj.Lon = float64(tval)
+			j.Lon = float64(tval)
 
 		}
 	}
@@ -1291,7 +1309,7 @@ handle_Lon:
 
 handle_Type:
 
-	/* handler: uj.Type type=int kind=int quoted=false*/
+	/* handler: j.Type type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1311,7 +1329,7 @@ handle_Type:
 				return fs.WrapErr(err)
 			}
 
-			uj.Type = int(tval)
+			j.Type = int(tval)
 
 		}
 	}
@@ -1321,7 +1339,7 @@ handle_Type:
 
 handle_Accuracy:
 
-	/* handler: uj.Accuracy type=int kind=int quoted=false*/
+	/* handler: j.Accuracy type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1341,7 +1359,7 @@ handle_Accuracy:
 				return fs.WrapErr(err)
 			}
 
-			uj.Accuracy = int(tval)
+			j.Accuracy = int(tval)
 
 		}
 	}
@@ -1351,7 +1369,7 @@ handle_Accuracy:
 
 handle_LastFix:
 
-	/* handler: uj.LastFix type=int kind=int quoted=false*/
+	/* handler: j.LastFix type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1371,7 +1389,7 @@ handle_LastFix:
 				return fs.WrapErr(err)
 			}
 
-			uj.LastFix = int(tval)
+			j.LastFix = int(tval)
 
 		}
 	}
@@ -1381,7 +1399,7 @@ handle_LastFix:
 
 handle_IPService:
 
-	/* handler: uj.IPService type=int kind=int quoted=false*/
+	/* handler: j.IPService type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1401,7 +1419,7 @@ handle_IPService:
 				return fs.WrapErr(err)
 			}
 
-			uj.IPService = int(tval)
+			j.IPService = int(tval)
 
 		}
 	}
@@ -1411,7 +1429,7 @@ handle_IPService:
 
 handle_Country:
 
-	/* handler: uj.Country type=string kind=string quoted=false*/
+	/* handler: j.Country type=string kind=string quoted=false*/
 
 	{
 
@@ -1427,7 +1445,7 @@ handle_Country:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Country = string(string(outBuf))
+			j.Country = string(string(outBuf))
 
 		}
 	}
@@ -1437,7 +1455,7 @@ handle_Country:
 
 handle_Region:
 
-	/* handler: uj.Region type=string kind=string quoted=false*/
+	/* handler: j.Region type=string kind=string quoted=false*/
 
 	{
 
@@ -1453,7 +1471,7 @@ handle_Region:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Region = string(string(outBuf))
+			j.Region = string(string(outBuf))
 
 		}
 	}
@@ -1463,7 +1481,7 @@ handle_Region:
 
 handle_RegionFIPS104:
 
-	/* handler: uj.RegionFIPS104 type=string kind=string quoted=false*/
+	/* handler: j.RegionFIPS104 type=string kind=string quoted=false*/
 
 	{
 
@@ -1479,7 +1497,7 @@ handle_RegionFIPS104:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.RegionFIPS104 = string(string(outBuf))
+			j.RegionFIPS104 = string(string(outBuf))
 
 		}
 	}
@@ -1489,7 +1507,7 @@ handle_RegionFIPS104:
 
 handle_Metro:
 
-	/* handler: uj.Metro type=string kind=string quoted=false*/
+	/* handler: j.Metro type=string kind=string quoted=false*/
 
 	{
 
@@ -1505,7 +1523,7 @@ handle_Metro:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Metro = string(string(outBuf))
+			j.Metro = string(string(outBuf))
 
 		}
 	}
@@ -1515,7 +1533,7 @@ handle_Metro:
 
 handle_City:
 
-	/* handler: uj.City type=string kind=string quoted=false*/
+	/* handler: j.City type=string kind=string quoted=false*/
 
 	{
 
@@ -1531,7 +1549,7 @@ handle_City:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.City = string(string(outBuf))
+			j.City = string(string(outBuf))
 
 		}
 	}
@@ -1541,7 +1559,7 @@ handle_City:
 
 handle_Zip:
 
-	/* handler: uj.Zip type=string kind=string quoted=false*/
+	/* handler: j.Zip type=string kind=string quoted=false*/
 
 	{
 
@@ -1557,7 +1575,7 @@ handle_Zip:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Zip = string(string(outBuf))
+			j.Zip = string(string(outBuf))
 
 		}
 	}
@@ -1567,7 +1585,7 @@ handle_Zip:
 
 handle_UTCOffset:
 
-	/* handler: uj.UTCOffset type=int kind=int quoted=false*/
+	/* handler: j.UTCOffset type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1587,7 +1605,7 @@ handle_UTCOffset:
 				return fs.WrapErr(err)
 			}
 
-			uj.UTCOffset = int(tval)
+			j.UTCOffset = int(tval)
 
 		}
 	}
@@ -1597,7 +1615,7 @@ handle_UTCOffset:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1611,7 +1629,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1635,23 +1653,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Producer) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Producer) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -1660,21 +1682,21 @@ func (mj *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -1686,17 +1708,17 @@ func (mj *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -1711,38 +1733,40 @@ func (mj *Producer) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Producerbase = iota
-	ffj_t_Producerno_such_key
+	ffjtProducerbase = iota
+	ffjtProducernosuchkey
 
-	ffj_t_Producer_ID
+	ffjtProducerID
 
-	ffj_t_Producer_Name
+	ffjtProducerName
 
-	ffj_t_Producer_Cat
+	ffjtProducerCat
 
-	ffj_t_Producer_Domain
+	ffjtProducerDomain
 
-	ffj_t_Producer_Ext
+	ffjtProducerExt
 )
 
-var ffj_key_Producer_ID = []byte("id")
+var ffjKeyProducerID = []byte("id")
 
-var ffj_key_Producer_Name = []byte("name")
+var ffjKeyProducerName = []byte("name")
 
-var ffj_key_Producer_Cat = []byte("cat")
+var ffjKeyProducerCat = []byte("cat")
 
-var ffj_key_Producer_Domain = []byte("domain")
+var ffjKeyProducerDomain = []byte("domain")
 
-var ffj_key_Producer_Ext = []byte("ext")
+var ffjKeyProducerExt = []byte("ext")
 
-func (uj *Producer) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Producer) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Producer) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Producerbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Producer) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtProducerbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -1788,7 +1812,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Producerno_such_key
+				currentKey = ffjtProducernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -1796,77 +1820,77 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Producer_Cat, kn) {
-						currentKey = ffj_t_Producer_Cat
+					if bytes.Equal(ffjKeyProducerCat, kn) {
+						currentKey = ffjtProducerCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Producer_Domain, kn) {
-						currentKey = ffj_t_Producer_Domain
+					if bytes.Equal(ffjKeyProducerDomain, kn) {
+						currentKey = ffjtProducerDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Producer_Ext, kn) {
-						currentKey = ffj_t_Producer_Ext
+					if bytes.Equal(ffjKeyProducerExt, kn) {
+						currentKey = ffjtProducerExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Producer_ID, kn) {
-						currentKey = ffj_t_Producer_ID
+					if bytes.Equal(ffjKeyProducerID, kn) {
+						currentKey = ffjtProducerID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Producer_Name, kn) {
-						currentKey = ffj_t_Producer_Name
+					if bytes.Equal(ffjKeyProducerName, kn) {
+						currentKey = ffjtProducerName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Producer_Ext, kn) {
-					currentKey = ffj_t_Producer_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyProducerExt, kn) {
+					currentKey = ffjtProducerExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Producer_Domain, kn) {
-					currentKey = ffj_t_Producer_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeyProducerDomain, kn) {
+					currentKey = ffjtProducerDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Producer_Cat, kn) {
-					currentKey = ffj_t_Producer_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyProducerCat, kn) {
+					currentKey = ffjtProducerCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Producer_Name, kn) {
-					currentKey = ffj_t_Producer_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyProducerName, kn) {
+					currentKey = ffjtProducerName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Producer_ID, kn) {
-					currentKey = ffj_t_Producer_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyProducerID, kn) {
+					currentKey = ffjtProducerID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Producerno_such_key
+				currentKey = ffjtProducernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -1883,22 +1907,22 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Producer_ID:
+				case ffjtProducerID:
 					goto handle_ID
 
-				case ffj_t_Producer_Name:
+				case ffjtProducerName:
 					goto handle_Name
 
-				case ffj_t_Producer_Cat:
+				case ffjtProducerCat:
 					goto handle_Cat
 
-				case ffj_t_Producer_Domain:
+				case ffjtProducerDomain:
 					goto handle_Domain
 
-				case ffj_t_Producer_Ext:
+				case ffjtProducerExt:
 					goto handle_Ext
 
-				case ffj_t_Producerno_such_key:
+				case ffjtProducernosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -1914,7 +1938,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -1930,7 +1954,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -1940,7 +1964,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -1956,7 +1980,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -1966,7 +1990,7 @@ handle_Name:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1977,16 +2001,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2007,7 +2031,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -2023,12 +2047,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -2039,7 +2064,7 @@ handle_Cat:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -2055,7 +2080,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -2065,7 +2090,7 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -2079,7 +2104,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -2103,23 +2128,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Publisher) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Publisher) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -2128,21 +2157,21 @@ func (mj *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -2154,17 +2183,17 @@ func (mj *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -2179,38 +2208,40 @@ func (mj *Publisher) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Publisherbase = iota
-	ffj_t_Publisherno_such_key
+	ffjtPublisherbase = iota
+	ffjtPublishernosuchkey
 
-	ffj_t_Publisher_ID
+	ffjtPublisherID
 
-	ffj_t_Publisher_Name
+	ffjtPublisherName
 
-	ffj_t_Publisher_Cat
+	ffjtPublisherCat
 
-	ffj_t_Publisher_Domain
+	ffjtPublisherDomain
 
-	ffj_t_Publisher_Ext
+	ffjtPublisherExt
 )
 
-var ffj_key_Publisher_ID = []byte("id")
+var ffjKeyPublisherID = []byte("id")
 
-var ffj_key_Publisher_Name = []byte("name")
+var ffjKeyPublisherName = []byte("name")
 
-var ffj_key_Publisher_Cat = []byte("cat")
+var ffjKeyPublisherCat = []byte("cat")
 
-var ffj_key_Publisher_Domain = []byte("domain")
+var ffjKeyPublisherDomain = []byte("domain")
 
-var ffj_key_Publisher_Ext = []byte("ext")
+var ffjKeyPublisherExt = []byte("ext")
 
-func (uj *Publisher) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Publisher) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Publisher) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Publisherbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Publisher) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtPublisherbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -2256,7 +2287,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Publisherno_such_key
+				currentKey = ffjtPublishernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -2264,77 +2295,77 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Publisher_Cat, kn) {
-						currentKey = ffj_t_Publisher_Cat
+					if bytes.Equal(ffjKeyPublisherCat, kn) {
+						currentKey = ffjtPublisherCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Publisher_Domain, kn) {
-						currentKey = ffj_t_Publisher_Domain
+					if bytes.Equal(ffjKeyPublisherDomain, kn) {
+						currentKey = ffjtPublisherDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Publisher_Ext, kn) {
-						currentKey = ffj_t_Publisher_Ext
+					if bytes.Equal(ffjKeyPublisherExt, kn) {
+						currentKey = ffjtPublisherExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Publisher_ID, kn) {
-						currentKey = ffj_t_Publisher_ID
+					if bytes.Equal(ffjKeyPublisherID, kn) {
+						currentKey = ffjtPublisherID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Publisher_Name, kn) {
-						currentKey = ffj_t_Publisher_Name
+					if bytes.Equal(ffjKeyPublisherName, kn) {
+						currentKey = ffjtPublisherName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Publisher_Ext, kn) {
-					currentKey = ffj_t_Publisher_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyPublisherExt, kn) {
+					currentKey = ffjtPublisherExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Publisher_Domain, kn) {
-					currentKey = ffj_t_Publisher_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeyPublisherDomain, kn) {
+					currentKey = ffjtPublisherDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Publisher_Cat, kn) {
-					currentKey = ffj_t_Publisher_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyPublisherCat, kn) {
+					currentKey = ffjtPublisherCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Publisher_Name, kn) {
-					currentKey = ffj_t_Publisher_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyPublisherName, kn) {
+					currentKey = ffjtPublisherName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Publisher_ID, kn) {
-					currentKey = ffj_t_Publisher_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyPublisherID, kn) {
+					currentKey = ffjtPublisherID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Publisherno_such_key
+				currentKey = ffjtPublishernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -2351,22 +2382,22 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Publisher_ID:
+				case ffjtPublisherID:
 					goto handle_ID
 
-				case ffj_t_Publisher_Name:
+				case ffjtPublisherName:
 					goto handle_Name
 
-				case ffj_t_Publisher_Cat:
+				case ffjtPublisherCat:
 					goto handle_Cat
 
-				case ffj_t_Publisher_Domain:
+				case ffjtPublisherDomain:
 					goto handle_Domain
 
-				case ffj_t_Publisher_Ext:
+				case ffjtPublisherExt:
 					goto handle_Ext
 
-				case ffj_t_Publisherno_such_key:
+				case ffjtPublishernosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -2382,7 +2413,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -2398,7 +2429,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -2408,7 +2439,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -2424,7 +2455,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -2434,7 +2465,7 @@ handle_Name:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -2445,16 +2476,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2475,7 +2506,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -2491,12 +2522,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -2507,7 +2539,7 @@ handle_Cat:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -2523,7 +2555,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -2533,7 +2565,7 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -2547,7 +2579,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -2571,23 +2603,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Regulations) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Regulations) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Regulations) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Regulations) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -2596,17 +2632,17 @@ func (mj *Regulations) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if mj.Coppa != 0 {
+	if j.Coppa != 0 {
 		buf.WriteString(`"coppa":`)
-		fflib.FormatBits2(buf, uint64(mj.Coppa), 10, mj.Coppa < 0)
+		fflib.FormatBits2(buf, uint64(j.Coppa), 10, j.Coppa < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -2621,26 +2657,28 @@ func (mj *Regulations) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Regulationsbase = iota
-	ffj_t_Regulationsno_such_key
+	ffjtRegulationsbase = iota
+	ffjtRegulationsnosuchkey
 
-	ffj_t_Regulations_Coppa
+	ffjtRegulationsCoppa
 
-	ffj_t_Regulations_Ext
+	ffjtRegulationsExt
 )
 
-var ffj_key_Regulations_Coppa = []byte("coppa")
+var ffjKeyRegulationsCoppa = []byte("coppa")
 
-var ffj_key_Regulations_Ext = []byte("ext")
+var ffjKeyRegulationsExt = []byte("ext")
 
-func (uj *Regulations) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Regulations) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Regulations) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Regulationsbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Regulations) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtRegulationsbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -2686,7 +2724,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Regulationsno_such_key
+				currentKey = ffjtRegulationsnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -2694,35 +2732,35 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Regulations_Coppa, kn) {
-						currentKey = ffj_t_Regulations_Coppa
+					if bytes.Equal(ffjKeyRegulationsCoppa, kn) {
+						currentKey = ffjtRegulationsCoppa
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Regulations_Ext, kn) {
-						currentKey = ffj_t_Regulations_Ext
+					if bytes.Equal(ffjKeyRegulationsExt, kn) {
+						currentKey = ffjtRegulationsExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Regulations_Ext, kn) {
-					currentKey = ffj_t_Regulations_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyRegulationsExt, kn) {
+					currentKey = ffjtRegulationsExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Regulations_Coppa, kn) {
-					currentKey = ffj_t_Regulations_Coppa
+				if fflib.SimpleLetterEqualFold(ffjKeyRegulationsCoppa, kn) {
+					currentKey = ffjtRegulationsCoppa
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Regulationsno_such_key
+				currentKey = ffjtRegulationsnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -2739,13 +2777,13 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Regulations_Coppa:
+				case ffjtRegulationsCoppa:
 					goto handle_Coppa
 
-				case ffj_t_Regulations_Ext:
+				case ffjtRegulationsExt:
 					goto handle_Ext
 
-				case ffj_t_Regulationsno_such_key:
+				case ffjtRegulationsnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -2761,7 +2799,7 @@ mainparse:
 
 handle_Coppa:
 
-	/* handler: uj.Coppa type=int kind=int quoted=false*/
+	/* handler: j.Coppa type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -2781,7 +2819,7 @@ handle_Coppa:
 				return fs.WrapErr(err)
 			}
 
-			uj.Coppa = int(tval)
+			j.Coppa = int(tval)
 
 		}
 	}
@@ -2791,7 +2829,7 @@ handle_Coppa:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -2805,7 +2843,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -2829,23 +2867,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Segment) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Segment) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Segment) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Segment) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -2854,27 +2896,27 @@ func (mj *Segment) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Value) != 0 {
+	if len(j.Value) != 0 {
 		buf.WriteString(`"value":`)
-		fflib.WriteJsonString(buf, string(mj.Value))
+		fflib.WriteJsonString(buf, string(j.Value))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -2889,34 +2931,36 @@ func (mj *Segment) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Segmentbase = iota
-	ffj_t_Segmentno_such_key
+	ffjtSegmentbase = iota
+	ffjtSegmentnosuchkey
 
-	ffj_t_Segment_ID
+	ffjtSegmentID
 
-	ffj_t_Segment_Name
+	ffjtSegmentName
 
-	ffj_t_Segment_Value
+	ffjtSegmentValue
 
-	ffj_t_Segment_Ext
+	ffjtSegmentExt
 )
 
-var ffj_key_Segment_ID = []byte("id")
+var ffjKeySegmentID = []byte("id")
 
-var ffj_key_Segment_Name = []byte("name")
+var ffjKeySegmentName = []byte("name")
 
-var ffj_key_Segment_Value = []byte("value")
+var ffjKeySegmentValue = []byte("value")
 
-var ffj_key_Segment_Ext = []byte("ext")
+var ffjKeySegmentExt = []byte("ext")
 
-func (uj *Segment) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Segment) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Segment) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Segmentbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Segment) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtSegmentbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -2962,7 +3006,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Segmentno_such_key
+				currentKey = ffjtSegmentnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -2970,63 +3014,63 @@ mainparse:
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Segment_Ext, kn) {
-						currentKey = ffj_t_Segment_Ext
+					if bytes.Equal(ffjKeySegmentExt, kn) {
+						currentKey = ffjtSegmentExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Segment_ID, kn) {
-						currentKey = ffj_t_Segment_ID
+					if bytes.Equal(ffjKeySegmentID, kn) {
+						currentKey = ffjtSegmentID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Segment_Name, kn) {
-						currentKey = ffj_t_Segment_Name
+					if bytes.Equal(ffjKeySegmentName, kn) {
+						currentKey = ffjtSegmentName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_Segment_Value, kn) {
-						currentKey = ffj_t_Segment_Value
+					if bytes.Equal(ffjKeySegmentValue, kn) {
+						currentKey = ffjtSegmentValue
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Segment_Ext, kn) {
-					currentKey = ffj_t_Segment_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeySegmentExt, kn) {
+					currentKey = ffjtSegmentExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Segment_Value, kn) {
-					currentKey = ffj_t_Segment_Value
+				if fflib.SimpleLetterEqualFold(ffjKeySegmentValue, kn) {
+					currentKey = ffjtSegmentValue
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Segment_Name, kn) {
-					currentKey = ffj_t_Segment_Name
+				if fflib.SimpleLetterEqualFold(ffjKeySegmentName, kn) {
+					currentKey = ffjtSegmentName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Segment_ID, kn) {
-					currentKey = ffj_t_Segment_ID
+				if fflib.SimpleLetterEqualFold(ffjKeySegmentID, kn) {
+					currentKey = ffjtSegmentID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Segmentno_such_key
+				currentKey = ffjtSegmentnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -3043,19 +3087,19 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Segment_ID:
+				case ffjtSegmentID:
 					goto handle_ID
 
-				case ffj_t_Segment_Name:
+				case ffjtSegmentName:
 					goto handle_Name
 
-				case ffj_t_Segment_Value:
+				case ffjtSegmentValue:
 					goto handle_Value
 
-				case ffj_t_Segment_Ext:
+				case ffjtSegmentExt:
 					goto handle_Ext
 
-				case ffj_t_Segmentno_such_key:
+				case ffjtSegmentnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -3071,7 +3115,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -3087,7 +3131,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -3097,7 +3141,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -3113,7 +3157,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -3123,7 +3167,7 @@ handle_Name:
 
 handle_Value:
 
-	/* handler: uj.Value type=string kind=string quoted=false*/
+	/* handler: j.Value type=string kind=string quoted=false*/
 
 	{
 
@@ -3139,7 +3183,7 @@ handle_Value:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Value = string(string(outBuf))
+			j.Value = string(string(outBuf))
 
 		}
 	}
@@ -3149,7 +3193,7 @@ handle_Value:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -3163,7 +3207,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -3187,23 +3231,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *ThirdParty) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *ThirdParty) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -3212,21 +3260,21 @@ func (mj *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -3238,17 +3286,17 @@ func (mj *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -3263,38 +3311,40 @@ func (mj *ThirdParty) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_ThirdPartybase = iota
-	ffj_t_ThirdPartyno_such_key
+	ffjtThirdPartybase = iota
+	ffjtThirdPartynosuchkey
 
-	ffj_t_ThirdParty_ID
+	ffjtThirdPartyID
 
-	ffj_t_ThirdParty_Name
+	ffjtThirdPartyName
 
-	ffj_t_ThirdParty_Cat
+	ffjtThirdPartyCat
 
-	ffj_t_ThirdParty_Domain
+	ffjtThirdPartyDomain
 
-	ffj_t_ThirdParty_Ext
+	ffjtThirdPartyExt
 )
 
-var ffj_key_ThirdParty_ID = []byte("id")
+var ffjKeyThirdPartyID = []byte("id")
 
-var ffj_key_ThirdParty_Name = []byte("name")
+var ffjKeyThirdPartyName = []byte("name")
 
-var ffj_key_ThirdParty_Cat = []byte("cat")
+var ffjKeyThirdPartyCat = []byte("cat")
 
-var ffj_key_ThirdParty_Domain = []byte("domain")
+var ffjKeyThirdPartyDomain = []byte("domain")
 
-var ffj_key_ThirdParty_Ext = []byte("ext")
+var ffjKeyThirdPartyExt = []byte("ext")
 
-func (uj *ThirdParty) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *ThirdParty) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *ThirdParty) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_ThirdPartybase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *ThirdParty) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtThirdPartybase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -3340,7 +3390,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_ThirdPartyno_such_key
+				currentKey = ffjtThirdPartynosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -3348,77 +3398,77 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_ThirdParty_Cat, kn) {
-						currentKey = ffj_t_ThirdParty_Cat
+					if bytes.Equal(ffjKeyThirdPartyCat, kn) {
+						currentKey = ffjtThirdPartyCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_ThirdParty_Domain, kn) {
-						currentKey = ffj_t_ThirdParty_Domain
+					if bytes.Equal(ffjKeyThirdPartyDomain, kn) {
+						currentKey = ffjtThirdPartyDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_ThirdParty_Ext, kn) {
-						currentKey = ffj_t_ThirdParty_Ext
+					if bytes.Equal(ffjKeyThirdPartyExt, kn) {
+						currentKey = ffjtThirdPartyExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_ThirdParty_ID, kn) {
-						currentKey = ffj_t_ThirdParty_ID
+					if bytes.Equal(ffjKeyThirdPartyID, kn) {
+						currentKey = ffjtThirdPartyID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_ThirdParty_Name, kn) {
-						currentKey = ffj_t_ThirdParty_Name
+					if bytes.Equal(ffjKeyThirdPartyName, kn) {
+						currentKey = ffjtThirdPartyName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_ThirdParty_Ext, kn) {
-					currentKey = ffj_t_ThirdParty_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyThirdPartyExt, kn) {
+					currentKey = ffjtThirdPartyExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_ThirdParty_Domain, kn) {
-					currentKey = ffj_t_ThirdParty_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeyThirdPartyDomain, kn) {
+					currentKey = ffjtThirdPartyDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_ThirdParty_Cat, kn) {
-					currentKey = ffj_t_ThirdParty_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyThirdPartyCat, kn) {
+					currentKey = ffjtThirdPartyCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_ThirdParty_Name, kn) {
-					currentKey = ffj_t_ThirdParty_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyThirdPartyName, kn) {
+					currentKey = ffjtThirdPartyName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_ThirdParty_ID, kn) {
-					currentKey = ffj_t_ThirdParty_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyThirdPartyID, kn) {
+					currentKey = ffjtThirdPartyID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_ThirdPartyno_such_key
+				currentKey = ffjtThirdPartynosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -3435,22 +3485,22 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_ThirdParty_ID:
+				case ffjtThirdPartyID:
 					goto handle_ID
 
-				case ffj_t_ThirdParty_Name:
+				case ffjtThirdPartyName:
 					goto handle_Name
 
-				case ffj_t_ThirdParty_Cat:
+				case ffjtThirdPartyCat:
 					goto handle_Cat
 
-				case ffj_t_ThirdParty_Domain:
+				case ffjtThirdPartyDomain:
 					goto handle_Domain
 
-				case ffj_t_ThirdParty_Ext:
+				case ffjtThirdPartyExt:
 					goto handle_Ext
 
-				case ffj_t_ThirdPartyno_such_key:
+				case ffjtThirdPartynosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -3466,7 +3516,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -3482,7 +3532,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -3492,7 +3542,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -3508,7 +3558,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -3518,7 +3568,7 @@ handle_Name:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -3529,16 +3579,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -3559,7 +3609,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -3575,12 +3625,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -3591,7 +3642,7 @@ handle_Cat:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -3607,7 +3658,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -3617,7 +3668,7 @@ handle_Domain:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -3631,7 +3682,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -3655,23 +3706,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *User) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *User) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -3680,39 +3735,39 @@ func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.BuyerID) != 0 {
+	if len(j.BuyerID) != 0 {
 		buf.WriteString(`"buyerid":`)
-		fflib.WriteJsonString(buf, string(mj.BuyerID))
+		fflib.WriteJsonString(buf, string(j.BuyerID))
 		buf.WriteByte(',')
 	}
-	if len(mj.BuyerUID) != 0 {
+	if len(j.BuyerUID) != 0 {
 		buf.WriteString(`"buyeruid":`)
-		fflib.WriteJsonString(buf, string(mj.BuyerUID))
+		fflib.WriteJsonString(buf, string(j.BuyerUID))
 		buf.WriteByte(',')
 	}
-	if mj.YOB != 0 {
+	if j.YOB != 0 {
 		buf.WriteString(`"yob":`)
-		fflib.FormatBits2(buf, uint64(mj.YOB), 10, mj.YOB < 0)
+		fflib.FormatBits2(buf, uint64(j.YOB), 10, j.YOB < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Gender) != 0 {
+	if len(j.Gender) != 0 {
 		buf.WriteString(`"gender":`)
-		fflib.WriteJsonString(buf, string(mj.Gender))
+		fflib.WriteJsonString(buf, string(j.Gender))
 		buf.WriteByte(',')
 	}
-	if len(mj.Keywords) != 0 {
+	if len(j.Keywords) != 0 {
 		buf.WriteString(`"keywords":`)
-		fflib.WriteJsonString(buf, string(mj.Keywords))
+		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if len(mj.CustomData) != 0 {
+	if len(j.CustomData) != 0 {
 		buf.WriteString(`"customdata":`)
-		fflib.WriteJsonString(buf, string(mj.CustomData))
+		fflib.WriteJsonString(buf, string(j.CustomData))
 		buf.WriteByte(',')
 	}
 	if true {
@@ -3720,7 +3775,7 @@ func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Geo.MarshalJSONBuf(buf)
+			err = j.Geo.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -3728,11 +3783,11 @@ func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Data) != 0 {
+	if len(j.Data) != 0 {
 		buf.WriteString(`"data":`)
-		if mj.Data != nil {
+		if j.Data != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Data {
+			for i, v := range j.Data {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -3752,12 +3807,12 @@ func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -3772,58 +3827,60 @@ func (mj *User) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Userbase = iota
-	ffj_t_Userno_such_key
+	ffjtUserbase = iota
+	ffjtUsernosuchkey
 
-	ffj_t_User_ID
+	ffjtUserID
 
-	ffj_t_User_BuyerID
+	ffjtUserBuyerID
 
-	ffj_t_User_BuyerUID
+	ffjtUserBuyerUID
 
-	ffj_t_User_YOB
+	ffjtUserYOB
 
-	ffj_t_User_Gender
+	ffjtUserGender
 
-	ffj_t_User_Keywords
+	ffjtUserKeywords
 
-	ffj_t_User_CustomData
+	ffjtUserCustomData
 
-	ffj_t_User_Geo
+	ffjtUserGeo
 
-	ffj_t_User_Data
+	ffjtUserData
 
-	ffj_t_User_Ext
+	ffjtUserExt
 )
 
-var ffj_key_User_ID = []byte("id")
+var ffjKeyUserID = []byte("id")
 
-var ffj_key_User_BuyerID = []byte("buyerid")
+var ffjKeyUserBuyerID = []byte("buyerid")
 
-var ffj_key_User_BuyerUID = []byte("buyeruid")
+var ffjKeyUserBuyerUID = []byte("buyeruid")
 
-var ffj_key_User_YOB = []byte("yob")
+var ffjKeyUserYOB = []byte("yob")
 
-var ffj_key_User_Gender = []byte("gender")
+var ffjKeyUserGender = []byte("gender")
 
-var ffj_key_User_Keywords = []byte("keywords")
+var ffjKeyUserKeywords = []byte("keywords")
 
-var ffj_key_User_CustomData = []byte("customdata")
+var ffjKeyUserCustomData = []byte("customdata")
 
-var ffj_key_User_Geo = []byte("geo")
+var ffjKeyUserGeo = []byte("geo")
 
-var ffj_key_User_Data = []byte("data")
+var ffjKeyUserData = []byte("data")
 
-var ffj_key_User_Ext = []byte("ext")
+var ffjKeyUserExt = []byte("ext")
 
-func (uj *User) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *User) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *User) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Userbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *User) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtUserbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -3869,7 +3926,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Userno_such_key
+				currentKey = ffjtUsernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -3877,141 +3934,141 @@ mainparse:
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_User_BuyerID, kn) {
-						currentKey = ffj_t_User_BuyerID
+					if bytes.Equal(ffjKeyUserBuyerID, kn) {
+						currentKey = ffjtUserBuyerID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_User_BuyerUID, kn) {
-						currentKey = ffj_t_User_BuyerUID
+					} else if bytes.Equal(ffjKeyUserBuyerUID, kn) {
+						currentKey = ffjtUserBuyerUID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_User_CustomData, kn) {
-						currentKey = ffj_t_User_CustomData
+					if bytes.Equal(ffjKeyUserCustomData, kn) {
+						currentKey = ffjtUserCustomData
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_User_Data, kn) {
-						currentKey = ffj_t_User_Data
+					if bytes.Equal(ffjKeyUserData, kn) {
+						currentKey = ffjtUserData
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_User_Ext, kn) {
-						currentKey = ffj_t_User_Ext
+					if bytes.Equal(ffjKeyUserExt, kn) {
+						currentKey = ffjtUserExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'g':
 
-					if bytes.Equal(ffj_key_User_Gender, kn) {
-						currentKey = ffj_t_User_Gender
+					if bytes.Equal(ffjKeyUserGender, kn) {
+						currentKey = ffjtUserGender
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_User_Geo, kn) {
-						currentKey = ffj_t_User_Geo
+					} else if bytes.Equal(ffjKeyUserGeo, kn) {
+						currentKey = ffjtUserGeo
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_User_ID, kn) {
-						currentKey = ffj_t_User_ID
+					if bytes.Equal(ffjKeyUserID, kn) {
+						currentKey = ffjtUserID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'k':
 
-					if bytes.Equal(ffj_key_User_Keywords, kn) {
-						currentKey = ffj_t_User_Keywords
+					if bytes.Equal(ffjKeyUserKeywords, kn) {
+						currentKey = ffjtUserKeywords
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'y':
 
-					if bytes.Equal(ffj_key_User_YOB, kn) {
-						currentKey = ffj_t_User_YOB
+					if bytes.Equal(ffjKeyUserYOB, kn) {
+						currentKey = ffjtUserYOB
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_Ext, kn) {
-					currentKey = ffj_t_User_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyUserExt, kn) {
+					currentKey = ffjtUserExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_Data, kn) {
-					currentKey = ffj_t_User_Data
+				if fflib.SimpleLetterEqualFold(ffjKeyUserData, kn) {
+					currentKey = ffjtUserData
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_Geo, kn) {
-					currentKey = ffj_t_User_Geo
+				if fflib.SimpleLetterEqualFold(ffjKeyUserGeo, kn) {
+					currentKey = ffjtUserGeo
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_User_CustomData, kn) {
-					currentKey = ffj_t_User_CustomData
+				if fflib.EqualFoldRight(ffjKeyUserCustomData, kn) {
+					currentKey = ffjtUserCustomData
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_User_Keywords, kn) {
-					currentKey = ffj_t_User_Keywords
+				if fflib.EqualFoldRight(ffjKeyUserKeywords, kn) {
+					currentKey = ffjtUserKeywords
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_Gender, kn) {
-					currentKey = ffj_t_User_Gender
+				if fflib.SimpleLetterEqualFold(ffjKeyUserGender, kn) {
+					currentKey = ffjtUserGender
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_YOB, kn) {
-					currentKey = ffj_t_User_YOB
+				if fflib.SimpleLetterEqualFold(ffjKeyUserYOB, kn) {
+					currentKey = ffjtUserYOB
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_BuyerUID, kn) {
-					currentKey = ffj_t_User_BuyerUID
+				if fflib.SimpleLetterEqualFold(ffjKeyUserBuyerUID, kn) {
+					currentKey = ffjtUserBuyerUID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_BuyerID, kn) {
-					currentKey = ffj_t_User_BuyerID
+				if fflib.SimpleLetterEqualFold(ffjKeyUserBuyerID, kn) {
+					currentKey = ffjtUserBuyerID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_User_ID, kn) {
-					currentKey = ffj_t_User_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyUserID, kn) {
+					currentKey = ffjtUserID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Userno_such_key
+				currentKey = ffjtUsernosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -4028,37 +4085,37 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_User_ID:
+				case ffjtUserID:
 					goto handle_ID
 
-				case ffj_t_User_BuyerID:
+				case ffjtUserBuyerID:
 					goto handle_BuyerID
 
-				case ffj_t_User_BuyerUID:
+				case ffjtUserBuyerUID:
 					goto handle_BuyerUID
 
-				case ffj_t_User_YOB:
+				case ffjtUserYOB:
 					goto handle_YOB
 
-				case ffj_t_User_Gender:
+				case ffjtUserGender:
 					goto handle_Gender
 
-				case ffj_t_User_Keywords:
+				case ffjtUserKeywords:
 					goto handle_Keywords
 
-				case ffj_t_User_CustomData:
+				case ffjtUserCustomData:
 					goto handle_CustomData
 
-				case ffj_t_User_Geo:
+				case ffjtUserGeo:
 					goto handle_Geo
 
-				case ffj_t_User_Data:
+				case ffjtUserData:
 					goto handle_Data
 
-				case ffj_t_User_Ext:
+				case ffjtUserExt:
 					goto handle_Ext
 
-				case ffj_t_Userno_such_key:
+				case ffjtUsernosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -4074,7 +4131,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -4090,7 +4147,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -4100,7 +4157,7 @@ handle_ID:
 
 handle_BuyerID:
 
-	/* handler: uj.BuyerID type=string kind=string quoted=false*/
+	/* handler: j.BuyerID type=string kind=string quoted=false*/
 
 	{
 
@@ -4116,7 +4173,7 @@ handle_BuyerID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.BuyerID = string(string(outBuf))
+			j.BuyerID = string(string(outBuf))
 
 		}
 	}
@@ -4126,7 +4183,7 @@ handle_BuyerID:
 
 handle_BuyerUID:
 
-	/* handler: uj.BuyerUID type=string kind=string quoted=false*/
+	/* handler: j.BuyerUID type=string kind=string quoted=false*/
 
 	{
 
@@ -4142,7 +4199,7 @@ handle_BuyerUID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.BuyerUID = string(string(outBuf))
+			j.BuyerUID = string(string(outBuf))
 
 		}
 	}
@@ -4152,7 +4209,7 @@ handle_BuyerUID:
 
 handle_YOB:
 
-	/* handler: uj.YOB type=int kind=int quoted=false*/
+	/* handler: j.YOB type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -4172,7 +4229,7 @@ handle_YOB:
 				return fs.WrapErr(err)
 			}
 
-			uj.YOB = int(tval)
+			j.YOB = int(tval)
 
 		}
 	}
@@ -4182,7 +4239,7 @@ handle_YOB:
 
 handle_Gender:
 
-	/* handler: uj.Gender type=string kind=string quoted=false*/
+	/* handler: j.Gender type=string kind=string quoted=false*/
 
 	{
 
@@ -4198,7 +4255,7 @@ handle_Gender:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Gender = string(string(outBuf))
+			j.Gender = string(string(outBuf))
 
 		}
 	}
@@ -4208,7 +4265,7 @@ handle_Gender:
 
 handle_Keywords:
 
-	/* handler: uj.Keywords type=string kind=string quoted=false*/
+	/* handler: j.Keywords type=string kind=string quoted=false*/
 
 	{
 
@@ -4224,7 +4281,7 @@ handle_Keywords:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Keywords = string(string(outBuf))
+			j.Keywords = string(string(outBuf))
 
 		}
 	}
@@ -4234,7 +4291,7 @@ handle_Keywords:
 
 handle_CustomData:
 
-	/* handler: uj.CustomData type=string kind=string quoted=false*/
+	/* handler: j.CustomData type=string kind=string quoted=false*/
 
 	{
 
@@ -4250,7 +4307,7 @@ handle_CustomData:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.CustomData = string(string(outBuf))
+			j.CustomData = string(string(outBuf))
 
 		}
 	}
@@ -4260,7 +4317,7 @@ handle_CustomData:
 
 handle_Geo:
 
-	/* handler: uj.Geo type=openrtb.Geo kind=struct quoted=false*/
+	/* handler: j.Geo type=openrtb.Geo kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -4269,7 +4326,7 @@ handle_Geo:
 			goto mainparse
 		}
 
-		err = uj.Geo.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Geo.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -4281,7 +4338,7 @@ handle_Geo:
 
 handle_Data:
 
-	/* handler: uj.Data type=[]openrtb.Data kind=slice quoted=false*/
+	/* handler: j.Data type=[]openrtb.Data kind=slice quoted=false*/
 
 	{
 
@@ -4292,16 +4349,16 @@ handle_Data:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Data = nil
+			j.Data = nil
 		} else {
 
-			uj.Data = make([]Data, 0)
+			j.Data = []Data{}
 
 			wantVal := true
 
 			for {
 
-				var v Data
+				var tmpJData Data
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -4322,7 +4379,7 @@ handle_Data:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Data kind=struct quoted=false*/
+				/* handler: tmpJData type=openrtb.Data kind=struct quoted=false*/
 
 				{
 					if tok == fflib.FFTok_null {
@@ -4331,14 +4388,15 @@ handle_Data:
 						goto mainparse
 					}
 
-					err = v.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+					err = tmpJData.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 					if err != nil {
 						return err
 					}
 					state = fflib.FFParse_after_value
 				}
 
-				uj.Data = append(uj.Data, v)
+				j.Data = append(j.Data, tmpJData)
+
 				wantVal = false
 			}
 		}
@@ -4349,7 +4407,7 @@ handle_Data:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -4363,7 +4421,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -4387,5 +4445,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

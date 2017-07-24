@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *App) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *App) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,46 +37,46 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.Bundle) != 0 {
+	if len(j.Bundle) != 0 {
 		buf.WriteString(`"bundle":`)
-		fflib.WriteJsonString(buf, string(mj.Bundle))
+		fflib.WriteJsonString(buf, string(j.Bundle))
 		buf.WriteByte(',')
 	}
-	if len(mj.StoreURL) != 0 {
+	if len(j.StoreURL) != 0 {
 		buf.WriteString(`"storeurl":`)
-		fflib.WriteJsonString(buf, string(mj.StoreURL))
+		fflib.WriteJsonString(buf, string(j.StoreURL))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ver) != 0 {
+	if len(j.Ver) != 0 {
 		buf.WriteString(`"ver":`)
-		fflib.WriteJsonString(buf, string(mj.Ver))
+		fflib.WriteJsonString(buf, string(j.Ver))
 		buf.WriteByte(',')
 	}
-	if mj.Paid != 0 {
+	if j.Paid != 0 {
 		buf.WriteString(`"paid":`)
-		fflib.FormatBits2(buf, uint64(mj.Paid), 10, mj.Paid < 0)
+		fflib.FormatBits2(buf, uint64(j.Paid), 10, j.Paid < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -85,11 +88,11 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.SectionCat) != 0 {
+	if len(j.SectionCat) != 0 {
 		buf.WriteString(`"sectioncat":`)
-		if mj.SectionCat != nil {
+		if j.SectionCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.SectionCat {
+			for i, v := range j.SectionCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -101,11 +104,11 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.PageCat) != 0 {
+	if len(j.PageCat) != 0 {
 		buf.WriteString(`"pagecat":`)
-		if mj.PageCat != nil {
+		if j.PageCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.PageCat {
+			for i, v := range j.PageCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -117,17 +120,17 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.PrivacyPolicy != nil {
+	if j.PrivacyPolicy != nil {
 		if true {
 			buf.WriteString(`"privacypolicy":`)
-			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
+			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
 	}
 	if true {
 		/* Struct fall back. type=openrtb.Publisher kind=struct */
 		buf.WriteString(`"publisher":`)
-		err = buf.Encode(&mj.Publisher)
+		err = buf.Encode(&j.Publisher)
 		if err != nil {
 			return err
 		}
@@ -138,7 +141,7 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Content.MarshalJSONBuf(buf)
+			err = j.Content.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -146,17 +149,17 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Keywords) != 0 {
+	if len(j.Keywords) != 0 {
 		buf.WriteString(`"keywords":`)
-		fflib.WriteJsonString(buf, string(mj.Keywords))
+		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -171,78 +174,80 @@ func (mj *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Appbase = iota
-	ffj_t_Appno_such_key
+	ffjtAppbase = iota
+	ffjtAppnosuchkey
 
-	ffj_t_App_Bundle
+	ffjtAppBundle
 
-	ffj_t_App_StoreURL
+	ffjtAppStoreURL
 
-	ffj_t_App_Ver
+	ffjtAppVer
 
-	ffj_t_App_Paid
+	ffjtAppPaid
 
-	ffj_t_App_ID
+	ffjtAppID
 
-	ffj_t_App_Name
+	ffjtAppName
 
-	ffj_t_App_Domain
+	ffjtAppDomain
 
-	ffj_t_App_Cat
+	ffjtAppCat
 
-	ffj_t_App_SectionCat
+	ffjtAppSectionCat
 
-	ffj_t_App_PageCat
+	ffjtAppPageCat
 
-	ffj_t_App_PrivacyPolicy
+	ffjtAppPrivacyPolicy
 
-	ffj_t_App_Publisher
+	ffjtAppPublisher
 
-	ffj_t_App_Content
+	ffjtAppContent
 
-	ffj_t_App_Keywords
+	ffjtAppKeywords
 
-	ffj_t_App_Ext
+	ffjtAppExt
 )
 
-var ffj_key_App_Bundle = []byte("bundle")
+var ffjKeyAppBundle = []byte("bundle")
 
-var ffj_key_App_StoreURL = []byte("storeurl")
+var ffjKeyAppStoreURL = []byte("storeurl")
 
-var ffj_key_App_Ver = []byte("ver")
+var ffjKeyAppVer = []byte("ver")
 
-var ffj_key_App_Paid = []byte("paid")
+var ffjKeyAppPaid = []byte("paid")
 
-var ffj_key_App_ID = []byte("id")
+var ffjKeyAppID = []byte("id")
 
-var ffj_key_App_Name = []byte("name")
+var ffjKeyAppName = []byte("name")
 
-var ffj_key_App_Domain = []byte("domain")
+var ffjKeyAppDomain = []byte("domain")
 
-var ffj_key_App_Cat = []byte("cat")
+var ffjKeyAppCat = []byte("cat")
 
-var ffj_key_App_SectionCat = []byte("sectioncat")
+var ffjKeyAppSectionCat = []byte("sectioncat")
 
-var ffj_key_App_PageCat = []byte("pagecat")
+var ffjKeyAppPageCat = []byte("pagecat")
 
-var ffj_key_App_PrivacyPolicy = []byte("privacypolicy")
+var ffjKeyAppPrivacyPolicy = []byte("privacypolicy")
 
-var ffj_key_App_Publisher = []byte("publisher")
+var ffjKeyAppPublisher = []byte("publisher")
 
-var ffj_key_App_Content = []byte("content")
+var ffjKeyAppContent = []byte("content")
 
-var ffj_key_App_Keywords = []byte("keywords")
+var ffjKeyAppKeywords = []byte("keywords")
 
-var ffj_key_App_Ext = []byte("ext")
+var ffjKeyAppExt = []byte("ext")
 
-func (uj *App) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *App) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *App) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Appbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *App) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtAppbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -288,7 +293,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Appno_such_key
+				currentKey = ffjtAppnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -296,202 +301,202 @@ mainparse:
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_App_Bundle, kn) {
-						currentKey = ffj_t_App_Bundle
+					if bytes.Equal(ffjKeyAppBundle, kn) {
+						currentKey = ffjtAppBundle
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_App_Cat, kn) {
-						currentKey = ffj_t_App_Cat
+					if bytes.Equal(ffjKeyAppCat, kn) {
+						currentKey = ffjtAppCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_App_Content, kn) {
-						currentKey = ffj_t_App_Content
+					} else if bytes.Equal(ffjKeyAppContent, kn) {
+						currentKey = ffjtAppContent
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_App_Domain, kn) {
-						currentKey = ffj_t_App_Domain
+					if bytes.Equal(ffjKeyAppDomain, kn) {
+						currentKey = ffjtAppDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_App_Ext, kn) {
-						currentKey = ffj_t_App_Ext
+					if bytes.Equal(ffjKeyAppExt, kn) {
+						currentKey = ffjtAppExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_App_ID, kn) {
-						currentKey = ffj_t_App_ID
+					if bytes.Equal(ffjKeyAppID, kn) {
+						currentKey = ffjtAppID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'k':
 
-					if bytes.Equal(ffj_key_App_Keywords, kn) {
-						currentKey = ffj_t_App_Keywords
+					if bytes.Equal(ffjKeyAppKeywords, kn) {
+						currentKey = ffjtAppKeywords
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_App_Name, kn) {
-						currentKey = ffj_t_App_Name
+					if bytes.Equal(ffjKeyAppName, kn) {
+						currentKey = ffjtAppName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_App_Paid, kn) {
-						currentKey = ffj_t_App_Paid
+					if bytes.Equal(ffjKeyAppPaid, kn) {
+						currentKey = ffjtAppPaid
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_App_PageCat, kn) {
-						currentKey = ffj_t_App_PageCat
+					} else if bytes.Equal(ffjKeyAppPageCat, kn) {
+						currentKey = ffjtAppPageCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_App_PrivacyPolicy, kn) {
-						currentKey = ffj_t_App_PrivacyPolicy
+					} else if bytes.Equal(ffjKeyAppPrivacyPolicy, kn) {
+						currentKey = ffjtAppPrivacyPolicy
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_App_Publisher, kn) {
-						currentKey = ffj_t_App_Publisher
+					} else if bytes.Equal(ffjKeyAppPublisher, kn) {
+						currentKey = ffjtAppPublisher
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_App_StoreURL, kn) {
-						currentKey = ffj_t_App_StoreURL
+					if bytes.Equal(ffjKeyAppStoreURL, kn) {
+						currentKey = ffjtAppStoreURL
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_App_SectionCat, kn) {
-						currentKey = ffj_t_App_SectionCat
+					} else if bytes.Equal(ffjKeyAppSectionCat, kn) {
+						currentKey = ffjtAppSectionCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_App_Ver, kn) {
-						currentKey = ffj_t_App_Ver
+					if bytes.Equal(ffjKeyAppVer, kn) {
+						currentKey = ffjtAppVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Ext, kn) {
-					currentKey = ffj_t_App_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyAppExt, kn) {
+					currentKey = ffjtAppExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_App_Keywords, kn) {
-					currentKey = ffj_t_App_Keywords
+				if fflib.EqualFoldRight(ffjKeyAppKeywords, kn) {
+					currentKey = ffjtAppKeywords
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Content, kn) {
-					currentKey = ffj_t_App_Content
+				if fflib.SimpleLetterEqualFold(ffjKeyAppContent, kn) {
+					currentKey = ffjtAppContent
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_App_Publisher, kn) {
-					currentKey = ffj_t_App_Publisher
+				if fflib.EqualFoldRight(ffjKeyAppPublisher, kn) {
+					currentKey = ffjtAppPublisher
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_PrivacyPolicy, kn) {
-					currentKey = ffj_t_App_PrivacyPolicy
+				if fflib.SimpleLetterEqualFold(ffjKeyAppPrivacyPolicy, kn) {
+					currentKey = ffjtAppPrivacyPolicy
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_PageCat, kn) {
-					currentKey = ffj_t_App_PageCat
+				if fflib.SimpleLetterEqualFold(ffjKeyAppPageCat, kn) {
+					currentKey = ffjtAppPageCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_App_SectionCat, kn) {
-					currentKey = ffj_t_App_SectionCat
+				if fflib.EqualFoldRight(ffjKeyAppSectionCat, kn) {
+					currentKey = ffjtAppSectionCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Cat, kn) {
-					currentKey = ffj_t_App_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyAppCat, kn) {
+					currentKey = ffjtAppCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Domain, kn) {
-					currentKey = ffj_t_App_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeyAppDomain, kn) {
+					currentKey = ffjtAppDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Name, kn) {
-					currentKey = ffj_t_App_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyAppName, kn) {
+					currentKey = ffjtAppName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_ID, kn) {
-					currentKey = ffj_t_App_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyAppID, kn) {
+					currentKey = ffjtAppID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Paid, kn) {
-					currentKey = ffj_t_App_Paid
+				if fflib.SimpleLetterEqualFold(ffjKeyAppPaid, kn) {
+					currentKey = ffjtAppPaid
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Ver, kn) {
-					currentKey = ffj_t_App_Ver
+				if fflib.SimpleLetterEqualFold(ffjKeyAppVer, kn) {
+					currentKey = ffjtAppVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_App_StoreURL, kn) {
-					currentKey = ffj_t_App_StoreURL
+				if fflib.EqualFoldRight(ffjKeyAppStoreURL, kn) {
+					currentKey = ffjtAppStoreURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_App_Bundle, kn) {
-					currentKey = ffj_t_App_Bundle
+				if fflib.SimpleLetterEqualFold(ffjKeyAppBundle, kn) {
+					currentKey = ffjtAppBundle
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Appno_such_key
+				currentKey = ffjtAppnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -508,52 +513,52 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_App_Bundle:
+				case ffjtAppBundle:
 					goto handle_Bundle
 
-				case ffj_t_App_StoreURL:
+				case ffjtAppStoreURL:
 					goto handle_StoreURL
 
-				case ffj_t_App_Ver:
+				case ffjtAppVer:
 					goto handle_Ver
 
-				case ffj_t_App_Paid:
+				case ffjtAppPaid:
 					goto handle_Paid
 
-				case ffj_t_App_ID:
+				case ffjtAppID:
 					goto handle_ID
 
-				case ffj_t_App_Name:
+				case ffjtAppName:
 					goto handle_Name
 
-				case ffj_t_App_Domain:
+				case ffjtAppDomain:
 					goto handle_Domain
 
-				case ffj_t_App_Cat:
+				case ffjtAppCat:
 					goto handle_Cat
 
-				case ffj_t_App_SectionCat:
+				case ffjtAppSectionCat:
 					goto handle_SectionCat
 
-				case ffj_t_App_PageCat:
+				case ffjtAppPageCat:
 					goto handle_PageCat
 
-				case ffj_t_App_PrivacyPolicy:
+				case ffjtAppPrivacyPolicy:
 					goto handle_PrivacyPolicy
 
-				case ffj_t_App_Publisher:
+				case ffjtAppPublisher:
 					goto handle_Publisher
 
-				case ffj_t_App_Content:
+				case ffjtAppContent:
 					goto handle_Content
 
-				case ffj_t_App_Keywords:
+				case ffjtAppKeywords:
 					goto handle_Keywords
 
-				case ffj_t_App_Ext:
+				case ffjtAppExt:
 					goto handle_Ext
 
-				case ffj_t_Appno_such_key:
+				case ffjtAppnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -569,7 +574,7 @@ mainparse:
 
 handle_Bundle:
 
-	/* handler: uj.Bundle type=string kind=string quoted=false*/
+	/* handler: j.Bundle type=string kind=string quoted=false*/
 
 	{
 
@@ -585,7 +590,7 @@ handle_Bundle:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Bundle = string(string(outBuf))
+			j.Bundle = string(string(outBuf))
 
 		}
 	}
@@ -595,7 +600,7 @@ handle_Bundle:
 
 handle_StoreURL:
 
-	/* handler: uj.StoreURL type=string kind=string quoted=false*/
+	/* handler: j.StoreURL type=string kind=string quoted=false*/
 
 	{
 
@@ -611,7 +616,7 @@ handle_StoreURL:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.StoreURL = string(string(outBuf))
+			j.StoreURL = string(string(outBuf))
 
 		}
 	}
@@ -621,7 +626,7 @@ handle_StoreURL:
 
 handle_Ver:
 
-	/* handler: uj.Ver type=string kind=string quoted=false*/
+	/* handler: j.Ver type=string kind=string quoted=false*/
 
 	{
 
@@ -637,7 +642,7 @@ handle_Ver:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Ver = string(string(outBuf))
+			j.Ver = string(string(outBuf))
 
 		}
 	}
@@ -647,7 +652,7 @@ handle_Ver:
 
 handle_Paid:
 
-	/* handler: uj.Paid type=int kind=int quoted=false*/
+	/* handler: j.Paid type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -667,7 +672,7 @@ handle_Paid:
 				return fs.WrapErr(err)
 			}
 
-			uj.Paid = int(tval)
+			j.Paid = int(tval)
 
 		}
 	}
@@ -677,7 +682,7 @@ handle_Paid:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -693,7 +698,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -703,7 +708,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -719,7 +724,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -729,7 +734,7 @@ handle_Name:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -745,7 +750,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -755,7 +760,7 @@ handle_Domain:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -766,16 +771,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -796,7 +801,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -812,12 +817,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -828,7 +834,7 @@ handle_Cat:
 
 handle_SectionCat:
 
-	/* handler: uj.SectionCat type=[]string kind=slice quoted=false*/
+	/* handler: j.SectionCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -839,16 +845,16 @@ handle_SectionCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.SectionCat = nil
+			j.SectionCat = nil
 		} else {
 
-			uj.SectionCat = make([]string, 0)
+			j.SectionCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJSectionCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -869,7 +875,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJSectionCat type=string kind=string quoted=false*/
 
 				{
 
@@ -885,12 +891,13 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJSectionCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, v)
+				j.SectionCat = append(j.SectionCat, tmpJSectionCat)
+
 				wantVal = false
 			}
 		}
@@ -901,7 +908,7 @@ handle_SectionCat:
 
 handle_PageCat:
 
-	/* handler: uj.PageCat type=[]string kind=slice quoted=false*/
+	/* handler: j.PageCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -912,16 +919,16 @@ handle_PageCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.PageCat = nil
+			j.PageCat = nil
 		} else {
 
-			uj.PageCat = make([]string, 0)
+			j.PageCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJPageCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -942,7 +949,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJPageCat type=string kind=string quoted=false*/
 
 				{
 
@@ -958,12 +965,13 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJPageCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, v)
+				j.PageCat = append(j.PageCat, tmpJPageCat)
+
 				wantVal = false
 			}
 		}
@@ -974,7 +982,7 @@ handle_PageCat:
 
 handle_PrivacyPolicy:
 
-	/* handler: uj.PrivacyPolicy type=int kind=int quoted=false*/
+	/* handler: j.PrivacyPolicy type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -986,7 +994,7 @@ handle_PrivacyPolicy:
 
 		if tok == fflib.FFTok_null {
 
-			uj.PrivacyPolicy = nil
+			j.PrivacyPolicy = nil
 
 		} else {
 
@@ -997,7 +1005,7 @@ handle_PrivacyPolicy:
 			}
 
 			ttypval := int(tval)
-			uj.PrivacyPolicy = &ttypval
+			j.PrivacyPolicy = &ttypval
 
 		}
 	}
@@ -1007,7 +1015,7 @@ handle_PrivacyPolicy:
 
 handle_Publisher:
 
-	/* handler: uj.Publisher type=openrtb.Publisher kind=struct quoted=false*/
+	/* handler: j.Publisher type=openrtb.Publisher kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Publisher kind=struct */
@@ -1016,7 +1024,7 @@ handle_Publisher:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Publisher)
+		err = json.Unmarshal(tbuf, &j.Publisher)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1027,7 +1035,7 @@ handle_Publisher:
 
 handle_Content:
 
-	/* handler: uj.Content type=openrtb.Content kind=struct quoted=false*/
+	/* handler: j.Content type=openrtb.Content kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1036,7 +1044,7 @@ handle_Content:
 			goto mainparse
 		}
 
-		err = uj.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -1048,7 +1056,7 @@ handle_Content:
 
 handle_Keywords:
 
-	/* handler: uj.Keywords type=string kind=string quoted=false*/
+	/* handler: j.Keywords type=string kind=string quoted=false*/
 
 	{
 
@@ -1064,7 +1072,7 @@ handle_Keywords:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Keywords = string(string(outBuf))
+			j.Keywords = string(string(outBuf))
 
 		}
 	}
@@ -1074,7 +1082,7 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1088,7 +1096,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1112,23 +1120,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Inventory) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Inventory) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -1137,26 +1149,26 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -1168,11 +1180,11 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.SectionCat) != 0 {
+	if len(j.SectionCat) != 0 {
 		buf.WriteString(`"sectioncat":`)
-		if mj.SectionCat != nil {
+		if j.SectionCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.SectionCat {
+			for i, v := range j.SectionCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -1184,11 +1196,11 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.PageCat) != 0 {
+	if len(j.PageCat) != 0 {
 		buf.WriteString(`"pagecat":`)
-		if mj.PageCat != nil {
+		if j.PageCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.PageCat {
+			for i, v := range j.PageCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -1200,17 +1212,17 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.PrivacyPolicy != nil {
+	if j.PrivacyPolicy != nil {
 		if true {
 			buf.WriteString(`"privacypolicy":`)
-			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
+			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
 	}
 	if true {
 		/* Struct fall back. type=openrtb.Publisher kind=struct */
 		buf.WriteString(`"publisher":`)
-		err = buf.Encode(&mj.Publisher)
+		err = buf.Encode(&j.Publisher)
 		if err != nil {
 			return err
 		}
@@ -1221,7 +1233,7 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Content.MarshalJSONBuf(buf)
+			err = j.Content.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -1229,17 +1241,17 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Keywords) != 0 {
+	if len(j.Keywords) != 0 {
 		buf.WriteString(`"keywords":`)
-		fflib.WriteJsonString(buf, string(mj.Keywords))
+		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -1254,62 +1266,64 @@ func (mj *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Inventorybase = iota
-	ffj_t_Inventoryno_such_key
+	ffjtInventorybase = iota
+	ffjtInventorynosuchkey
 
-	ffj_t_Inventory_ID
+	ffjtInventoryID
 
-	ffj_t_Inventory_Name
+	ffjtInventoryName
 
-	ffj_t_Inventory_Domain
+	ffjtInventoryDomain
 
-	ffj_t_Inventory_Cat
+	ffjtInventoryCat
 
-	ffj_t_Inventory_SectionCat
+	ffjtInventorySectionCat
 
-	ffj_t_Inventory_PageCat
+	ffjtInventoryPageCat
 
-	ffj_t_Inventory_PrivacyPolicy
+	ffjtInventoryPrivacyPolicy
 
-	ffj_t_Inventory_Publisher
+	ffjtInventoryPublisher
 
-	ffj_t_Inventory_Content
+	ffjtInventoryContent
 
-	ffj_t_Inventory_Keywords
+	ffjtInventoryKeywords
 
-	ffj_t_Inventory_Ext
+	ffjtInventoryExt
 )
 
-var ffj_key_Inventory_ID = []byte("id")
+var ffjKeyInventoryID = []byte("id")
 
-var ffj_key_Inventory_Name = []byte("name")
+var ffjKeyInventoryName = []byte("name")
 
-var ffj_key_Inventory_Domain = []byte("domain")
+var ffjKeyInventoryDomain = []byte("domain")
 
-var ffj_key_Inventory_Cat = []byte("cat")
+var ffjKeyInventoryCat = []byte("cat")
 
-var ffj_key_Inventory_SectionCat = []byte("sectioncat")
+var ffjKeyInventorySectionCat = []byte("sectioncat")
 
-var ffj_key_Inventory_PageCat = []byte("pagecat")
+var ffjKeyInventoryPageCat = []byte("pagecat")
 
-var ffj_key_Inventory_PrivacyPolicy = []byte("privacypolicy")
+var ffjKeyInventoryPrivacyPolicy = []byte("privacypolicy")
 
-var ffj_key_Inventory_Publisher = []byte("publisher")
+var ffjKeyInventoryPublisher = []byte("publisher")
 
-var ffj_key_Inventory_Content = []byte("content")
+var ffjKeyInventoryContent = []byte("content")
 
-var ffj_key_Inventory_Keywords = []byte("keywords")
+var ffjKeyInventoryKeywords = []byte("keywords")
 
-var ffj_key_Inventory_Ext = []byte("ext")
+var ffjKeyInventoryExt = []byte("ext")
 
-func (uj *Inventory) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Inventory) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Inventory) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Inventorybase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Inventory) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtInventorybase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -1355,7 +1369,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Inventoryno_such_key
+				currentKey = ffjtInventorynosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -1363,152 +1377,152 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Inventory_Cat, kn) {
-						currentKey = ffj_t_Inventory_Cat
+					if bytes.Equal(ffjKeyInventoryCat, kn) {
+						currentKey = ffjtInventoryCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Inventory_Content, kn) {
-						currentKey = ffj_t_Inventory_Content
+					} else if bytes.Equal(ffjKeyInventoryContent, kn) {
+						currentKey = ffjtInventoryContent
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Inventory_Domain, kn) {
-						currentKey = ffj_t_Inventory_Domain
+					if bytes.Equal(ffjKeyInventoryDomain, kn) {
+						currentKey = ffjtInventoryDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Inventory_Ext, kn) {
-						currentKey = ffj_t_Inventory_Ext
+					if bytes.Equal(ffjKeyInventoryExt, kn) {
+						currentKey = ffjtInventoryExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Inventory_ID, kn) {
-						currentKey = ffj_t_Inventory_ID
+					if bytes.Equal(ffjKeyInventoryID, kn) {
+						currentKey = ffjtInventoryID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'k':
 
-					if bytes.Equal(ffj_key_Inventory_Keywords, kn) {
-						currentKey = ffj_t_Inventory_Keywords
+					if bytes.Equal(ffjKeyInventoryKeywords, kn) {
+						currentKey = ffjtInventoryKeywords
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Inventory_Name, kn) {
-						currentKey = ffj_t_Inventory_Name
+					if bytes.Equal(ffjKeyInventoryName, kn) {
+						currentKey = ffjtInventoryName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Inventory_PageCat, kn) {
-						currentKey = ffj_t_Inventory_PageCat
+					if bytes.Equal(ffjKeyInventoryPageCat, kn) {
+						currentKey = ffjtInventoryPageCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Inventory_PrivacyPolicy, kn) {
-						currentKey = ffj_t_Inventory_PrivacyPolicy
+					} else if bytes.Equal(ffjKeyInventoryPrivacyPolicy, kn) {
+						currentKey = ffjtInventoryPrivacyPolicy
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Inventory_Publisher, kn) {
-						currentKey = ffj_t_Inventory_Publisher
+					} else if bytes.Equal(ffjKeyInventoryPublisher, kn) {
+						currentKey = ffjtInventoryPublisher
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_Inventory_SectionCat, kn) {
-						currentKey = ffj_t_Inventory_SectionCat
+					if bytes.Equal(ffjKeyInventorySectionCat, kn) {
+						currentKey = ffjtInventorySectionCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_Ext, kn) {
-					currentKey = ffj_t_Inventory_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryExt, kn) {
+					currentKey = ffjtInventoryExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Inventory_Keywords, kn) {
-					currentKey = ffj_t_Inventory_Keywords
+				if fflib.EqualFoldRight(ffjKeyInventoryKeywords, kn) {
+					currentKey = ffjtInventoryKeywords
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_Content, kn) {
-					currentKey = ffj_t_Inventory_Content
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryContent, kn) {
+					currentKey = ffjtInventoryContent
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Inventory_Publisher, kn) {
-					currentKey = ffj_t_Inventory_Publisher
+				if fflib.EqualFoldRight(ffjKeyInventoryPublisher, kn) {
+					currentKey = ffjtInventoryPublisher
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_PrivacyPolicy, kn) {
-					currentKey = ffj_t_Inventory_PrivacyPolicy
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryPrivacyPolicy, kn) {
+					currentKey = ffjtInventoryPrivacyPolicy
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_PageCat, kn) {
-					currentKey = ffj_t_Inventory_PageCat
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryPageCat, kn) {
+					currentKey = ffjtInventoryPageCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Inventory_SectionCat, kn) {
-					currentKey = ffj_t_Inventory_SectionCat
+				if fflib.EqualFoldRight(ffjKeyInventorySectionCat, kn) {
+					currentKey = ffjtInventorySectionCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_Cat, kn) {
-					currentKey = ffj_t_Inventory_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryCat, kn) {
+					currentKey = ffjtInventoryCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_Domain, kn) {
-					currentKey = ffj_t_Inventory_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryDomain, kn) {
+					currentKey = ffjtInventoryDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_Name, kn) {
-					currentKey = ffj_t_Inventory_Name
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryName, kn) {
+					currentKey = ffjtInventoryName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Inventory_ID, kn) {
-					currentKey = ffj_t_Inventory_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyInventoryID, kn) {
+					currentKey = ffjtInventoryID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Inventoryno_such_key
+				currentKey = ffjtInventorynosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -1525,40 +1539,40 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Inventory_ID:
+				case ffjtInventoryID:
 					goto handle_ID
 
-				case ffj_t_Inventory_Name:
+				case ffjtInventoryName:
 					goto handle_Name
 
-				case ffj_t_Inventory_Domain:
+				case ffjtInventoryDomain:
 					goto handle_Domain
 
-				case ffj_t_Inventory_Cat:
+				case ffjtInventoryCat:
 					goto handle_Cat
 
-				case ffj_t_Inventory_SectionCat:
+				case ffjtInventorySectionCat:
 					goto handle_SectionCat
 
-				case ffj_t_Inventory_PageCat:
+				case ffjtInventoryPageCat:
 					goto handle_PageCat
 
-				case ffj_t_Inventory_PrivacyPolicy:
+				case ffjtInventoryPrivacyPolicy:
 					goto handle_PrivacyPolicy
 
-				case ffj_t_Inventory_Publisher:
+				case ffjtInventoryPublisher:
 					goto handle_Publisher
 
-				case ffj_t_Inventory_Content:
+				case ffjtInventoryContent:
 					goto handle_Content
 
-				case ffj_t_Inventory_Keywords:
+				case ffjtInventoryKeywords:
 					goto handle_Keywords
 
-				case ffj_t_Inventory_Ext:
+				case ffjtInventoryExt:
 					goto handle_Ext
 
-				case ffj_t_Inventoryno_such_key:
+				case ffjtInventorynosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -1574,7 +1588,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -1590,7 +1604,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -1600,7 +1614,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -1616,7 +1630,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -1626,7 +1640,7 @@ handle_Name:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -1642,7 +1656,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -1652,7 +1666,7 @@ handle_Domain:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1663,16 +1677,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1693,7 +1707,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -1709,12 +1723,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -1725,7 +1740,7 @@ handle_Cat:
 
 handle_SectionCat:
 
-	/* handler: uj.SectionCat type=[]string kind=slice quoted=false*/
+	/* handler: j.SectionCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1736,16 +1751,16 @@ handle_SectionCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.SectionCat = nil
+			j.SectionCat = nil
 		} else {
 
-			uj.SectionCat = make([]string, 0)
+			j.SectionCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJSectionCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1766,7 +1781,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJSectionCat type=string kind=string quoted=false*/
 
 				{
 
@@ -1782,12 +1797,13 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJSectionCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, v)
+				j.SectionCat = append(j.SectionCat, tmpJSectionCat)
+
 				wantVal = false
 			}
 		}
@@ -1798,7 +1814,7 @@ handle_SectionCat:
 
 handle_PageCat:
 
-	/* handler: uj.PageCat type=[]string kind=slice quoted=false*/
+	/* handler: j.PageCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1809,16 +1825,16 @@ handle_PageCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.PageCat = nil
+			j.PageCat = nil
 		} else {
 
-			uj.PageCat = make([]string, 0)
+			j.PageCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJPageCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1839,7 +1855,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJPageCat type=string kind=string quoted=false*/
 
 				{
 
@@ -1855,12 +1871,13 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJPageCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, v)
+				j.PageCat = append(j.PageCat, tmpJPageCat)
+
 				wantVal = false
 			}
 		}
@@ -1871,7 +1888,7 @@ handle_PageCat:
 
 handle_PrivacyPolicy:
 
-	/* handler: uj.PrivacyPolicy type=int kind=int quoted=false*/
+	/* handler: j.PrivacyPolicy type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1883,7 +1900,7 @@ handle_PrivacyPolicy:
 
 		if tok == fflib.FFTok_null {
 
-			uj.PrivacyPolicy = nil
+			j.PrivacyPolicy = nil
 
 		} else {
 
@@ -1894,7 +1911,7 @@ handle_PrivacyPolicy:
 			}
 
 			ttypval := int(tval)
-			uj.PrivacyPolicy = &ttypval
+			j.PrivacyPolicy = &ttypval
 
 		}
 	}
@@ -1904,7 +1921,7 @@ handle_PrivacyPolicy:
 
 handle_Publisher:
 
-	/* handler: uj.Publisher type=openrtb.Publisher kind=struct quoted=false*/
+	/* handler: j.Publisher type=openrtb.Publisher kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Publisher kind=struct */
@@ -1913,7 +1930,7 @@ handle_Publisher:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Publisher)
+		err = json.Unmarshal(tbuf, &j.Publisher)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1924,7 +1941,7 @@ handle_Publisher:
 
 handle_Content:
 
-	/* handler: uj.Content type=openrtb.Content kind=struct quoted=false*/
+	/* handler: j.Content type=openrtb.Content kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1933,7 +1950,7 @@ handle_Content:
 			goto mainparse
 		}
 
-		err = uj.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -1945,7 +1962,7 @@ handle_Content:
 
 handle_Keywords:
 
-	/* handler: uj.Keywords type=string kind=string quoted=false*/
+	/* handler: j.Keywords type=string kind=string quoted=false*/
 
 	{
 
@@ -1961,7 +1978,7 @@ handle_Keywords:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Keywords = string(string(outBuf))
+			j.Keywords = string(string(outBuf))
 
 		}
 	}
@@ -1971,7 +1988,7 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1985,7 +2002,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -2009,23 +2026,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *Site) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Site) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -2034,46 +2055,46 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
-	if len(mj.Page) != 0 {
+	if len(j.Page) != 0 {
 		buf.WriteString(`"page":`)
-		fflib.WriteJsonString(buf, string(mj.Page))
+		fflib.WriteJsonString(buf, string(j.Page))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ref) != 0 {
+	if len(j.Ref) != 0 {
 		buf.WriteString(`"ref":`)
-		fflib.WriteJsonString(buf, string(mj.Ref))
+		fflib.WriteJsonString(buf, string(j.Ref))
 		buf.WriteByte(',')
 	}
-	if len(mj.Search) != 0 {
+	if len(j.Search) != 0 {
 		buf.WriteString(`"search":`)
-		fflib.WriteJsonString(buf, string(mj.Search))
+		fflib.WriteJsonString(buf, string(j.Search))
 		buf.WriteByte(',')
 	}
-	if mj.Mobile != 0 {
+	if j.Mobile != 0 {
 		buf.WriteString(`"mobile":`)
-		fflib.FormatBits2(buf, uint64(mj.Mobile), 10, mj.Mobile < 0)
+		fflib.FormatBits2(buf, uint64(j.Mobile), 10, j.Mobile < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.ID) != 0 {
+	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
-		fflib.WriteJsonString(buf, string(mj.ID))
+		fflib.WriteJsonString(buf, string(j.ID))
 		buf.WriteByte(',')
 	}
-	if len(mj.Name) != 0 {
+	if len(j.Name) != 0 {
 		buf.WriteString(`"name":`)
-		fflib.WriteJsonString(buf, string(mj.Name))
+		fflib.WriteJsonString(buf, string(j.Name))
 		buf.WriteByte(',')
 	}
-	if len(mj.Domain) != 0 {
+	if len(j.Domain) != 0 {
 		buf.WriteString(`"domain":`)
-		fflib.WriteJsonString(buf, string(mj.Domain))
+		fflib.WriteJsonString(buf, string(j.Domain))
 		buf.WriteByte(',')
 	}
-	if len(mj.Cat) != 0 {
+	if len(j.Cat) != 0 {
 		buf.WriteString(`"cat":`)
-		if mj.Cat != nil {
+		if j.Cat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cat {
+			for i, v := range j.Cat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -2085,11 +2106,11 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.SectionCat) != 0 {
+	if len(j.SectionCat) != 0 {
 		buf.WriteString(`"sectioncat":`)
-		if mj.SectionCat != nil {
+		if j.SectionCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.SectionCat {
+			for i, v := range j.SectionCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -2101,11 +2122,11 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.PageCat) != 0 {
+	if len(j.PageCat) != 0 {
 		buf.WriteString(`"pagecat":`)
-		if mj.PageCat != nil {
+		if j.PageCat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.PageCat {
+			for i, v := range j.PageCat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -2117,17 +2138,17 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.PrivacyPolicy != nil {
+	if j.PrivacyPolicy != nil {
 		if true {
 			buf.WriteString(`"privacypolicy":`)
-			fflib.FormatBits2(buf, uint64(*mj.PrivacyPolicy), 10, *mj.PrivacyPolicy < 0)
+			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
 	}
 	if true {
 		/* Struct fall back. type=openrtb.Publisher kind=struct */
 		buf.WriteString(`"publisher":`)
-		err = buf.Encode(&mj.Publisher)
+		err = buf.Encode(&j.Publisher)
 		if err != nil {
 			return err
 		}
@@ -2138,7 +2159,7 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Content.MarshalJSONBuf(buf)
+			err = j.Content.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -2146,17 +2167,17 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Keywords) != 0 {
+	if len(j.Keywords) != 0 {
 		buf.WriteString(`"keywords":`)
-		fflib.WriteJsonString(buf, string(mj.Keywords))
+		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -2171,78 +2192,80 @@ func (mj *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Sitebase = iota
-	ffj_t_Siteno_such_key
+	ffjtSitebase = iota
+	ffjtSitenosuchkey
 
-	ffj_t_Site_Page
+	ffjtSitePage
 
-	ffj_t_Site_Ref
+	ffjtSiteRef
 
-	ffj_t_Site_Search
+	ffjtSiteSearch
 
-	ffj_t_Site_Mobile
+	ffjtSiteMobile
 
-	ffj_t_Site_ID
+	ffjtSiteID
 
-	ffj_t_Site_Name
+	ffjtSiteName
 
-	ffj_t_Site_Domain
+	ffjtSiteDomain
 
-	ffj_t_Site_Cat
+	ffjtSiteCat
 
-	ffj_t_Site_SectionCat
+	ffjtSiteSectionCat
 
-	ffj_t_Site_PageCat
+	ffjtSitePageCat
 
-	ffj_t_Site_PrivacyPolicy
+	ffjtSitePrivacyPolicy
 
-	ffj_t_Site_Publisher
+	ffjtSitePublisher
 
-	ffj_t_Site_Content
+	ffjtSiteContent
 
-	ffj_t_Site_Keywords
+	ffjtSiteKeywords
 
-	ffj_t_Site_Ext
+	ffjtSiteExt
 )
 
-var ffj_key_Site_Page = []byte("page")
+var ffjKeySitePage = []byte("page")
 
-var ffj_key_Site_Ref = []byte("ref")
+var ffjKeySiteRef = []byte("ref")
 
-var ffj_key_Site_Search = []byte("search")
+var ffjKeySiteSearch = []byte("search")
 
-var ffj_key_Site_Mobile = []byte("mobile")
+var ffjKeySiteMobile = []byte("mobile")
 
-var ffj_key_Site_ID = []byte("id")
+var ffjKeySiteID = []byte("id")
 
-var ffj_key_Site_Name = []byte("name")
+var ffjKeySiteName = []byte("name")
 
-var ffj_key_Site_Domain = []byte("domain")
+var ffjKeySiteDomain = []byte("domain")
 
-var ffj_key_Site_Cat = []byte("cat")
+var ffjKeySiteCat = []byte("cat")
 
-var ffj_key_Site_SectionCat = []byte("sectioncat")
+var ffjKeySiteSectionCat = []byte("sectioncat")
 
-var ffj_key_Site_PageCat = []byte("pagecat")
+var ffjKeySitePageCat = []byte("pagecat")
 
-var ffj_key_Site_PrivacyPolicy = []byte("privacypolicy")
+var ffjKeySitePrivacyPolicy = []byte("privacypolicy")
 
-var ffj_key_Site_Publisher = []byte("publisher")
+var ffjKeySitePublisher = []byte("publisher")
 
-var ffj_key_Site_Content = []byte("content")
+var ffjKeySiteContent = []byte("content")
 
-var ffj_key_Site_Keywords = []byte("keywords")
+var ffjKeySiteKeywords = []byte("keywords")
 
-var ffj_key_Site_Ext = []byte("ext")
+var ffjKeySiteExt = []byte("ext")
 
-func (uj *Site) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Site) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Site) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Sitebase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Site) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtSitebase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -2288,7 +2311,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Siteno_such_key
+				currentKey = ffjtSitenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -2296,202 +2319,202 @@ mainparse:
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_Site_Cat, kn) {
-						currentKey = ffj_t_Site_Cat
+					if bytes.Equal(ffjKeySiteCat, kn) {
+						currentKey = ffjtSiteCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Site_Content, kn) {
-						currentKey = ffj_t_Site_Content
+					} else if bytes.Equal(ffjKeySiteContent, kn) {
+						currentKey = ffjtSiteContent
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Site_Domain, kn) {
-						currentKey = ffj_t_Site_Domain
+					if bytes.Equal(ffjKeySiteDomain, kn) {
+						currentKey = ffjtSiteDomain
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Site_Ext, kn) {
-						currentKey = ffj_t_Site_Ext
+					if bytes.Equal(ffjKeySiteExt, kn) {
+						currentKey = ffjtSiteExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Site_ID, kn) {
-						currentKey = ffj_t_Site_ID
+					if bytes.Equal(ffjKeySiteID, kn) {
+						currentKey = ffjtSiteID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'k':
 
-					if bytes.Equal(ffj_key_Site_Keywords, kn) {
-						currentKey = ffj_t_Site_Keywords
+					if bytes.Equal(ffjKeySiteKeywords, kn) {
+						currentKey = ffjtSiteKeywords
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'm':
 
-					if bytes.Equal(ffj_key_Site_Mobile, kn) {
-						currentKey = ffj_t_Site_Mobile
+					if bytes.Equal(ffjKeySiteMobile, kn) {
+						currentKey = ffjtSiteMobile
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Site_Name, kn) {
-						currentKey = ffj_t_Site_Name
+					if bytes.Equal(ffjKeySiteName, kn) {
+						currentKey = ffjtSiteName
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Site_Page, kn) {
-						currentKey = ffj_t_Site_Page
+					if bytes.Equal(ffjKeySitePage, kn) {
+						currentKey = ffjtSitePage
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Site_PageCat, kn) {
-						currentKey = ffj_t_Site_PageCat
+					} else if bytes.Equal(ffjKeySitePageCat, kn) {
+						currentKey = ffjtSitePageCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Site_PrivacyPolicy, kn) {
-						currentKey = ffj_t_Site_PrivacyPolicy
+					} else if bytes.Equal(ffjKeySitePrivacyPolicy, kn) {
+						currentKey = ffjtSitePrivacyPolicy
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Site_Publisher, kn) {
-						currentKey = ffj_t_Site_Publisher
+					} else if bytes.Equal(ffjKeySitePublisher, kn) {
+						currentKey = ffjtSitePublisher
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'r':
 
-					if bytes.Equal(ffj_key_Site_Ref, kn) {
-						currentKey = ffj_t_Site_Ref
+					if bytes.Equal(ffjKeySiteRef, kn) {
+						currentKey = ffjtSiteRef
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_Site_Search, kn) {
-						currentKey = ffj_t_Site_Search
+					if bytes.Equal(ffjKeySiteSearch, kn) {
+						currentKey = ffjtSiteSearch
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Site_SectionCat, kn) {
-						currentKey = ffj_t_Site_SectionCat
+					} else if bytes.Equal(ffjKeySiteSectionCat, kn) {
+						currentKey = ffjtSiteSectionCat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Ext, kn) {
-					currentKey = ffj_t_Site_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeySiteExt, kn) {
+					currentKey = ffjtSiteExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Site_Keywords, kn) {
-					currentKey = ffj_t_Site_Keywords
+				if fflib.EqualFoldRight(ffjKeySiteKeywords, kn) {
+					currentKey = ffjtSiteKeywords
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Content, kn) {
-					currentKey = ffj_t_Site_Content
+				if fflib.SimpleLetterEqualFold(ffjKeySiteContent, kn) {
+					currentKey = ffjtSiteContent
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Site_Publisher, kn) {
-					currentKey = ffj_t_Site_Publisher
+				if fflib.EqualFoldRight(ffjKeySitePublisher, kn) {
+					currentKey = ffjtSitePublisher
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_PrivacyPolicy, kn) {
-					currentKey = ffj_t_Site_PrivacyPolicy
+				if fflib.SimpleLetterEqualFold(ffjKeySitePrivacyPolicy, kn) {
+					currentKey = ffjtSitePrivacyPolicy
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_PageCat, kn) {
-					currentKey = ffj_t_Site_PageCat
+				if fflib.SimpleLetterEqualFold(ffjKeySitePageCat, kn) {
+					currentKey = ffjtSitePageCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Site_SectionCat, kn) {
-					currentKey = ffj_t_Site_SectionCat
+				if fflib.EqualFoldRight(ffjKeySiteSectionCat, kn) {
+					currentKey = ffjtSiteSectionCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Cat, kn) {
-					currentKey = ffj_t_Site_Cat
+				if fflib.SimpleLetterEqualFold(ffjKeySiteCat, kn) {
+					currentKey = ffjtSiteCat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Domain, kn) {
-					currentKey = ffj_t_Site_Domain
+				if fflib.SimpleLetterEqualFold(ffjKeySiteDomain, kn) {
+					currentKey = ffjtSiteDomain
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Name, kn) {
-					currentKey = ffj_t_Site_Name
+				if fflib.SimpleLetterEqualFold(ffjKeySiteName, kn) {
+					currentKey = ffjtSiteName
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_ID, kn) {
-					currentKey = ffj_t_Site_ID
+				if fflib.SimpleLetterEqualFold(ffjKeySiteID, kn) {
+					currentKey = ffjtSiteID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Mobile, kn) {
-					currentKey = ffj_t_Site_Mobile
+				if fflib.SimpleLetterEqualFold(ffjKeySiteMobile, kn) {
+					currentKey = ffjtSiteMobile
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Site_Search, kn) {
-					currentKey = ffj_t_Site_Search
+				if fflib.EqualFoldRight(ffjKeySiteSearch, kn) {
+					currentKey = ffjtSiteSearch
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Ref, kn) {
-					currentKey = ffj_t_Site_Ref
+				if fflib.SimpleLetterEqualFold(ffjKeySiteRef, kn) {
+					currentKey = ffjtSiteRef
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Site_Page, kn) {
-					currentKey = ffj_t_Site_Page
+				if fflib.SimpleLetterEqualFold(ffjKeySitePage, kn) {
+					currentKey = ffjtSitePage
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Siteno_such_key
+				currentKey = ffjtSitenosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -2508,52 +2531,52 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Site_Page:
+				case ffjtSitePage:
 					goto handle_Page
 
-				case ffj_t_Site_Ref:
+				case ffjtSiteRef:
 					goto handle_Ref
 
-				case ffj_t_Site_Search:
+				case ffjtSiteSearch:
 					goto handle_Search
 
-				case ffj_t_Site_Mobile:
+				case ffjtSiteMobile:
 					goto handle_Mobile
 
-				case ffj_t_Site_ID:
+				case ffjtSiteID:
 					goto handle_ID
 
-				case ffj_t_Site_Name:
+				case ffjtSiteName:
 					goto handle_Name
 
-				case ffj_t_Site_Domain:
+				case ffjtSiteDomain:
 					goto handle_Domain
 
-				case ffj_t_Site_Cat:
+				case ffjtSiteCat:
 					goto handle_Cat
 
-				case ffj_t_Site_SectionCat:
+				case ffjtSiteSectionCat:
 					goto handle_SectionCat
 
-				case ffj_t_Site_PageCat:
+				case ffjtSitePageCat:
 					goto handle_PageCat
 
-				case ffj_t_Site_PrivacyPolicy:
+				case ffjtSitePrivacyPolicy:
 					goto handle_PrivacyPolicy
 
-				case ffj_t_Site_Publisher:
+				case ffjtSitePublisher:
 					goto handle_Publisher
 
-				case ffj_t_Site_Content:
+				case ffjtSiteContent:
 					goto handle_Content
 
-				case ffj_t_Site_Keywords:
+				case ffjtSiteKeywords:
 					goto handle_Keywords
 
-				case ffj_t_Site_Ext:
+				case ffjtSiteExt:
 					goto handle_Ext
 
-				case ffj_t_Siteno_such_key:
+				case ffjtSitenosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -2569,7 +2592,7 @@ mainparse:
 
 handle_Page:
 
-	/* handler: uj.Page type=string kind=string quoted=false*/
+	/* handler: j.Page type=string kind=string quoted=false*/
 
 	{
 
@@ -2585,7 +2608,7 @@ handle_Page:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Page = string(string(outBuf))
+			j.Page = string(string(outBuf))
 
 		}
 	}
@@ -2595,7 +2618,7 @@ handle_Page:
 
 handle_Ref:
 
-	/* handler: uj.Ref type=string kind=string quoted=false*/
+	/* handler: j.Ref type=string kind=string quoted=false*/
 
 	{
 
@@ -2611,7 +2634,7 @@ handle_Ref:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Ref = string(string(outBuf))
+			j.Ref = string(string(outBuf))
 
 		}
 	}
@@ -2621,7 +2644,7 @@ handle_Ref:
 
 handle_Search:
 
-	/* handler: uj.Search type=string kind=string quoted=false*/
+	/* handler: j.Search type=string kind=string quoted=false*/
 
 	{
 
@@ -2637,7 +2660,7 @@ handle_Search:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Search = string(string(outBuf))
+			j.Search = string(string(outBuf))
 
 		}
 	}
@@ -2647,7 +2670,7 @@ handle_Search:
 
 handle_Mobile:
 
-	/* handler: uj.Mobile type=int kind=int quoted=false*/
+	/* handler: j.Mobile type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -2667,7 +2690,7 @@ handle_Mobile:
 				return fs.WrapErr(err)
 			}
 
-			uj.Mobile = int(tval)
+			j.Mobile = int(tval)
 
 		}
 	}
@@ -2677,7 +2700,7 @@ handle_Mobile:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -2693,7 +2716,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -2703,7 +2726,7 @@ handle_ID:
 
 handle_Name:
 
-	/* handler: uj.Name type=string kind=string quoted=false*/
+	/* handler: j.Name type=string kind=string quoted=false*/
 
 	{
 
@@ -2719,7 +2742,7 @@ handle_Name:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Name = string(string(outBuf))
+			j.Name = string(string(outBuf))
 
 		}
 	}
@@ -2729,7 +2752,7 @@ handle_Name:
 
 handle_Domain:
 
-	/* handler: uj.Domain type=string kind=string quoted=false*/
+	/* handler: j.Domain type=string kind=string quoted=false*/
 
 	{
 
@@ -2745,7 +2768,7 @@ handle_Domain:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Domain = string(string(outBuf))
+			j.Domain = string(string(outBuf))
 
 		}
 	}
@@ -2755,7 +2778,7 @@ handle_Domain:
 
 handle_Cat:
 
-	/* handler: uj.Cat type=[]string kind=slice quoted=false*/
+	/* handler: j.Cat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -2766,16 +2789,16 @@ handle_Cat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cat = nil
+			j.Cat = nil
 		} else {
 
-			uj.Cat = make([]string, 0)
+			j.Cat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2796,7 +2819,7 @@ handle_Cat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCat type=string kind=string quoted=false*/
 
 				{
 
@@ -2812,12 +2835,13 @@ handle_Cat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cat = append(uj.Cat, v)
+				j.Cat = append(j.Cat, tmpJCat)
+
 				wantVal = false
 			}
 		}
@@ -2828,7 +2852,7 @@ handle_Cat:
 
 handle_SectionCat:
 
-	/* handler: uj.SectionCat type=[]string kind=slice quoted=false*/
+	/* handler: j.SectionCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -2839,16 +2863,16 @@ handle_SectionCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.SectionCat = nil
+			j.SectionCat = nil
 		} else {
 
-			uj.SectionCat = make([]string, 0)
+			j.SectionCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJSectionCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2869,7 +2893,7 @@ handle_SectionCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJSectionCat type=string kind=string quoted=false*/
 
 				{
 
@@ -2885,12 +2909,13 @@ handle_SectionCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJSectionCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.SectionCat = append(uj.SectionCat, v)
+				j.SectionCat = append(j.SectionCat, tmpJSectionCat)
+
 				wantVal = false
 			}
 		}
@@ -2901,7 +2926,7 @@ handle_SectionCat:
 
 handle_PageCat:
 
-	/* handler: uj.PageCat type=[]string kind=slice quoted=false*/
+	/* handler: j.PageCat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -2912,16 +2937,16 @@ handle_PageCat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.PageCat = nil
+			j.PageCat = nil
 		} else {
 
-			uj.PageCat = make([]string, 0)
+			j.PageCat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJPageCat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -2942,7 +2967,7 @@ handle_PageCat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJPageCat type=string kind=string quoted=false*/
 
 				{
 
@@ -2958,12 +2983,13 @@ handle_PageCat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJPageCat = string(string(outBuf))
 
 					}
 				}
 
-				uj.PageCat = append(uj.PageCat, v)
+				j.PageCat = append(j.PageCat, tmpJPageCat)
+
 				wantVal = false
 			}
 		}
@@ -2974,7 +3000,7 @@ handle_PageCat:
 
 handle_PrivacyPolicy:
 
-	/* handler: uj.PrivacyPolicy type=int kind=int quoted=false*/
+	/* handler: j.PrivacyPolicy type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -2986,7 +3012,7 @@ handle_PrivacyPolicy:
 
 		if tok == fflib.FFTok_null {
 
-			uj.PrivacyPolicy = nil
+			j.PrivacyPolicy = nil
 
 		} else {
 
@@ -2997,7 +3023,7 @@ handle_PrivacyPolicy:
 			}
 
 			ttypval := int(tval)
-			uj.PrivacyPolicy = &ttypval
+			j.PrivacyPolicy = &ttypval
 
 		}
 	}
@@ -3007,7 +3033,7 @@ handle_PrivacyPolicy:
 
 handle_Publisher:
 
-	/* handler: uj.Publisher type=openrtb.Publisher kind=struct quoted=false*/
+	/* handler: j.Publisher type=openrtb.Publisher kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Publisher kind=struct */
@@ -3016,7 +3042,7 @@ handle_Publisher:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Publisher)
+		err = json.Unmarshal(tbuf, &j.Publisher)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -3027,7 +3053,7 @@ handle_Publisher:
 
 handle_Content:
 
-	/* handler: uj.Content type=openrtb.Content kind=struct quoted=false*/
+	/* handler: j.Content type=openrtb.Content kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -3036,7 +3062,7 @@ handle_Content:
 			goto mainparse
 		}
 
-		err = uj.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Content.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -3048,7 +3074,7 @@ handle_Content:
 
 handle_Keywords:
 
-	/* handler: uj.Keywords type=string kind=string quoted=false*/
+	/* handler: j.Keywords type=string kind=string quoted=false*/
 
 	{
 
@@ -3064,7 +3090,7 @@ handle_Keywords:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.Keywords = string(string(outBuf))
+			j.Keywords = string(string(outBuf))
 
 		}
 	}
@@ -3074,7 +3100,7 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -3088,7 +3114,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -3112,5 +3138,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

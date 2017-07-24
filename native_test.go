@@ -15,7 +15,7 @@ var _ = Describe("Native", func() {
 
 	It("should parse correctly", func() {
 		Expect(subject).To(Equal(&Native{
-			Request: Extension(`"PAYLOAD"`),
+			Request: "PAYLOAD",
 			Ver:     "2",
 		}))
 	})

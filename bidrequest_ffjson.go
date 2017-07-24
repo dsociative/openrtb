@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *BidRequest) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *BidRequest) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,13 +37,13 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "id":`)
-	fflib.WriteJsonString(buf, string(mj.ID))
+	fflib.WriteJsonString(buf, string(j.ID))
 	buf.WriteByte(',')
-	if len(mj.Imp) != 0 {
+	if len(j.Imp) != 0 {
 		buf.WriteString(`"imp":`)
-		if mj.Imp != nil {
+		if j.Imp != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Imp {
+			for i, v := range j.Imp {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -59,7 +62,7 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if true {
 		/* Struct fall back. type=openrtb.Site kind=struct */
 		buf.WriteString(`"site":`)
-		err = buf.Encode(&mj.Site)
+		err = buf.Encode(&j.Site)
 		if err != nil {
 			return err
 		}
@@ -68,7 +71,7 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if true {
 		/* Struct fall back. type=openrtb.App kind=struct */
 		buf.WriteString(`"app":`)
-		err = buf.Encode(&mj.App)
+		err = buf.Encode(&j.App)
 		if err != nil {
 			return err
 		}
@@ -77,7 +80,7 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if true {
 		/* Struct fall back. type=openrtb.Device kind=struct */
 		buf.WriteString(`"device":`)
-		err = buf.Encode(&mj.Device)
+		err = buf.Encode(&j.Device)
 		if err != nil {
 			return err
 		}
@@ -86,30 +89,30 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if true {
 		/* Struct fall back. type=openrtb.User kind=struct */
 		buf.WriteString(`"user":`)
-		err = buf.Encode(&mj.User)
+		err = buf.Encode(&j.User)
 		if err != nil {
 			return err
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Test != 0 {
+	if j.Test != 0 {
 		buf.WriteString(`"test":`)
-		fflib.FormatBits2(buf, uint64(mj.Test), 10, mj.Test < 0)
+		fflib.FormatBits2(buf, uint64(j.Test), 10, j.Test < 0)
 		buf.WriteByte(',')
 	}
 	buf.WriteString(`"at":`)
-	fflib.FormatBits2(buf, uint64(mj.AuctionType), 10, mj.AuctionType < 0)
+	fflib.FormatBits2(buf, uint64(j.AuctionType), 10, j.AuctionType < 0)
 	buf.WriteByte(',')
-	if mj.TMax != 0 {
+	if j.TMax != 0 {
 		buf.WriteString(`"tmax":`)
-		fflib.FormatBits2(buf, uint64(mj.TMax), 10, mj.TMax < 0)
+		fflib.FormatBits2(buf, uint64(j.TMax), 10, j.TMax < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.WSeat) != 0 {
+	if len(j.WSeat) != 0 {
 		buf.WriteString(`"wseat":`)
-		if mj.WSeat != nil {
+		if j.WSeat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.WSeat {
+			for i, v := range j.WSeat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -121,11 +124,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.BSeat) != 0 {
+	if len(j.BSeat) != 0 {
 		buf.WriteString(`"bseat":`)
-		if mj.BSeat != nil {
+		if j.BSeat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BSeat {
+			for i, v := range j.BSeat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -137,11 +140,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.WLang) != 0 {
+	if len(j.WLang) != 0 {
 		buf.WriteString(`"wlang":`)
-		if mj.WLang != nil {
+		if j.WLang != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.WLang {
+			for i, v := range j.WLang {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -153,16 +156,16 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.AllImps != 0 {
+	if j.AllImps != 0 {
 		buf.WriteString(`"allimps":`)
-		fflib.FormatBits2(buf, uint64(mj.AllImps), 10, mj.AllImps < 0)
+		fflib.FormatBits2(buf, uint64(j.AllImps), 10, j.AllImps < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.Cur) != 0 {
+	if len(j.Cur) != 0 {
 		buf.WriteString(`"cur":`)
-		if mj.Cur != nil {
+		if j.Cur != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Cur {
+			for i, v := range j.Cur {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -174,11 +177,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Bcat) != 0 {
+	if len(j.Bcat) != 0 {
 		buf.WriteString(`"bcat":`)
-		if mj.Bcat != nil {
+		if j.Bcat != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.Bcat {
+			for i, v := range j.Bcat {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -190,11 +193,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.BAdv) != 0 {
+	if len(j.BAdv) != 0 {
 		buf.WriteString(`"badv":`)
-		if mj.BAdv != nil {
+		if j.BAdv != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BAdv {
+			for i, v := range j.BAdv {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -206,11 +209,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.BApp) != 0 {
+	if len(j.BApp) != 0 {
 		buf.WriteString(`"bapp":`)
-		if mj.BApp != nil {
+		if j.BApp != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.BApp {
+			for i, v := range j.BApp {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -222,11 +225,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Source != nil {
+	if j.Source != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Source kind=struct */
 			buf.WriteString(`"source":`)
-			err = buf.Encode(mj.Source)
+			err = buf.Encode(j.Source)
 			if err != nil {
 				return err
 			}
@@ -236,18 +239,18 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if true {
 		/* Struct fall back. type=openrtb.Regulations kind=struct */
 		buf.WriteString(`"regs":`)
-		err = buf.Encode(&mj.Regs)
+		err = buf.Encode(&j.Regs)
 		if err != nil {
 			return err
 		}
 		buf.WriteByte(',')
 	}
-	if len(mj.Ext) != 0 {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
 
-			obj, err = mj.Ext.MarshalJSON()
+			obj, err = j.Ext.MarshalJSON()
 			if err != nil {
 				return err
 			}
@@ -256,11 +259,11 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if mj.Pmp != nil {
+	if j.Pmp != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Pmp kind=struct */
 			buf.WriteString(`"pmp":`)
-			err = buf.Encode(mj.Pmp)
+			err = buf.Encode(j.Pmp)
 			if err != nil {
 				return err
 			}
@@ -273,102 +276,104 @@ func (mj *BidRequest) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_BidRequestbase = iota
-	ffj_t_BidRequestno_such_key
+	ffjtBidRequestbase = iota
+	ffjtBidRequestnosuchkey
 
-	ffj_t_BidRequest_ID
+	ffjtBidRequestID
 
-	ffj_t_BidRequest_Imp
+	ffjtBidRequestImp
 
-	ffj_t_BidRequest_Site
+	ffjtBidRequestSite
 
-	ffj_t_BidRequest_App
+	ffjtBidRequestApp
 
-	ffj_t_BidRequest_Device
+	ffjtBidRequestDevice
 
-	ffj_t_BidRequest_User
+	ffjtBidRequestUser
 
-	ffj_t_BidRequest_Test
+	ffjtBidRequestTest
 
-	ffj_t_BidRequest_AuctionType
+	ffjtBidRequestAuctionType
 
-	ffj_t_BidRequest_TMax
+	ffjtBidRequestTMax
 
-	ffj_t_BidRequest_WSeat
+	ffjtBidRequestWSeat
 
-	ffj_t_BidRequest_BSeat
+	ffjtBidRequestBSeat
 
-	ffj_t_BidRequest_WLang
+	ffjtBidRequestWLang
 
-	ffj_t_BidRequest_AllImps
+	ffjtBidRequestAllImps
 
-	ffj_t_BidRequest_Cur
+	ffjtBidRequestCur
 
-	ffj_t_BidRequest_Bcat
+	ffjtBidRequestBcat
 
-	ffj_t_BidRequest_BAdv
+	ffjtBidRequestBAdv
 
-	ffj_t_BidRequest_BApp
+	ffjtBidRequestBApp
 
-	ffj_t_BidRequest_Source
+	ffjtBidRequestSource
 
-	ffj_t_BidRequest_Regs
+	ffjtBidRequestRegs
 
-	ffj_t_BidRequest_Ext
+	ffjtBidRequestExt
 
-	ffj_t_BidRequest_Pmp
+	ffjtBidRequestPmp
 )
 
-var ffj_key_BidRequest_ID = []byte("id")
+var ffjKeyBidRequestID = []byte("id")
 
-var ffj_key_BidRequest_Imp = []byte("imp")
+var ffjKeyBidRequestImp = []byte("imp")
 
-var ffj_key_BidRequest_Site = []byte("site")
+var ffjKeyBidRequestSite = []byte("site")
 
-var ffj_key_BidRequest_App = []byte("app")
+var ffjKeyBidRequestApp = []byte("app")
 
-var ffj_key_BidRequest_Device = []byte("device")
+var ffjKeyBidRequestDevice = []byte("device")
 
-var ffj_key_BidRequest_User = []byte("user")
+var ffjKeyBidRequestUser = []byte("user")
 
-var ffj_key_BidRequest_Test = []byte("test")
+var ffjKeyBidRequestTest = []byte("test")
 
-var ffj_key_BidRequest_AuctionType = []byte("at")
+var ffjKeyBidRequestAuctionType = []byte("at")
 
-var ffj_key_BidRequest_TMax = []byte("tmax")
+var ffjKeyBidRequestTMax = []byte("tmax")
 
-var ffj_key_BidRequest_WSeat = []byte("wseat")
+var ffjKeyBidRequestWSeat = []byte("wseat")
 
-var ffj_key_BidRequest_BSeat = []byte("bseat")
+var ffjKeyBidRequestBSeat = []byte("bseat")
 
-var ffj_key_BidRequest_WLang = []byte("wlang")
+var ffjKeyBidRequestWLang = []byte("wlang")
 
-var ffj_key_BidRequest_AllImps = []byte("allimps")
+var ffjKeyBidRequestAllImps = []byte("allimps")
 
-var ffj_key_BidRequest_Cur = []byte("cur")
+var ffjKeyBidRequestCur = []byte("cur")
 
-var ffj_key_BidRequest_Bcat = []byte("bcat")
+var ffjKeyBidRequestBcat = []byte("bcat")
 
-var ffj_key_BidRequest_BAdv = []byte("badv")
+var ffjKeyBidRequestBAdv = []byte("badv")
 
-var ffj_key_BidRequest_BApp = []byte("bapp")
+var ffjKeyBidRequestBApp = []byte("bapp")
 
-var ffj_key_BidRequest_Source = []byte("source")
+var ffjKeyBidRequestSource = []byte("source")
 
-var ffj_key_BidRequest_Regs = []byte("regs")
+var ffjKeyBidRequestRegs = []byte("regs")
 
-var ffj_key_BidRequest_Ext = []byte("ext")
+var ffjKeyBidRequestExt = []byte("ext")
 
-var ffj_key_BidRequest_Pmp = []byte("pmp")
+var ffjKeyBidRequestPmp = []byte("pmp")
 
-func (uj *BidRequest) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *BidRequest) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *BidRequest) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_BidRequestbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *BidRequest) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtBidRequestbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -414,7 +419,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_BidRequestno_such_key
+				currentKey = ffjtBidRequestnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -422,274 +427,274 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_BidRequest_App, kn) {
-						currentKey = ffj_t_BidRequest_App
+					if bytes.Equal(ffjKeyBidRequestApp, kn) {
+						currentKey = ffjtBidRequestApp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_AuctionType, kn) {
-						currentKey = ffj_t_BidRequest_AuctionType
+					} else if bytes.Equal(ffjKeyBidRequestAuctionType, kn) {
+						currentKey = ffjtBidRequestAuctionType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_AllImps, kn) {
-						currentKey = ffj_t_BidRequest_AllImps
+					} else if bytes.Equal(ffjKeyBidRequestAllImps, kn) {
+						currentKey = ffjtBidRequestAllImps
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_BidRequest_BSeat, kn) {
-						currentKey = ffj_t_BidRequest_BSeat
+					if bytes.Equal(ffjKeyBidRequestBSeat, kn) {
+						currentKey = ffjtBidRequestBSeat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_Bcat, kn) {
-						currentKey = ffj_t_BidRequest_Bcat
+					} else if bytes.Equal(ffjKeyBidRequestBcat, kn) {
+						currentKey = ffjtBidRequestBcat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_BAdv, kn) {
-						currentKey = ffj_t_BidRequest_BAdv
+					} else if bytes.Equal(ffjKeyBidRequestBAdv, kn) {
+						currentKey = ffjtBidRequestBAdv
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_BApp, kn) {
-						currentKey = ffj_t_BidRequest_BApp
+					} else if bytes.Equal(ffjKeyBidRequestBApp, kn) {
+						currentKey = ffjtBidRequestBApp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'c':
 
-					if bytes.Equal(ffj_key_BidRequest_Cur, kn) {
-						currentKey = ffj_t_BidRequest_Cur
+					if bytes.Equal(ffjKeyBidRequestCur, kn) {
+						currentKey = ffjtBidRequestCur
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_BidRequest_Device, kn) {
-						currentKey = ffj_t_BidRequest_Device
+					if bytes.Equal(ffjKeyBidRequestDevice, kn) {
+						currentKey = ffjtBidRequestDevice
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_BidRequest_Ext, kn) {
-						currentKey = ffj_t_BidRequest_Ext
+					if bytes.Equal(ffjKeyBidRequestExt, kn) {
+						currentKey = ffjtBidRequestExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_BidRequest_ID, kn) {
-						currentKey = ffj_t_BidRequest_ID
+					if bytes.Equal(ffjKeyBidRequestID, kn) {
+						currentKey = ffjtBidRequestID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_Imp, kn) {
-						currentKey = ffj_t_BidRequest_Imp
+					} else if bytes.Equal(ffjKeyBidRequestImp, kn) {
+						currentKey = ffjtBidRequestImp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_BidRequest_Pmp, kn) {
-						currentKey = ffj_t_BidRequest_Pmp
+					if bytes.Equal(ffjKeyBidRequestPmp, kn) {
+						currentKey = ffjtBidRequestPmp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'r':
 
-					if bytes.Equal(ffj_key_BidRequest_Regs, kn) {
-						currentKey = ffj_t_BidRequest_Regs
+					if bytes.Equal(ffjKeyBidRequestRegs, kn) {
+						currentKey = ffjtBidRequestRegs
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_BidRequest_Site, kn) {
-						currentKey = ffj_t_BidRequest_Site
+					if bytes.Equal(ffjKeyBidRequestSite, kn) {
+						currentKey = ffjtBidRequestSite
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_Source, kn) {
-						currentKey = ffj_t_BidRequest_Source
+					} else if bytes.Equal(ffjKeyBidRequestSource, kn) {
+						currentKey = ffjtBidRequestSource
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_BidRequest_Test, kn) {
-						currentKey = ffj_t_BidRequest_Test
+					if bytes.Equal(ffjKeyBidRequestTest, kn) {
+						currentKey = ffjtBidRequestTest
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_TMax, kn) {
-						currentKey = ffj_t_BidRequest_TMax
+					} else if bytes.Equal(ffjKeyBidRequestTMax, kn) {
+						currentKey = ffjtBidRequestTMax
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'u':
 
-					if bytes.Equal(ffj_key_BidRequest_User, kn) {
-						currentKey = ffj_t_BidRequest_User
+					if bytes.Equal(ffjKeyBidRequestUser, kn) {
+						currentKey = ffjtBidRequestUser
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'w':
 
-					if bytes.Equal(ffj_key_BidRequest_WSeat, kn) {
-						currentKey = ffj_t_BidRequest_WSeat
+					if bytes.Equal(ffjKeyBidRequestWSeat, kn) {
+						currentKey = ffjtBidRequestWSeat
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_BidRequest_WLang, kn) {
-						currentKey = ffj_t_BidRequest_WLang
+					} else if bytes.Equal(ffjKeyBidRequestWLang, kn) {
+						currentKey = ffjtBidRequestWLang
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Pmp, kn) {
-					currentKey = ffj_t_BidRequest_Pmp
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestPmp, kn) {
+					currentKey = ffjtBidRequestPmp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Ext, kn) {
-					currentKey = ffj_t_BidRequest_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestExt, kn) {
+					currentKey = ffjtBidRequestExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_Regs, kn) {
-					currentKey = ffj_t_BidRequest_Regs
+				if fflib.EqualFoldRight(ffjKeyBidRequestRegs, kn) {
+					currentKey = ffjtBidRequestRegs
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_Source, kn) {
-					currentKey = ffj_t_BidRequest_Source
+				if fflib.EqualFoldRight(ffjKeyBidRequestSource, kn) {
+					currentKey = ffjtBidRequestSource
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_BApp, kn) {
-					currentKey = ffj_t_BidRequest_BApp
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestBApp, kn) {
+					currentKey = ffjtBidRequestBApp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_BAdv, kn) {
-					currentKey = ffj_t_BidRequest_BAdv
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestBAdv, kn) {
+					currentKey = ffjtBidRequestBAdv
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Bcat, kn) {
-					currentKey = ffj_t_BidRequest_Bcat
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestBcat, kn) {
+					currentKey = ffjtBidRequestBcat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Cur, kn) {
-					currentKey = ffj_t_BidRequest_Cur
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestCur, kn) {
+					currentKey = ffjtBidRequestCur
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_AllImps, kn) {
-					currentKey = ffj_t_BidRequest_AllImps
+				if fflib.EqualFoldRight(ffjKeyBidRequestAllImps, kn) {
+					currentKey = ffjtBidRequestAllImps
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_WLang, kn) {
-					currentKey = ffj_t_BidRequest_WLang
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestWLang, kn) {
+					currentKey = ffjtBidRequestWLang
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_BSeat, kn) {
-					currentKey = ffj_t_BidRequest_BSeat
+				if fflib.EqualFoldRight(ffjKeyBidRequestBSeat, kn) {
+					currentKey = ffjtBidRequestBSeat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_WSeat, kn) {
-					currentKey = ffj_t_BidRequest_WSeat
+				if fflib.EqualFoldRight(ffjKeyBidRequestWSeat, kn) {
+					currentKey = ffjtBidRequestWSeat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_TMax, kn) {
-					currentKey = ffj_t_BidRequest_TMax
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestTMax, kn) {
+					currentKey = ffjtBidRequestTMax
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_AuctionType, kn) {
-					currentKey = ffj_t_BidRequest_AuctionType
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestAuctionType, kn) {
+					currentKey = ffjtBidRequestAuctionType
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_Test, kn) {
-					currentKey = ffj_t_BidRequest_Test
+				if fflib.EqualFoldRight(ffjKeyBidRequestTest, kn) {
+					currentKey = ffjtBidRequestTest
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_User, kn) {
-					currentKey = ffj_t_BidRequest_User
+				if fflib.EqualFoldRight(ffjKeyBidRequestUser, kn) {
+					currentKey = ffjtBidRequestUser
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Device, kn) {
-					currentKey = ffj_t_BidRequest_Device
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestDevice, kn) {
+					currentKey = ffjtBidRequestDevice
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_App, kn) {
-					currentKey = ffj_t_BidRequest_App
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestApp, kn) {
+					currentKey = ffjtBidRequestApp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_BidRequest_Site, kn) {
-					currentKey = ffj_t_BidRequest_Site
+				if fflib.EqualFoldRight(ffjKeyBidRequestSite, kn) {
+					currentKey = ffjtBidRequestSite
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_Imp, kn) {
-					currentKey = ffj_t_BidRequest_Imp
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestImp, kn) {
+					currentKey = ffjtBidRequestImp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_BidRequest_ID, kn) {
-					currentKey = ffj_t_BidRequest_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyBidRequestID, kn) {
+					currentKey = ffjtBidRequestID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_BidRequestno_such_key
+				currentKey = ffjtBidRequestnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -706,70 +711,70 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_BidRequest_ID:
+				case ffjtBidRequestID:
 					goto handle_ID
 
-				case ffj_t_BidRequest_Imp:
+				case ffjtBidRequestImp:
 					goto handle_Imp
 
-				case ffj_t_BidRequest_Site:
+				case ffjtBidRequestSite:
 					goto handle_Site
 
-				case ffj_t_BidRequest_App:
+				case ffjtBidRequestApp:
 					goto handle_App
 
-				case ffj_t_BidRequest_Device:
+				case ffjtBidRequestDevice:
 					goto handle_Device
 
-				case ffj_t_BidRequest_User:
+				case ffjtBidRequestUser:
 					goto handle_User
 
-				case ffj_t_BidRequest_Test:
+				case ffjtBidRequestTest:
 					goto handle_Test
 
-				case ffj_t_BidRequest_AuctionType:
+				case ffjtBidRequestAuctionType:
 					goto handle_AuctionType
 
-				case ffj_t_BidRequest_TMax:
+				case ffjtBidRequestTMax:
 					goto handle_TMax
 
-				case ffj_t_BidRequest_WSeat:
+				case ffjtBidRequestWSeat:
 					goto handle_WSeat
 
-				case ffj_t_BidRequest_BSeat:
+				case ffjtBidRequestBSeat:
 					goto handle_BSeat
 
-				case ffj_t_BidRequest_WLang:
+				case ffjtBidRequestWLang:
 					goto handle_WLang
 
-				case ffj_t_BidRequest_AllImps:
+				case ffjtBidRequestAllImps:
 					goto handle_AllImps
 
-				case ffj_t_BidRequest_Cur:
+				case ffjtBidRequestCur:
 					goto handle_Cur
 
-				case ffj_t_BidRequest_Bcat:
+				case ffjtBidRequestBcat:
 					goto handle_Bcat
 
-				case ffj_t_BidRequest_BAdv:
+				case ffjtBidRequestBAdv:
 					goto handle_BAdv
 
-				case ffj_t_BidRequest_BApp:
+				case ffjtBidRequestBApp:
 					goto handle_BApp
 
-				case ffj_t_BidRequest_Source:
+				case ffjtBidRequestSource:
 					goto handle_Source
 
-				case ffj_t_BidRequest_Regs:
+				case ffjtBidRequestRegs:
 					goto handle_Regs
 
-				case ffj_t_BidRequest_Ext:
+				case ffjtBidRequestExt:
 					goto handle_Ext
 
-				case ffj_t_BidRequest_Pmp:
+				case ffjtBidRequestPmp:
 					goto handle_Pmp
 
-				case ffj_t_BidRequestno_such_key:
+				case ffjtBidRequestnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -785,7 +790,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -801,7 +806,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -811,7 +816,7 @@ handle_ID:
 
 handle_Imp:
 
-	/* handler: uj.Imp type=[]openrtb.Impression kind=slice quoted=false*/
+	/* handler: j.Imp type=[]openrtb.Impression kind=slice quoted=false*/
 
 	{
 
@@ -822,16 +827,16 @@ handle_Imp:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Imp = nil
+			j.Imp = nil
 		} else {
 
-			uj.Imp = make([]Impression, 0)
+			j.Imp = []Impression{}
 
 			wantVal := true
 
 			for {
 
-				var v Impression
+				var tmpJImp Impression
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -852,7 +857,7 @@ handle_Imp:
 					wantVal = true
 				}
 
-				/* handler: v type=openrtb.Impression kind=struct quoted=false*/
+				/* handler: tmpJImp type=openrtb.Impression kind=struct quoted=false*/
 
 				{
 					/* Falling back. type=openrtb.Impression kind=struct */
@@ -861,13 +866,14 @@ handle_Imp:
 						return fs.WrapErr(err)
 					}
 
-					err = json.Unmarshal(tbuf, &v)
+					err = json.Unmarshal(tbuf, &tmpJImp)
 					if err != nil {
 						return fs.WrapErr(err)
 					}
 				}
 
-				uj.Imp = append(uj.Imp, v)
+				j.Imp = append(j.Imp, tmpJImp)
+
 				wantVal = false
 			}
 		}
@@ -878,7 +884,7 @@ handle_Imp:
 
 handle_Site:
 
-	/* handler: uj.Site type=openrtb.Site kind=struct quoted=false*/
+	/* handler: j.Site type=openrtb.Site kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Site kind=struct */
@@ -887,7 +893,7 @@ handle_Site:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Site)
+		err = json.Unmarshal(tbuf, &j.Site)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -898,7 +904,7 @@ handle_Site:
 
 handle_App:
 
-	/* handler: uj.App type=openrtb.App kind=struct quoted=false*/
+	/* handler: j.App type=openrtb.App kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.App kind=struct */
@@ -907,7 +913,7 @@ handle_App:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.App)
+		err = json.Unmarshal(tbuf, &j.App)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -918,7 +924,7 @@ handle_App:
 
 handle_Device:
 
-	/* handler: uj.Device type=openrtb.Device kind=struct quoted=false*/
+	/* handler: j.Device type=openrtb.Device kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Device kind=struct */
@@ -927,7 +933,7 @@ handle_Device:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Device)
+		err = json.Unmarshal(tbuf, &j.Device)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -938,7 +944,7 @@ handle_Device:
 
 handle_User:
 
-	/* handler: uj.User type=openrtb.User kind=struct quoted=false*/
+	/* handler: j.User type=openrtb.User kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.User kind=struct */
@@ -947,7 +953,7 @@ handle_User:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.User)
+		err = json.Unmarshal(tbuf, &j.User)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -958,7 +964,7 @@ handle_User:
 
 handle_Test:
 
-	/* handler: uj.Test type=int kind=int quoted=false*/
+	/* handler: j.Test type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -978,7 +984,7 @@ handle_Test:
 				return fs.WrapErr(err)
 			}
 
-			uj.Test = int(tval)
+			j.Test = int(tval)
 
 		}
 	}
@@ -988,7 +994,7 @@ handle_Test:
 
 handle_AuctionType:
 
-	/* handler: uj.AuctionType type=int kind=int quoted=false*/
+	/* handler: j.AuctionType type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1008,7 +1014,7 @@ handle_AuctionType:
 				return fs.WrapErr(err)
 			}
 
-			uj.AuctionType = int(tval)
+			j.AuctionType = int(tval)
 
 		}
 	}
@@ -1018,7 +1024,7 @@ handle_AuctionType:
 
 handle_TMax:
 
-	/* handler: uj.TMax type=int kind=int quoted=false*/
+	/* handler: j.TMax type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1038,7 +1044,7 @@ handle_TMax:
 				return fs.WrapErr(err)
 			}
 
-			uj.TMax = int(tval)
+			j.TMax = int(tval)
 
 		}
 	}
@@ -1048,7 +1054,7 @@ handle_TMax:
 
 handle_WSeat:
 
-	/* handler: uj.WSeat type=[]string kind=slice quoted=false*/
+	/* handler: j.WSeat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1059,16 +1065,16 @@ handle_WSeat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.WSeat = nil
+			j.WSeat = nil
 		} else {
 
-			uj.WSeat = make([]string, 0)
+			j.WSeat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJWSeat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1089,7 +1095,7 @@ handle_WSeat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJWSeat type=string kind=string quoted=false*/
 
 				{
 
@@ -1105,12 +1111,13 @@ handle_WSeat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJWSeat = string(string(outBuf))
 
 					}
 				}
 
-				uj.WSeat = append(uj.WSeat, v)
+				j.WSeat = append(j.WSeat, tmpJWSeat)
+
 				wantVal = false
 			}
 		}
@@ -1121,7 +1128,7 @@ handle_WSeat:
 
 handle_BSeat:
 
-	/* handler: uj.BSeat type=[]string kind=slice quoted=false*/
+	/* handler: j.BSeat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1132,16 +1139,16 @@ handle_BSeat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BSeat = nil
+			j.BSeat = nil
 		} else {
 
-			uj.BSeat = make([]string, 0)
+			j.BSeat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJBSeat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1162,7 +1169,7 @@ handle_BSeat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJBSeat type=string kind=string quoted=false*/
 
 				{
 
@@ -1178,12 +1185,13 @@ handle_BSeat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJBSeat = string(string(outBuf))
 
 					}
 				}
 
-				uj.BSeat = append(uj.BSeat, v)
+				j.BSeat = append(j.BSeat, tmpJBSeat)
+
 				wantVal = false
 			}
 		}
@@ -1194,7 +1202,7 @@ handle_BSeat:
 
 handle_WLang:
 
-	/* handler: uj.WLang type=[]string kind=slice quoted=false*/
+	/* handler: j.WLang type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1205,16 +1213,16 @@ handle_WLang:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.WLang = nil
+			j.WLang = nil
 		} else {
 
-			uj.WLang = make([]string, 0)
+			j.WLang = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJWLang string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1235,7 +1243,7 @@ handle_WLang:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJWLang type=string kind=string quoted=false*/
 
 				{
 
@@ -1251,12 +1259,13 @@ handle_WLang:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJWLang = string(string(outBuf))
 
 					}
 				}
 
-				uj.WLang = append(uj.WLang, v)
+				j.WLang = append(j.WLang, tmpJWLang)
+
 				wantVal = false
 			}
 		}
@@ -1267,7 +1276,7 @@ handle_WLang:
 
 handle_AllImps:
 
-	/* handler: uj.AllImps type=int kind=int quoted=false*/
+	/* handler: j.AllImps type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -1287,7 +1296,7 @@ handle_AllImps:
 				return fs.WrapErr(err)
 			}
 
-			uj.AllImps = int(tval)
+			j.AllImps = int(tval)
 
 		}
 	}
@@ -1297,7 +1306,7 @@ handle_AllImps:
 
 handle_Cur:
 
-	/* handler: uj.Cur type=[]string kind=slice quoted=false*/
+	/* handler: j.Cur type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1308,16 +1317,16 @@ handle_Cur:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Cur = nil
+			j.Cur = nil
 		} else {
 
-			uj.Cur = make([]string, 0)
+			j.Cur = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJCur string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1338,7 +1347,7 @@ handle_Cur:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJCur type=string kind=string quoted=false*/
 
 				{
 
@@ -1354,12 +1363,13 @@ handle_Cur:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJCur = string(string(outBuf))
 
 					}
 				}
 
-				uj.Cur = append(uj.Cur, v)
+				j.Cur = append(j.Cur, tmpJCur)
+
 				wantVal = false
 			}
 		}
@@ -1370,7 +1380,7 @@ handle_Cur:
 
 handle_Bcat:
 
-	/* handler: uj.Bcat type=[]string kind=slice quoted=false*/
+	/* handler: j.Bcat type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1381,16 +1391,16 @@ handle_Bcat:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.Bcat = nil
+			j.Bcat = nil
 		} else {
 
-			uj.Bcat = make([]string, 0)
+			j.Bcat = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJBcat string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1411,7 +1421,7 @@ handle_Bcat:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJBcat type=string kind=string quoted=false*/
 
 				{
 
@@ -1427,12 +1437,13 @@ handle_Bcat:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJBcat = string(string(outBuf))
 
 					}
 				}
 
-				uj.Bcat = append(uj.Bcat, v)
+				j.Bcat = append(j.Bcat, tmpJBcat)
+
 				wantVal = false
 			}
 		}
@@ -1443,7 +1454,7 @@ handle_Bcat:
 
 handle_BAdv:
 
-	/* handler: uj.BAdv type=[]string kind=slice quoted=false*/
+	/* handler: j.BAdv type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1454,16 +1465,16 @@ handle_BAdv:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BAdv = nil
+			j.BAdv = nil
 		} else {
 
-			uj.BAdv = make([]string, 0)
+			j.BAdv = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJBAdv string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1484,7 +1495,7 @@ handle_BAdv:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJBAdv type=string kind=string quoted=false*/
 
 				{
 
@@ -1500,12 +1511,13 @@ handle_BAdv:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJBAdv = string(string(outBuf))
 
 					}
 				}
 
-				uj.BAdv = append(uj.BAdv, v)
+				j.BAdv = append(j.BAdv, tmpJBAdv)
+
 				wantVal = false
 			}
 		}
@@ -1516,7 +1528,7 @@ handle_BAdv:
 
 handle_BApp:
 
-	/* handler: uj.BApp type=[]string kind=slice quoted=false*/
+	/* handler: j.BApp type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1527,16 +1539,16 @@ handle_BApp:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BApp = nil
+			j.BApp = nil
 		} else {
 
-			uj.BApp = make([]string, 0)
+			j.BApp = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJBApp string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1557,7 +1569,7 @@ handle_BApp:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJBApp type=string kind=string quoted=false*/
 
 				{
 
@@ -1573,12 +1585,13 @@ handle_BApp:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJBApp = string(string(outBuf))
 
 					}
 				}
 
-				uj.BApp = append(uj.BApp, v)
+				j.BApp = append(j.BApp, tmpJBApp)
+
 				wantVal = false
 			}
 		}
@@ -1589,7 +1602,7 @@ handle_BApp:
 
 handle_Source:
 
-	/* handler: uj.Source type=openrtb.Source kind=struct quoted=false*/
+	/* handler: j.Source type=openrtb.Source kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Source kind=struct */
@@ -1598,7 +1611,7 @@ handle_Source:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Source)
+		err = json.Unmarshal(tbuf, &j.Source)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1609,7 +1622,7 @@ handle_Source:
 
 handle_Regs:
 
-	/* handler: uj.Regs type=openrtb.Regulations kind=struct quoted=false*/
+	/* handler: j.Regs type=openrtb.Regulations kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Regulations kind=struct */
@@ -1618,7 +1631,7 @@ handle_Regs:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Regs)
+		err = json.Unmarshal(tbuf, &j.Regs)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1629,7 +1642,7 @@ handle_Regs:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.Extension kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1643,7 +1656,7 @@ handle_Ext:
 			return fs.WrapErr(err)
 		}
 
-		err = uj.Ext.UnmarshalJSON(tbuf)
+		err = j.Ext.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1655,7 +1668,7 @@ handle_Ext:
 
 handle_Pmp:
 
-	/* handler: uj.Pmp type=openrtb.Pmp kind=struct quoted=false*/
+	/* handler: j.Pmp type=openrtb.Pmp kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Pmp kind=struct */
@@ -1664,7 +1677,7 @@ handle_Pmp:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Pmp)
+		err = json.Unmarshal(tbuf, &j.Pmp)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -1687,5 +1700,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }

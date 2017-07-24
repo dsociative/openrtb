@@ -12,20 +12,23 @@ import (
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
 
-func (mj *Impression) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *Impression) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -34,15 +37,15 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ "id":`)
-	fflib.WriteJsonString(buf, string(mj.ID))
+	fflib.WriteJsonString(buf, string(j.ID))
 	buf.WriteByte(',')
-	if mj.Banner != nil {
+	if j.Banner != nil {
 		if true {
 			buf.WriteString(`"banner":`)
 
 			{
 
-				err = mj.Banner.MarshalJSONBuf(buf)
+				err = j.Banner.MarshalJSONBuf(buf)
 				if err != nil {
 					return err
 				}
@@ -51,13 +54,13 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 			buf.WriteByte(',')
 		}
 	}
-	if mj.Video != nil {
+	if j.Video != nil {
 		if true {
 			buf.WriteString(`"video":`)
 
 			{
 
-				obj, err = mj.Video.MarshalJSON()
+				obj, err = j.Video.MarshalJSON()
 				if err != nil {
 					return err
 				}
@@ -67,13 +70,13 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 			buf.WriteByte(',')
 		}
 	}
-	if mj.Audio != nil {
+	if j.Audio != nil {
 		if true {
 			buf.WriteString(`"audio":`)
 
 			{
 
-				obj, err = mj.Audio.MarshalJSON()
+				obj, err = j.Audio.MarshalJSON()
 				if err != nil {
 					return err
 				}
@@ -83,73 +86,73 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 			buf.WriteByte(',')
 		}
 	}
-	if mj.Native != nil {
+	if j.Native != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Native kind=struct */
 			buf.WriteString(`"native":`)
-			err = buf.Encode(mj.Native)
+			err = buf.Encode(j.Native)
 			if err != nil {
 				return err
 			}
 			buf.WriteByte(',')
 		}
 	}
-	if mj.Pmp != nil {
+	if j.Pmp != nil {
 		if true {
 			/* Struct fall back. type=openrtb.Pmp kind=struct */
 			buf.WriteString(`"pmp":`)
-			err = buf.Encode(mj.Pmp)
+			err = buf.Encode(j.Pmp)
 			if err != nil {
 				return err
 			}
 			buf.WriteByte(',')
 		}
 	}
-	if len(mj.DisplayManager) != 0 {
+	if len(j.DisplayManager) != 0 {
 		buf.WriteString(`"displaymanager":`)
-		fflib.WriteJsonString(buf, string(mj.DisplayManager))
+		fflib.WriteJsonString(buf, string(j.DisplayManager))
 		buf.WriteByte(',')
 	}
-	if len(mj.DisplayManagerVer) != 0 {
+	if len(j.DisplayManagerVer) != 0 {
 		buf.WriteString(`"displaymanagerver":`)
-		fflib.WriteJsonString(buf, string(mj.DisplayManagerVer))
+		fflib.WriteJsonString(buf, string(j.DisplayManagerVer))
 		buf.WriteByte(',')
 	}
-	if mj.Instl != 0 {
+	if j.Instl != 0 {
 		buf.WriteString(`"instl":`)
-		fflib.FormatBits2(buf, uint64(mj.Instl), 10, mj.Instl < 0)
+		fflib.FormatBits2(buf, uint64(j.Instl), 10, j.Instl < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.TagID) != 0 {
+	if len(j.TagID) != 0 {
 		buf.WriteString(`"tagid":`)
-		fflib.WriteJsonString(buf, string(mj.TagID))
+		fflib.WriteJsonString(buf, string(j.TagID))
 		buf.WriteByte(',')
 	}
-	if mj.BidFloor != 0 {
+	if j.BidFloor != 0 {
 		buf.WriteString(`"bidfloor":`)
-		fflib.AppendFloat(buf, float64(mj.BidFloor), 'g', -1, 64)
+		fflib.AppendFloat(buf, float64(j.BidFloor), 'g', -1, 64)
 		buf.WriteByte(',')
 	}
-	if len(mj.BidFloorCurrency) != 0 {
+	if len(j.BidFloorCurrency) != 0 {
 		buf.WriteString(`"bidfloorcur":`)
-		fflib.WriteJsonString(buf, string(mj.BidFloorCurrency))
+		fflib.WriteJsonString(buf, string(j.BidFloorCurrency))
 		buf.WriteByte(',')
 	}
-	if mj.Secure != 0 {
+	if j.Secure != 0 {
 		buf.WriteString(`"secure":`)
-		fflib.FormatBits2(buf, uint64(mj.Secure), 10, mj.Secure < 0)
+		fflib.FormatBits2(buf, uint64(j.Secure), 10, j.Secure < 0)
 		buf.WriteByte(',')
 	}
-	if mj.Exp != 0 {
+	if j.Exp != 0 {
 		buf.WriteString(`"exp":`)
-		fflib.FormatBits2(buf, uint64(mj.Exp), 10, mj.Exp < 0)
+		fflib.FormatBits2(buf, uint64(j.Exp), 10, j.Exp < 0)
 		buf.WriteByte(',')
 	}
-	if len(mj.IFrameBuster) != 0 {
+	if len(j.IFrameBuster) != 0 {
 		buf.WriteString(`"iframebuster":`)
-		if mj.IFrameBuster != nil {
+		if j.IFrameBuster != nil {
 			buf.WriteString(`[`)
-			for i, v := range mj.IFrameBuster {
+			for i, v := range j.IFrameBuster {
 				if i != 0 {
 					buf.WriteString(`,`)
 				}
@@ -166,7 +169,7 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 
 		{
 
-			err = mj.Ext.MarshalJSONBuf(buf)
+			err = j.Ext.MarshalJSONBuf(buf)
 			if err != nil {
 				return err
 			}
@@ -180,82 +183,84 @@ func (mj *Impression) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_Impressionbase = iota
-	ffj_t_Impressionno_such_key
+	ffjtImpressionbase = iota
+	ffjtImpressionnosuchkey
 
-	ffj_t_Impression_ID
+	ffjtImpressionID
 
-	ffj_t_Impression_Banner
+	ffjtImpressionBanner
 
-	ffj_t_Impression_Video
+	ffjtImpressionVideo
 
-	ffj_t_Impression_Audio
+	ffjtImpressionAudio
 
-	ffj_t_Impression_Native
+	ffjtImpressionNative
 
-	ffj_t_Impression_Pmp
+	ffjtImpressionPmp
 
-	ffj_t_Impression_DisplayManager
+	ffjtImpressionDisplayManager
 
-	ffj_t_Impression_DisplayManagerVer
+	ffjtImpressionDisplayManagerVer
 
-	ffj_t_Impression_Instl
+	ffjtImpressionInstl
 
-	ffj_t_Impression_TagID
+	ffjtImpressionTagID
 
-	ffj_t_Impression_BidFloor
+	ffjtImpressionBidFloor
 
-	ffj_t_Impression_BidFloorCurrency
+	ffjtImpressionBidFloorCurrency
 
-	ffj_t_Impression_Secure
+	ffjtImpressionSecure
 
-	ffj_t_Impression_Exp
+	ffjtImpressionExp
 
-	ffj_t_Impression_IFrameBuster
+	ffjtImpressionIFrameBuster
 
-	ffj_t_Impression_Ext
+	ffjtImpressionExt
 )
 
-var ffj_key_Impression_ID = []byte("id")
+var ffjKeyImpressionID = []byte("id")
 
-var ffj_key_Impression_Banner = []byte("banner")
+var ffjKeyImpressionBanner = []byte("banner")
 
-var ffj_key_Impression_Video = []byte("video")
+var ffjKeyImpressionVideo = []byte("video")
 
-var ffj_key_Impression_Audio = []byte("audio")
+var ffjKeyImpressionAudio = []byte("audio")
 
-var ffj_key_Impression_Native = []byte("native")
+var ffjKeyImpressionNative = []byte("native")
 
-var ffj_key_Impression_Pmp = []byte("pmp")
+var ffjKeyImpressionPmp = []byte("pmp")
 
-var ffj_key_Impression_DisplayManager = []byte("displaymanager")
+var ffjKeyImpressionDisplayManager = []byte("displaymanager")
 
-var ffj_key_Impression_DisplayManagerVer = []byte("displaymanagerver")
+var ffjKeyImpressionDisplayManagerVer = []byte("displaymanagerver")
 
-var ffj_key_Impression_Instl = []byte("instl")
+var ffjKeyImpressionInstl = []byte("instl")
 
-var ffj_key_Impression_TagID = []byte("tagid")
+var ffjKeyImpressionTagID = []byte("tagid")
 
-var ffj_key_Impression_BidFloor = []byte("bidfloor")
+var ffjKeyImpressionBidFloor = []byte("bidfloor")
 
-var ffj_key_Impression_BidFloorCurrency = []byte("bidfloorcur")
+var ffjKeyImpressionBidFloorCurrency = []byte("bidfloorcur")
 
-var ffj_key_Impression_Secure = []byte("secure")
+var ffjKeyImpressionSecure = []byte("secure")
 
-var ffj_key_Impression_Exp = []byte("exp")
+var ffjKeyImpressionExp = []byte("exp")
 
-var ffj_key_Impression_IFrameBuster = []byte("iframebuster")
+var ffjKeyImpressionIFrameBuster = []byte("iframebuster")
 
-var ffj_key_Impression_Ext = []byte("ext")
+var ffjKeyImpressionExt = []byte("ext")
 
-func (uj *Impression) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *Impression) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *Impression) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_Impressionbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *Impression) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtImpressionbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -301,7 +306,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_Impressionno_such_key
+				currentKey = ffjtImpressionnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -309,213 +314,213 @@ mainparse:
 
 				case 'a':
 
-					if bytes.Equal(ffj_key_Impression_Audio, kn) {
-						currentKey = ffj_t_Impression_Audio
+					if bytes.Equal(ffjKeyImpressionAudio, kn) {
+						currentKey = ffjtImpressionAudio
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_Impression_Banner, kn) {
-						currentKey = ffj_t_Impression_Banner
+					if bytes.Equal(ffjKeyImpressionBanner, kn) {
+						currentKey = ffjtImpressionBanner
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_BidFloor, kn) {
-						currentKey = ffj_t_Impression_BidFloor
+					} else if bytes.Equal(ffjKeyImpressionBidFloor, kn) {
+						currentKey = ffjtImpressionBidFloor
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_BidFloorCurrency, kn) {
-						currentKey = ffj_t_Impression_BidFloorCurrency
+					} else if bytes.Equal(ffjKeyImpressionBidFloorCurrency, kn) {
+						currentKey = ffjtImpressionBidFloorCurrency
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'd':
 
-					if bytes.Equal(ffj_key_Impression_DisplayManager, kn) {
-						currentKey = ffj_t_Impression_DisplayManager
+					if bytes.Equal(ffjKeyImpressionDisplayManager, kn) {
+						currentKey = ffjtImpressionDisplayManager
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_DisplayManagerVer, kn) {
-						currentKey = ffj_t_Impression_DisplayManagerVer
+					} else if bytes.Equal(ffjKeyImpressionDisplayManagerVer, kn) {
+						currentKey = ffjtImpressionDisplayManagerVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'e':
 
-					if bytes.Equal(ffj_key_Impression_Exp, kn) {
-						currentKey = ffj_t_Impression_Exp
+					if bytes.Equal(ffjKeyImpressionExp, kn) {
+						currentKey = ffjtImpressionExp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_Ext, kn) {
-						currentKey = ffj_t_Impression_Ext
+					} else if bytes.Equal(ffjKeyImpressionExt, kn) {
+						currentKey = ffjtImpressionExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'i':
 
-					if bytes.Equal(ffj_key_Impression_ID, kn) {
-						currentKey = ffj_t_Impression_ID
+					if bytes.Equal(ffjKeyImpressionID, kn) {
+						currentKey = ffjtImpressionID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_Instl, kn) {
-						currentKey = ffj_t_Impression_Instl
+					} else if bytes.Equal(ffjKeyImpressionInstl, kn) {
+						currentKey = ffjtImpressionInstl
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffj_key_Impression_IFrameBuster, kn) {
-						currentKey = ffj_t_Impression_IFrameBuster
+					} else if bytes.Equal(ffjKeyImpressionIFrameBuster, kn) {
+						currentKey = ffjtImpressionIFrameBuster
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'n':
 
-					if bytes.Equal(ffj_key_Impression_Native, kn) {
-						currentKey = ffj_t_Impression_Native
+					if bytes.Equal(ffjKeyImpressionNative, kn) {
+						currentKey = ffjtImpressionNative
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'p':
 
-					if bytes.Equal(ffj_key_Impression_Pmp, kn) {
-						currentKey = ffj_t_Impression_Pmp
+					if bytes.Equal(ffjKeyImpressionPmp, kn) {
+						currentKey = ffjtImpressionPmp
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 's':
 
-					if bytes.Equal(ffj_key_Impression_Secure, kn) {
-						currentKey = ffj_t_Impression_Secure
+					if bytes.Equal(ffjKeyImpressionSecure, kn) {
+						currentKey = ffjtImpressionSecure
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 't':
 
-					if bytes.Equal(ffj_key_Impression_TagID, kn) {
-						currentKey = ffj_t_Impression_TagID
+					if bytes.Equal(ffjKeyImpressionTagID, kn) {
+						currentKey = ffjtImpressionTagID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				case 'v':
 
-					if bytes.Equal(ffj_key_Impression_Video, kn) {
-						currentKey = ffj_t_Impression_Video
+					if bytes.Equal(ffjKeyImpressionVideo, kn) {
+						currentKey = ffjtImpressionVideo
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Ext, kn) {
-					currentKey = ffj_t_Impression_Ext
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionExt, kn) {
+					currentKey = ffjtImpressionExt
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_IFrameBuster, kn) {
-					currentKey = ffj_t_Impression_IFrameBuster
+				if fflib.EqualFoldRight(ffjKeyImpressionIFrameBuster, kn) {
+					currentKey = ffjtImpressionIFrameBuster
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Exp, kn) {
-					currentKey = ffj_t_Impression_Exp
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionExp, kn) {
+					currentKey = ffjtImpressionExp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_Secure, kn) {
-					currentKey = ffj_t_Impression_Secure
+				if fflib.EqualFoldRight(ffjKeyImpressionSecure, kn) {
+					currentKey = ffjtImpressionSecure
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_BidFloorCurrency, kn) {
-					currentKey = ffj_t_Impression_BidFloorCurrency
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionBidFloorCurrency, kn) {
+					currentKey = ffjtImpressionBidFloorCurrency
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_BidFloor, kn) {
-					currentKey = ffj_t_Impression_BidFloor
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionBidFloor, kn) {
+					currentKey = ffjtImpressionBidFloor
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_TagID, kn) {
-					currentKey = ffj_t_Impression_TagID
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionTagID, kn) {
+					currentKey = ffjtImpressionTagID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_Instl, kn) {
-					currentKey = ffj_t_Impression_Instl
+				if fflib.EqualFoldRight(ffjKeyImpressionInstl, kn) {
+					currentKey = ffjtImpressionInstl
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_DisplayManagerVer, kn) {
-					currentKey = ffj_t_Impression_DisplayManagerVer
+				if fflib.EqualFoldRight(ffjKeyImpressionDisplayManagerVer, kn) {
+					currentKey = ffjtImpressionDisplayManagerVer
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffj_key_Impression_DisplayManager, kn) {
-					currentKey = ffj_t_Impression_DisplayManager
+				if fflib.EqualFoldRight(ffjKeyImpressionDisplayManager, kn) {
+					currentKey = ffjtImpressionDisplayManager
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Pmp, kn) {
-					currentKey = ffj_t_Impression_Pmp
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionPmp, kn) {
+					currentKey = ffjtImpressionPmp
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Native, kn) {
-					currentKey = ffj_t_Impression_Native
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionNative, kn) {
+					currentKey = ffjtImpressionNative
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Audio, kn) {
-					currentKey = ffj_t_Impression_Audio
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionAudio, kn) {
+					currentKey = ffjtImpressionAudio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Video, kn) {
-					currentKey = ffj_t_Impression_Video
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionVideo, kn) {
+					currentKey = ffjtImpressionVideo
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_Banner, kn) {
-					currentKey = ffj_t_Impression_Banner
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionBanner, kn) {
+					currentKey = ffjtImpressionBanner
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffj_key_Impression_ID, kn) {
-					currentKey = ffj_t_Impression_ID
+				if fflib.SimpleLetterEqualFold(ffjKeyImpressionID, kn) {
+					currentKey = ffjtImpressionID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_Impressionno_such_key
+				currentKey = ffjtImpressionnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -532,55 +537,55 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_Impression_ID:
+				case ffjtImpressionID:
 					goto handle_ID
 
-				case ffj_t_Impression_Banner:
+				case ffjtImpressionBanner:
 					goto handle_Banner
 
-				case ffj_t_Impression_Video:
+				case ffjtImpressionVideo:
 					goto handle_Video
 
-				case ffj_t_Impression_Audio:
+				case ffjtImpressionAudio:
 					goto handle_Audio
 
-				case ffj_t_Impression_Native:
+				case ffjtImpressionNative:
 					goto handle_Native
 
-				case ffj_t_Impression_Pmp:
+				case ffjtImpressionPmp:
 					goto handle_Pmp
 
-				case ffj_t_Impression_DisplayManager:
+				case ffjtImpressionDisplayManager:
 					goto handle_DisplayManager
 
-				case ffj_t_Impression_DisplayManagerVer:
+				case ffjtImpressionDisplayManagerVer:
 					goto handle_DisplayManagerVer
 
-				case ffj_t_Impression_Instl:
+				case ffjtImpressionInstl:
 					goto handle_Instl
 
-				case ffj_t_Impression_TagID:
+				case ffjtImpressionTagID:
 					goto handle_TagID
 
-				case ffj_t_Impression_BidFloor:
+				case ffjtImpressionBidFloor:
 					goto handle_BidFloor
 
-				case ffj_t_Impression_BidFloorCurrency:
+				case ffjtImpressionBidFloorCurrency:
 					goto handle_BidFloorCurrency
 
-				case ffj_t_Impression_Secure:
+				case ffjtImpressionSecure:
 					goto handle_Secure
 
-				case ffj_t_Impression_Exp:
+				case ffjtImpressionExp:
 					goto handle_Exp
 
-				case ffj_t_Impression_IFrameBuster:
+				case ffjtImpressionIFrameBuster:
 					goto handle_IFrameBuster
 
-				case ffj_t_Impression_Ext:
+				case ffjtImpressionExt:
 					goto handle_Ext
 
-				case ffj_t_Impressionno_such_key:
+				case ffjtImpressionnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -596,7 +601,7 @@ mainparse:
 
 handle_ID:
 
-	/* handler: uj.ID type=string kind=string quoted=false*/
+	/* handler: j.ID type=string kind=string quoted=false*/
 
 	{
 
@@ -612,7 +617,7 @@ handle_ID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.ID = string(string(outBuf))
+			j.ID = string(string(outBuf))
 
 		}
 	}
@@ -622,22 +627,22 @@ handle_ID:
 
 handle_Banner:
 
-	/* handler: uj.Banner type=openrtb.Banner kind=struct quoted=false*/
+	/* handler: j.Banner type=openrtb.Banner kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
 
-			uj.Banner = nil
+			j.Banner = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
 		}
 
-		if uj.Banner == nil {
-			uj.Banner = new(Banner)
+		if j.Banner == nil {
+			j.Banner = new(Banner)
 		}
 
-		err = uj.Banner.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Banner.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -649,12 +654,12 @@ handle_Banner:
 
 handle_Video:
 
-	/* handler: uj.Video type=openrtb.Video kind=struct quoted=false*/
+	/* handler: j.Video type=openrtb.Video kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
 
-			uj.Video = nil
+			j.Video = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -665,11 +670,11 @@ handle_Video:
 			return fs.WrapErr(err)
 		}
 
-		if uj.Video == nil {
-			uj.Video = new(Video)
+		if j.Video == nil {
+			j.Video = new(Video)
 		}
 
-		err = uj.Video.UnmarshalJSON(tbuf)
+		err = j.Video.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -681,12 +686,12 @@ handle_Video:
 
 handle_Audio:
 
-	/* handler: uj.Audio type=openrtb.Audio kind=struct quoted=false*/
+	/* handler: j.Audio type=openrtb.Audio kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
 
-			uj.Audio = nil
+			j.Audio = nil
 
 			state = fflib.FFParse_after_value
 			goto mainparse
@@ -697,11 +702,11 @@ handle_Audio:
 			return fs.WrapErr(err)
 		}
 
-		if uj.Audio == nil {
-			uj.Audio = new(Audio)
+		if j.Audio == nil {
+			j.Audio = new(Audio)
 		}
 
-		err = uj.Audio.UnmarshalJSON(tbuf)
+		err = j.Audio.UnmarshalJSON(tbuf)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -713,7 +718,7 @@ handle_Audio:
 
 handle_Native:
 
-	/* handler: uj.Native type=openrtb.Native kind=struct quoted=false*/
+	/* handler: j.Native type=openrtb.Native kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Native kind=struct */
@@ -722,7 +727,7 @@ handle_Native:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Native)
+		err = json.Unmarshal(tbuf, &j.Native)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -733,7 +738,7 @@ handle_Native:
 
 handle_Pmp:
 
-	/* handler: uj.Pmp type=openrtb.Pmp kind=struct quoted=false*/
+	/* handler: j.Pmp type=openrtb.Pmp kind=struct quoted=false*/
 
 	{
 		/* Falling back. type=openrtb.Pmp kind=struct */
@@ -742,7 +747,7 @@ handle_Pmp:
 			return fs.WrapErr(err)
 		}
 
-		err = json.Unmarshal(tbuf, &uj.Pmp)
+		err = json.Unmarshal(tbuf, &j.Pmp)
 		if err != nil {
 			return fs.WrapErr(err)
 		}
@@ -753,7 +758,7 @@ handle_Pmp:
 
 handle_DisplayManager:
 
-	/* handler: uj.DisplayManager type=string kind=string quoted=false*/
+	/* handler: j.DisplayManager type=string kind=string quoted=false*/
 
 	{
 
@@ -769,7 +774,7 @@ handle_DisplayManager:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.DisplayManager = string(string(outBuf))
+			j.DisplayManager = string(string(outBuf))
 
 		}
 	}
@@ -779,7 +784,7 @@ handle_DisplayManager:
 
 handle_DisplayManagerVer:
 
-	/* handler: uj.DisplayManagerVer type=string kind=string quoted=false*/
+	/* handler: j.DisplayManagerVer type=string kind=string quoted=false*/
 
 	{
 
@@ -795,7 +800,7 @@ handle_DisplayManagerVer:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.DisplayManagerVer = string(string(outBuf))
+			j.DisplayManagerVer = string(string(outBuf))
 
 		}
 	}
@@ -805,7 +810,7 @@ handle_DisplayManagerVer:
 
 handle_Instl:
 
-	/* handler: uj.Instl type=int kind=int quoted=false*/
+	/* handler: j.Instl type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -825,7 +830,7 @@ handle_Instl:
 				return fs.WrapErr(err)
 			}
 
-			uj.Instl = int(tval)
+			j.Instl = int(tval)
 
 		}
 	}
@@ -835,7 +840,7 @@ handle_Instl:
 
 handle_TagID:
 
-	/* handler: uj.TagID type=string kind=string quoted=false*/
+	/* handler: j.TagID type=string kind=string quoted=false*/
 
 	{
 
@@ -851,7 +856,7 @@ handle_TagID:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.TagID = string(string(outBuf))
+			j.TagID = string(string(outBuf))
 
 		}
 	}
@@ -861,7 +866,7 @@ handle_TagID:
 
 handle_BidFloor:
 
-	/* handler: uj.BidFloor type=float64 kind=float64 quoted=false*/
+	/* handler: j.BidFloor type=float64 kind=float64 quoted=false*/
 
 	{
 		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -881,7 +886,7 @@ handle_BidFloor:
 				return fs.WrapErr(err)
 			}
 
-			uj.BidFloor = float64(tval)
+			j.BidFloor = float64(tval)
 
 		}
 	}
@@ -891,7 +896,7 @@ handle_BidFloor:
 
 handle_BidFloorCurrency:
 
-	/* handler: uj.BidFloorCurrency type=string kind=string quoted=false*/
+	/* handler: j.BidFloorCurrency type=string kind=string quoted=false*/
 
 	{
 
@@ -907,7 +912,7 @@ handle_BidFloorCurrency:
 
 			outBuf := fs.Output.Bytes()
 
-			uj.BidFloorCurrency = string(string(outBuf))
+			j.BidFloorCurrency = string(string(outBuf))
 
 		}
 	}
@@ -917,33 +922,7 @@ handle_BidFloorCurrency:
 
 handle_Secure:
 
-	/* handler: uj.Secure type=openrtb.NumberOrString kind=int quoted=false*/
-
-	{
-		if tok == fflib.FFTok_null {
-
-			state = fflib.FFParse_after_value
-			goto mainparse
-		}
-
-		tbuf, err := fs.CaptureField(tok)
-		if err != nil {
-			return fs.WrapErr(err)
-		}
-
-		err = uj.Secure.UnmarshalJSON(tbuf)
-		if err != nil {
-			return fs.WrapErr(err)
-		}
-		state = fflib.FFParse_after_value
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Exp:
-
-	/* handler: uj.Exp type=int kind=int quoted=false*/
+	/* handler: j.Secure type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
@@ -963,7 +942,37 @@ handle_Exp:
 				return fs.WrapErr(err)
 			}
 
-			uj.Exp = int(tval)
+			j.Secure = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Exp:
+
+	/* handler: j.Exp type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Exp = int(tval)
 
 		}
 	}
@@ -973,7 +982,7 @@ handle_Exp:
 
 handle_IFrameBuster:
 
-	/* handler: uj.IFrameBuster type=[]string kind=slice quoted=false*/
+	/* handler: j.IFrameBuster type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -984,16 +993,16 @@ handle_IFrameBuster:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.IFrameBuster = nil
+			j.IFrameBuster = nil
 		} else {
 
-			uj.IFrameBuster = make([]string, 0)
+			j.IFrameBuster = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJIFrameBuster string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1014,7 +1023,7 @@ handle_IFrameBuster:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJIFrameBuster type=string kind=string quoted=false*/
 
 				{
 
@@ -1030,12 +1039,13 @@ handle_IFrameBuster:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJIFrameBuster = string(string(outBuf))
 
 					}
 				}
 
-				uj.IFrameBuster = append(uj.IFrameBuster, v)
+				j.IFrameBuster = append(j.IFrameBuster, tmpJIFrameBuster)
+
 				wantVal = false
 			}
 		}
@@ -1046,7 +1056,7 @@ handle_IFrameBuster:
 
 handle_Ext:
 
-	/* handler: uj.Ext type=openrtb.ImpressionExt kind=struct quoted=false*/
+	/* handler: j.Ext type=openrtb.ImpressionExt kind=struct quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
@@ -1055,7 +1065,7 @@ handle_Ext:
 			goto mainparse
 		}
 
-		err = uj.Ext.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
+		err = j.Ext.UnmarshalJSONFFLexer(fs, fflib.FFParse_want_key)
 		if err != nil {
 			return err
 		}
@@ -1079,23 +1089,27 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
-func (mj *ImpressionExt) MarshalJSON() ([]byte, error) {
+// MarshalJSON marshal bytes to json - template
+func (j *ImpressionExt) MarshalJSON() ([]byte, error) {
 	var buf fflib.Buffer
-	if mj == nil {
+	if j == nil {
 		buf.WriteString("null")
 		return buf.Bytes(), nil
 	}
-	err := mj.MarshalJSONBuf(&buf)
+	err := j.MarshalJSONBuf(&buf)
 	if err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
-func (mj *ImpressionExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
-	if mj == nil {
+
+// MarshalJSONBuf marshal buff to json - template
+func (j *ImpressionExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
+	if j == nil {
 		buf.WriteString("null")
 		return nil
 	}
@@ -1104,9 +1118,9 @@ func (mj *ImpressionExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{"billing_id":`)
-	if mj.BillingID != nil {
+	if j.BillingID != nil {
 		buf.WriteString(`[`)
-		for i, v := range mj.BillingID {
+		for i, v := range j.BillingID {
 			if i != 0 {
 				buf.WriteString(`,`)
 			}
@@ -1121,22 +1135,24 @@ func (mj *ImpressionExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 }
 
 const (
-	ffj_t_ImpressionExtbase = iota
-	ffj_t_ImpressionExtno_such_key
+	ffjtImpressionExtbase = iota
+	ffjtImpressionExtnosuchkey
 
-	ffj_t_ImpressionExt_BillingID
+	ffjtImpressionExtBillingID
 )
 
-var ffj_key_ImpressionExt_BillingID = []byte("billing_id")
+var ffjKeyImpressionExtBillingID = []byte("billing_id")
 
-func (uj *ImpressionExt) UnmarshalJSON(input []byte) error {
+// UnmarshalJSON umarshall json - template of ffjson
+func (j *ImpressionExt) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
-	return uj.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
+	return j.UnmarshalJSONFFLexer(fs, fflib.FFParse_map_start)
 }
 
-func (uj *ImpressionExt) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
-	var err error = nil
-	currentKey := ffj_t_ImpressionExtbase
+// UnmarshalJSONFFLexer fast json unmarshall - template ffjson
+func (j *ImpressionExt) UnmarshalJSONFFLexer(fs *fflib.FFLexer, state fflib.FFParseState) error {
+	var err error
+	currentKey := ffjtImpressionExtbase
 	_ = currentKey
 	tok := fflib.FFTok_init
 	wantedTok := fflib.FFTok_init
@@ -1182,7 +1198,7 @@ mainparse:
 			kn := fs.Output.Bytes()
 			if len(kn) <= 0 {
 				// "" case. hrm.
-				currentKey = ffj_t_ImpressionExtno_such_key
+				currentKey = ffjtImpressionExtnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			} else {
@@ -1190,21 +1206,21 @@ mainparse:
 
 				case 'b':
 
-					if bytes.Equal(ffj_key_ImpressionExt_BillingID, kn) {
-						currentKey = ffj_t_ImpressionExt_BillingID
+					if bytes.Equal(ffjKeyImpressionExtBillingID, kn) {
+						currentKey = ffjtImpressionExtBillingID
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
 
 				}
 
-				if fflib.AsciiEqualFold(ffj_key_ImpressionExt_BillingID, kn) {
-					currentKey = ffj_t_ImpressionExt_BillingID
+				if fflib.AsciiEqualFold(ffjKeyImpressionExtBillingID, kn) {
+					currentKey = ffjtImpressionExtBillingID
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				currentKey = ffj_t_ImpressionExtno_such_key
+				currentKey = ffjtImpressionExtnosuchkey
 				state = fflib.FFParse_want_colon
 				goto mainparse
 			}
@@ -1221,10 +1237,10 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
-				case ffj_t_ImpressionExt_BillingID:
+				case ffjtImpressionExtBillingID:
 					goto handle_BillingID
 
-				case ffj_t_ImpressionExtno_such_key:
+				case ffjtImpressionExtnosuchkey:
 					err = fs.SkipField(tok)
 					if err != nil {
 						return fs.WrapErr(err)
@@ -1240,7 +1256,7 @@ mainparse:
 
 handle_BillingID:
 
-	/* handler: uj.BillingID type=[]string kind=slice quoted=false*/
+	/* handler: j.BillingID type=[]string kind=slice quoted=false*/
 
 	{
 
@@ -1251,16 +1267,16 @@ handle_BillingID:
 		}
 
 		if tok == fflib.FFTok_null {
-			uj.BillingID = nil
+			j.BillingID = nil
 		} else {
 
-			uj.BillingID = make([]string, 0)
+			j.BillingID = []string{}
 
 			wantVal := true
 
 			for {
 
-				var v string
+				var tmpJBillingID string
 
 				tok = fs.Scan()
 				if tok == fflib.FFTok_error {
@@ -1281,7 +1297,7 @@ handle_BillingID:
 					wantVal = true
 				}
 
-				/* handler: v type=string kind=string quoted=false*/
+				/* handler: tmpJBillingID type=string kind=string quoted=false*/
 
 				{
 
@@ -1297,12 +1313,13 @@ handle_BillingID:
 
 						outBuf := fs.Output.Bytes()
 
-						v = string(string(outBuf))
+						tmpJBillingID = string(string(outBuf))
 
 					}
 				}
 
-				uj.BillingID = append(uj.BillingID, v)
+				j.BillingID = append(j.BillingID, tmpJBillingID)
+
 				wantVal = false
 			}
 		}
@@ -1325,5 +1342,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
