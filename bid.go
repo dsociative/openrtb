@@ -39,6 +39,8 @@ type BidExt struct {
 	ImpressionTrackingUrl []string `json:"impression_tracking_url,omitempty"`
 	Duration              int64    `json:"duration,omitempty"`
 	VastUrl               string   `json:"vast_url,omitempty"`
+	AdvertiserName        string   `json:"advertiser_name,omitempty"`
+	AgencyName            string   `json:"agency_name,omitempty"`
 }
 
 // Validate required attributes

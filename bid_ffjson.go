@@ -1147,6 +1147,7 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
 
@@ -1198,6 +1199,16 @@ func (mj *BidExt) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(mj.VastUrl))
 		buf.WriteByte(',')
 	}
+	if len(mj.AdvertiserName) != 0 {
+		buf.WriteString(`"advertiser_name":`)
+		fflib.WriteJsonString(buf, string(mj.AdvertiserName))
+		buf.WriteByte(',')
+	}
+	if len(mj.AgencyName) != 0 {
+		buf.WriteString(`"agency_name":`)
+		fflib.WriteJsonString(buf, string(mj.AgencyName))
+		buf.WriteByte(',')
+	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
 	return nil
@@ -1212,6 +1223,10 @@ const (
 	ffj_t_BidExt_Duration
 
 	ffj_t_BidExt_VastUrl
+
+	ffj_t_BidExt_AdvertiserName
+
+	ffj_t_BidExt_AgencyName
 )
 
 var ffj_key_BidExt_ImpressionTrackingUrl = []byte("impression_tracking_url")
@@ -1219,6 +1234,10 @@ var ffj_key_BidExt_ImpressionTrackingUrl = []byte("impression_tracking_url")
 var ffj_key_BidExt_Duration = []byte("duration")
 
 var ffj_key_BidExt_VastUrl = []byte("vast_url")
+
+var ffj_key_BidExt_AdvertiserName = []byte("advertiser_name")
+
+var ffj_key_BidExt_AgencyName = []byte("agency_name")
 
 func (uj *BidExt) UnmarshalJSON(input []byte) error {
 	fs := fflib.NewFFLexer(input)
@@ -1279,6 +1298,19 @@ mainparse:
 			} else {
 				switch kn[0] {
 
+				case 'a':
+
+					if bytes.Equal(ffj_key_BidExt_AdvertiserName, kn) {
+						currentKey = ffj_t_BidExt_AdvertiserName
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffj_key_BidExt_AgencyName, kn) {
+						currentKey = ffj_t_BidExt_AgencyName
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'd':
 
 					if bytes.Equal(ffj_key_BidExt_Duration, kn) {
@@ -1303,6 +1335,18 @@ mainparse:
 						goto mainparse
 					}
 
+				}
+
+				if fflib.AsciiEqualFold(ffj_key_BidExt_AgencyName, kn) {
+					currentKey = ffj_t_BidExt_AgencyName
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffj_key_BidExt_AdvertiserName, kn) {
+					currentKey = ffj_t_BidExt_AdvertiserName
+					state = fflib.FFParse_want_colon
+					goto mainparse
 				}
 
 				if fflib.EqualFoldRight(ffj_key_BidExt_VastUrl, kn) {
@@ -1348,6 +1392,12 @@ mainparse:
 
 				case ffj_t_BidExt_VastUrl:
 					goto handle_VastUrl
+
+				case ffj_t_BidExt_AdvertiserName:
+					goto handle_AdvertiserName
+
+				case ffj_t_BidExt_AgencyName:
+					goto handle_AgencyName
 
 				case ffj_t_BidExtno_such_key:
 					err = fs.SkipField(tok)
@@ -1493,6 +1543,58 @@ handle_VastUrl:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_AdvertiserName:
+
+	/* handler: uj.AdvertiserName type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			uj.AdvertiserName = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_AgencyName:
+
+	/* handler: uj.AgencyName type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			uj.AgencyName = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 wantedvalue:
 	return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
 wrongtokenerror:
@@ -1507,5 +1609,6 @@ tokerror:
 	}
 	panic("ffjson-generated: unreachable, please report bug.")
 done:
+
 	return nil
 }
