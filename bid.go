@@ -35,12 +35,9 @@ type Bid struct {
 	Ext        BidExt   `json:"ext,omitempty"`
 }
 
-type BidExt struct {
-	ImpressionTrackingUrl []string `json:"impression_tracking_url,omitempty"`
-	Duration              int64    `json:"duration,omitempty"`
-	VastUrl               string   `json:"vast_url,omitempty"`
-	AdvertiserName        string   `json:"advertiser_name,omitempty"`
-	AgencyName            string   `json:"agency_name,omitempty"`
+type BidExt interface {
+	MarshalJSON() ([]byte, error)
+	UnmarshalJSON([]byte) error
 }
 
 // Validate required attributes
