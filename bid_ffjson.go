@@ -133,7 +133,7 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
+	if len(j.Ext) != 0 {
 		buf.WriteString(`"ext":`)
 
 		{
@@ -1118,7 +1118,7 @@ handle_W:
 
 handle_Ext:
 
-	/* handler: j.Ext type=openrtb.BidExt kind=interface quoted=false*/
+	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
