@@ -47,12 +47,12 @@ func NewBidExt(data interface{}) *BidExt {
 	return &BidExt{Data: data}
 }
 
-func (p *BidExt) UnmarshalJSON(data []byte) error {
-	return nil
+func (b *BidExt) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &b.Data)
 }
 
-func (p *BidExt) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&p.Data)
+func (b *BidExt) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&b.Data)
 }
 
 // Validate required attributes
