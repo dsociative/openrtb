@@ -1,7 +1,10 @@
 //go:generate ffjson $GOFILE
 package openrtb
 
-import "errors"
+import (
+	"encoding/json"
+	"errors"
+)
 
 // Validation errors
 var (
@@ -32,13 +35,24 @@ type Bid struct {
 	DealID     string   `json:"dealid,omitempty"`  // DealID extension of private marketplace deals
 	H          int      `json:"h,omitempty"`       // Height of the ad in pixels.
 	W          int      `json:"w,omitempty"`       // Width of the ad in pixels.
-	Ext        BidExt   `json:"ext,omitempty"`
+	Ext        *BidExt  `json:"ext,omitempty"`
 }
 
+// ffjson: skip
 type BidExt struct {
-	ImpressionTrackingUrl []string `json:"impression_tracking_url,omitempty"`
-	Duration              int64    `json:"duration,omitempty"`
-	VastUrl               string   `json:"vast_url,omitempty"`
+	Data interface{}
+}
+
+func NewBidExt(data interface{}) *BidExt {
+	return &BidExt{Data: data}
+}
+
+func (b *BidExt) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &b.Data)
+}
+
+func (b *BidExt) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&b.Data)
 }
 
 // Validate required attributes
