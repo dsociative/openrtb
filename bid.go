@@ -1,7 +1,10 @@
 //go:generate ffjson $GOFILE
 package openrtb
 
-import "errors"
+import (
+	"encoding/json"
+	"errors"
+)
 
 // Validation errors
 var (
@@ -9,10 +12,21 @@ var (
 	ErrInvalidBidNoImpID = errors.New("openrtb: bid is missing impression ID")
 )
 
+// ffjson: skip
 type BidExt struct {
-	ImpressionTrackingUrl []string `json:"impression_tracking_url,omitempty"`
-	Duration              int64    `json:"duration,omitempty"`
-	VastUrl               string   `json:"vast_url,omitempty"`
+	Data interface{}
+}
+
+func NewBidExt(data interface{}) *BidExt {
+	return &BidExt{Data: data}
+}
+
+func (b *BidExt) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &b.Data)
+}
+
+func (b *BidExt) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&b.Data)
 }
 
 // ID, ImpID and Price are required; all other optional.
@@ -49,7 +63,7 @@ type Bid struct {
 	WRatio         int      `json:"wratio,omitempty"`         // Relative width of the creative when expressing size as a ratio.
 	HRatio         int      `json:"hratio,omitempty"`         // Relative height of the creative when expressing size as a ratio.
 	Exp            int      `json:"exp,omitempty"`            // Advisory as to the number of seconds the bidder is willing to wait between the auction and the actual impression.
-	Ext            BidExt   `json:"ext,omitempty"`
+	Ext            *BidExt  `json:"ext,omitempty"`
 }
 
 // Validate required attributes
