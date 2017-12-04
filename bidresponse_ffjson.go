@@ -74,21 +74,19 @@ func (j *BidResponse) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(j.NBR), 10, j.NBR < 0)
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -542,22 +540,16 @@ handle_NBR:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)

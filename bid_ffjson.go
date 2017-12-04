@@ -50,6 +50,16 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(j.NURL))
 		buf.WriteByte(',')
 	}
+	if len(j.BURL) != 0 {
+		buf.WriteString(`"burl":`)
+		fflib.WriteJsonString(buf, string(j.BURL))
+		buf.WriteByte(',')
+	}
+	if len(j.LURL) != 0 {
+		buf.WriteString(`"lurl":`)
+		fflib.WriteJsonString(buf, string(j.LURL))
+		buf.WriteByte(',')
+	}
 	if len(j.AdMarkup) != 0 {
 		buf.WriteString(`"adm":`)
 		fflib.WriteJsonString(buf, string(j.AdMarkup))
@@ -71,6 +81,11 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
+	if len(j.Bundle) != 0 {
+		buf.WriteString(`"bundle":`)
+		fflib.WriteJsonString(buf, string(j.Bundle))
+		buf.WriteByte(',')
+	}
 	if len(j.IURL) != 0 {
 		buf.WriteString(`"iurl":`)
 		fflib.WriteJsonString(buf, string(j.IURL))
@@ -84,6 +99,11 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if len(j.CreativeID) != 0 {
 		buf.WriteString(`"crid":`)
 		fflib.WriteJsonString(buf, string(j.CreativeID))
+		buf.WriteByte(',')
+	}
+	if len(j.Tactic) != 0 {
+		buf.WriteString(`"tactic":`)
+		fflib.WriteJsonString(buf, string(j.Tactic))
 		buf.WriteByte(',')
 	}
 	if len(j.Cat) != 0 {
@@ -118,6 +138,26 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
+	if j.API != 0 {
+		buf.WriteString(`"api":`)
+		fflib.FormatBits2(buf, uint64(j.API), 10, j.API < 0)
+		buf.WriteByte(',')
+	}
+	if j.Protocol != 0 {
+		buf.WriteString(`"protocol":`)
+		fflib.FormatBits2(buf, uint64(j.Protocol), 10, j.Protocol < 0)
+		buf.WriteByte(',')
+	}
+	if j.QAGMediaRating != 0 {
+		buf.WriteString(`"qagmediarating":`)
+		fflib.FormatBits2(buf, uint64(j.QAGMediaRating), 10, j.QAGMediaRating < 0)
+		buf.WriteByte(',')
+	}
+	if len(j.Language) != 0 {
+		buf.WriteString(`"language":`)
+		fflib.WriteJsonString(buf, string(j.Language))
+		buf.WriteByte(',')
+	}
 	if len(j.DealID) != 0 {
 		buf.WriteString(`"dealid":`)
 		fflib.WriteJsonString(buf, string(j.DealID))
@@ -131,6 +171,21 @@ func (j *Bid) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if j.W != 0 {
 		buf.WriteString(`"w":`)
 		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
+		buf.WriteByte(',')
+	}
+	if j.WRatio != 0 {
+		buf.WriteString(`"wratio":`)
+		fflib.FormatBits2(buf, uint64(j.WRatio), 10, j.WRatio < 0)
+		buf.WriteByte(',')
+	}
+	if j.HRatio != 0 {
+		buf.WriteString(`"hratio":`)
+		fflib.FormatBits2(buf, uint64(j.HRatio), 10, j.HRatio < 0)
+		buf.WriteByte(',')
+	}
+	if j.Exp != 0 {
+		buf.WriteString(`"exp":`)
+		fflib.FormatBits2(buf, uint64(j.Exp), 10, j.Exp < 0)
 		buf.WriteByte(',')
 	}
 	if j.Ext != nil {
@@ -168,9 +223,15 @@ const (
 
 	ffjtBidNURL
 
+	ffjtBidBURL
+
+	ffjtBidLURL
+
 	ffjtBidAdMarkup
 
 	ffjtBidAdvDomain
+
+	ffjtBidBundle
 
 	ffjtBidIURL
 
@@ -178,15 +239,31 @@ const (
 
 	ffjtBidCreativeID
 
+	ffjtBidTactic
+
 	ffjtBidCat
 
 	ffjtBidAttr
+
+	ffjtBidAPI
+
+	ffjtBidProtocol
+
+	ffjtBidQAGMediaRating
+
+	ffjtBidLanguage
 
 	ffjtBidDealID
 
 	ffjtBidH
 
 	ffjtBidW
+
+	ffjtBidWRatio
+
+	ffjtBidHRatio
+
+	ffjtBidExp
 
 	ffjtBidExt
 )
@@ -201,9 +278,15 @@ var ffjKeyBidAdID = []byte("adid")
 
 var ffjKeyBidNURL = []byte("nurl")
 
+var ffjKeyBidBURL = []byte("burl")
+
+var ffjKeyBidLURL = []byte("lurl")
+
 var ffjKeyBidAdMarkup = []byte("adm")
 
 var ffjKeyBidAdvDomain = []byte("adomain")
+
+var ffjKeyBidBundle = []byte("bundle")
 
 var ffjKeyBidIURL = []byte("iurl")
 
@@ -211,15 +294,31 @@ var ffjKeyBidCampaignID = []byte("cid")
 
 var ffjKeyBidCreativeID = []byte("crid")
 
+var ffjKeyBidTactic = []byte("tactic")
+
 var ffjKeyBidCat = []byte("cat")
 
 var ffjKeyBidAttr = []byte("attr")
+
+var ffjKeyBidAPI = []byte("api")
+
+var ffjKeyBidProtocol = []byte("protocol")
+
+var ffjKeyBidQAGMediaRating = []byte("qagmediarating")
+
+var ffjKeyBidLanguage = []byte("language")
 
 var ffjKeyBidDealID = []byte("dealid")
 
 var ffjKeyBidH = []byte("h")
 
 var ffjKeyBidW = []byte("w")
+
+var ffjKeyBidWRatio = []byte("wratio")
+
+var ffjKeyBidHRatio = []byte("hratio")
+
+var ffjKeyBidExp = []byte("exp")
 
 var ffjKeyBidExt = []byte("ext")
 
@@ -305,6 +404,24 @@ mainparse:
 						currentKey = ffjtBidAttr
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidAPI, kn) {
+						currentKey = ffjtBidAPI
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				case 'b':
+
+					if bytes.Equal(ffjKeyBidBURL, kn) {
+						currentKey = ffjtBidBURL
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidBundle, kn) {
+						currentKey = ffjtBidBundle
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				case 'c':
@@ -335,7 +452,12 @@ mainparse:
 
 				case 'e':
 
-					if bytes.Equal(ffjKeyBidExt, kn) {
+					if bytes.Equal(ffjKeyBidExp, kn) {
+						currentKey = ffjtBidExp
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidExt, kn) {
 						currentKey = ffjtBidExt
 						state = fflib.FFParse_want_colon
 						goto mainparse
@@ -345,6 +467,11 @@ mainparse:
 
 					if bytes.Equal(ffjKeyBidH, kn) {
 						currentKey = ffjtBidH
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidHRatio, kn) {
+						currentKey = ffjtBidHRatio
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -367,6 +494,19 @@ mainparse:
 						goto mainparse
 					}
 
+				case 'l':
+
+					if bytes.Equal(ffjKeyBidLURL, kn) {
+						currentKey = ffjtBidLURL
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidLanguage, kn) {
+						currentKey = ffjtBidLanguage
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'n':
 
 					if bytes.Equal(ffjKeyBidNURL, kn) {
@@ -381,6 +521,27 @@ mainparse:
 						currentKey = ffjtBidPrice
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidProtocol, kn) {
+						currentKey = ffjtBidProtocol
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				case 'q':
+
+					if bytes.Equal(ffjKeyBidQAGMediaRating, kn) {
+						currentKey = ffjtBidQAGMediaRating
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
+				case 't':
+
+					if bytes.Equal(ffjKeyBidTactic, kn) {
+						currentKey = ffjtBidTactic
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				case 'w':
@@ -389,12 +550,35 @@ mainparse:
 						currentKey = ffjtBidW
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffjKeyBidWRatio, kn) {
+						currentKey = ffjtBidWRatio
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				}
 
 				if fflib.SimpleLetterEqualFold(ffjKeyBidExt, kn) {
 					currentKey = ffjtBidExt
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidExp, kn) {
+					currentKey = ffjtBidExp
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidHRatio, kn) {
+					currentKey = ffjtBidHRatio
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidWRatio, kn) {
+					currentKey = ffjtBidWRatio
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -417,6 +601,30 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.SimpleLetterEqualFold(ffjKeyBidLanguage, kn) {
+					currentKey = ffjtBidLanguage
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidQAGMediaRating, kn) {
+					currentKey = ffjtBidQAGMediaRating
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidProtocol, kn) {
+					currentKey = ffjtBidProtocol
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidAPI, kn) {
+					currentKey = ffjtBidAPI
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffjKeyBidAttr, kn) {
 					currentKey = ffjtBidAttr
 					state = fflib.FFParse_want_colon
@@ -425,6 +633,12 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffjKeyBidCat, kn) {
 					currentKey = ffjtBidCat
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidTactic, kn) {
+					currentKey = ffjtBidTactic
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -447,6 +661,12 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.SimpleLetterEqualFold(ffjKeyBidBundle, kn) {
+					currentKey = ffjtBidBundle
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffjKeyBidAdvDomain, kn) {
 					currentKey = ffjtBidAdvDomain
 					state = fflib.FFParse_want_colon
@@ -455,6 +675,18 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffjKeyBidAdMarkup, kn) {
 					currentKey = ffjtBidAdMarkup
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidLURL, kn) {
+					currentKey = ffjtBidLURL
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBidBURL, kn) {
+					currentKey = ffjtBidBURL
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -521,11 +753,20 @@ mainparse:
 				case ffjtBidNURL:
 					goto handle_NURL
 
+				case ffjtBidBURL:
+					goto handle_BURL
+
+				case ffjtBidLURL:
+					goto handle_LURL
+
 				case ffjtBidAdMarkup:
 					goto handle_AdMarkup
 
 				case ffjtBidAdvDomain:
 					goto handle_AdvDomain
+
+				case ffjtBidBundle:
+					goto handle_Bundle
 
 				case ffjtBidIURL:
 					goto handle_IURL
@@ -536,11 +777,26 @@ mainparse:
 				case ffjtBidCreativeID:
 					goto handle_CreativeID
 
+				case ffjtBidTactic:
+					goto handle_Tactic
+
 				case ffjtBidCat:
 					goto handle_Cat
 
 				case ffjtBidAttr:
 					goto handle_Attr
+
+				case ffjtBidAPI:
+					goto handle_API
+
+				case ffjtBidProtocol:
+					goto handle_Protocol
+
+				case ffjtBidQAGMediaRating:
+					goto handle_QAGMediaRating
+
+				case ffjtBidLanguage:
+					goto handle_Language
 
 				case ffjtBidDealID:
 					goto handle_DealID
@@ -550,6 +806,15 @@ mainparse:
 
 				case ffjtBidW:
 					goto handle_W
+
+				case ffjtBidWRatio:
+					goto handle_WRatio
+
+				case ffjtBidHRatio:
+					goto handle_HRatio
+
+				case ffjtBidExp:
+					goto handle_Exp
 
 				case ffjtBidExt:
 					goto handle_Ext
@@ -702,6 +967,58 @@ handle_NURL:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_BURL:
+
+	/* handler: j.BURL type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.BURL = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_LURL:
+
+	/* handler: j.LURL type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.LURL = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_AdMarkup:
 
 	/* handler: j.AdMarkup type=string kind=string quoted=false*/
@@ -802,6 +1119,32 @@ handle_AdvDomain:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_Bundle:
+
+	/* handler: j.Bundle type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Bundle = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_IURL:
 
 	/* handler: j.IURL type=string kind=string quoted=false*/
@@ -873,6 +1216,32 @@ handle_CreativeID:
 			outBuf := fs.Output.Bytes()
 
 			j.CreativeID = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Tactic:
+
+	/* handler: j.Tactic type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Tactic = string(string(outBuf))
 
 		}
 	}
@@ -1032,6 +1401,122 @@ handle_Attr:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
+handle_API:
+
+	/* handler: j.API type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.API = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Protocol:
+
+	/* handler: j.Protocol type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Protocol = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_QAGMediaRating:
+
+	/* handler: j.QAGMediaRating type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.QAGMediaRating = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Language:
+
+	/* handler: j.Language type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Language = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
 handle_DealID:
 
 	/* handler: j.DealID type=string kind=string quoted=false*/
@@ -1111,6 +1596,96 @@ handle_W:
 			}
 
 			j.W = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_WRatio:
+
+	/* handler: j.WRatio type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.WRatio = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_HRatio:
+
+	/* handler: j.HRatio type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.HRatio = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Exp:
+
+	/* handler: j.Exp type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Exp = int(tval)
 
 		}
 	}

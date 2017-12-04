@@ -21,7 +21,7 @@ package main
 
 import (
   "log"
-  "github.com/bsm/openrtb"
+  "github.com/dsociative/openrtb"
 )
 
 func main() {

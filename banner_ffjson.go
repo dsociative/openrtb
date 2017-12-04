@@ -45,6 +45,26 @@ func (j *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
 		buf.WriteByte(',')
 	}
+	if len(j.Format) != 0 {
+		buf.WriteString(`"format":`)
+		if j.Format != nil {
+			buf.WriteString(`[`)
+			for i, v := range j.Format {
+				if i != 0 {
+					buf.WriteString(`,`)
+				}
+				/* Struct fall back. type=openrtb.Format kind=struct */
+				err = buf.Encode(&v)
+				if err != nil {
+					return err
+				}
+			}
+			buf.WriteString(`]`)
+		} else {
+			buf.WriteString(`null`)
+		}
+		buf.WriteByte(',')
+	}
 	if j.WMax != 0 {
 		buf.WriteString(`"wmax":`)
 		fflib.FormatBits2(buf, uint64(j.WMax), 10, j.WMax < 0)
@@ -68,11 +88,6 @@ func (j *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if len(j.ID) != 0 {
 		buf.WriteString(`"id":`)
 		fflib.WriteJsonString(buf, string(j.ID))
-		buf.WriteByte(',')
-	}
-	if j.Pos != 0 {
-		buf.WriteString(`"pos":`)
-		fflib.FormatBits2(buf, uint64(j.Pos), 10, j.Pos < 0)
 		buf.WriteByte(',')
 	}
 	if len(j.BType) != 0 {
@@ -105,6 +120,11 @@ func (j *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		} else {
 			buf.WriteString(`null`)
 		}
+		buf.WriteByte(',')
+	}
+	if j.Pos != 0 {
+		buf.WriteString(`"pos":`)
+		fflib.FormatBits2(buf, uint64(j.Pos), 10, j.Pos < 0)
 		buf.WriteByte(',')
 	}
 	if len(j.Mimes) != 0 {
@@ -160,21 +180,19 @@ func (j *Banner) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -189,6 +207,8 @@ const (
 
 	ffjtBannerH
 
+	ffjtBannerFormat
+
 	ffjtBannerWMax
 
 	ffjtBannerHMax
@@ -199,11 +219,11 @@ const (
 
 	ffjtBannerID
 
-	ffjtBannerPos
-
 	ffjtBannerBType
 
 	ffjtBannerBAttr
+
+	ffjtBannerPos
 
 	ffjtBannerMimes
 
@@ -220,6 +240,8 @@ var ffjKeyBannerW = []byte("w")
 
 var ffjKeyBannerH = []byte("h")
 
+var ffjKeyBannerFormat = []byte("format")
+
 var ffjKeyBannerWMax = []byte("wmax")
 
 var ffjKeyBannerHMax = []byte("hmax")
@@ -230,11 +252,11 @@ var ffjKeyBannerHMin = []byte("hmin")
 
 var ffjKeyBannerID = []byte("id")
 
-var ffjKeyBannerPos = []byte("pos")
-
 var ffjKeyBannerBType = []byte("btype")
 
 var ffjKeyBannerBAttr = []byte("battr")
+
+var ffjKeyBannerPos = []byte("pos")
 
 var ffjKeyBannerMimes = []byte("mimes")
 
@@ -341,6 +363,14 @@ mainparse:
 						goto mainparse
 					}
 
+				case 'f':
+
+					if bytes.Equal(ffjKeyBannerFormat, kn) {
+						currentKey = ffjtBannerFormat
+						state = fflib.FFParse_want_colon
+						goto mainparse
+					}
+
 				case 'h':
 
 					if bytes.Equal(ffjKeyBannerH, kn) {
@@ -441,6 +471,12 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.EqualFoldRight(ffjKeyBannerPos, kn) {
+					currentKey = ffjtBannerPos
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffjKeyBannerBAttr, kn) {
 					currentKey = ffjtBannerBAttr
 					state = fflib.FFParse_want_colon
@@ -449,12 +485,6 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffjKeyBannerBType, kn) {
 					currentKey = ffjtBannerBType
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyBannerPos, kn) {
-					currentKey = ffjtBannerPos
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -485,6 +515,12 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffjKeyBannerWMax, kn) {
 					currentKey = ffjtBannerWMax
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyBannerFormat, kn) {
+					currentKey = ffjtBannerFormat
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -524,6 +560,9 @@ mainparse:
 				case ffjtBannerH:
 					goto handle_H
 
+				case ffjtBannerFormat:
+					goto handle_Format
+
 				case ffjtBannerWMax:
 					goto handle_WMax
 
@@ -539,14 +578,14 @@ mainparse:
 				case ffjtBannerID:
 					goto handle_ID
 
-				case ffjtBannerPos:
-					goto handle_Pos
-
 				case ffjtBannerBType:
 					goto handle_BType
 
 				case ffjtBannerBAttr:
 					goto handle_BAttr
+
+				case ffjtBannerPos:
+					goto handle_Pos
 
 				case ffjtBannerMimes:
 					goto handle_Mimes
@@ -631,6 +670,74 @@ handle_H:
 
 			j.H = int(tval)
 
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Format:
+
+	/* handler: j.Format type=[]openrtb.Format kind=slice quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_left_brace && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for ", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+			j.Format = nil
+		} else {
+
+			j.Format = []Format{}
+
+			wantVal := true
+
+			for {
+
+				var tmpJFormat Format
+
+				tok = fs.Scan()
+				if tok == fflib.FFTok_error {
+					goto tokerror
+				}
+				if tok == fflib.FFTok_right_brace {
+					break
+				}
+
+				if tok == fflib.FFTok_comma {
+					if wantVal == true {
+						// TODO(pquerna): this isn't an ideal error message, this handles
+						// things like [,,,] as an array value.
+						return fs.WrapErr(fmt.Errorf("wanted value token, but got token: %v", tok))
+					}
+					continue
+				} else {
+					wantVal = true
+				}
+
+				/* handler: tmpJFormat type=openrtb.Format kind=struct quoted=false*/
+
+				{
+					/* Falling back. type=openrtb.Format kind=struct */
+					tbuf, err := fs.CaptureField(tok)
+					if err != nil {
+						return fs.WrapErr(err)
+					}
+
+					err = json.Unmarshal(tbuf, &tmpJFormat)
+					if err != nil {
+						return fs.WrapErr(err)
+					}
+				}
+
+				j.Format = append(j.Format, tmpJFormat)
+
+				wantVal = false
+			}
 		}
 	}
 
@@ -776,36 +883,6 @@ handle_ID:
 			outBuf := fs.Output.Bytes()
 
 			j.ID = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Pos:
-
-	/* handler: j.Pos type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.Pos = int(tval)
 
 		}
 	}
@@ -963,6 +1040,36 @@ handle_BAttr:
 
 				wantVal = false
 			}
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Pos:
+
+	/* handler: j.Pos type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Pos = int(tval)
+
 		}
 	}
 
@@ -1231,22 +1338,16 @@ handle_Api:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)

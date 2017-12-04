@@ -120,7 +120,7 @@ func (j *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if j.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -152,21 +152,19 @@ func (j *App) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -228,7 +226,7 @@ var ffjKeyAppSectionCat = []byte("sectioncat")
 
 var ffjKeyAppPageCat = []byte("pagecat")
 
-var ffjKeyAppPrivacyPolicy = []byte("pivacypolicy")
+var ffjKeyAppPrivacyPolicy = []byte("privacypolicy")
 
 var ffjKeyAppPublisher = []byte("publisher")
 
@@ -1081,22 +1079,16 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)
@@ -1218,7 +1210,7 @@ func (j *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if j.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -1250,21 +1242,19 @@ func (j *Inventory) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -1310,7 +1300,7 @@ var ffjKeyInventorySectionCat = []byte("sectioncat")
 
 var ffjKeyInventoryPageCat = []byte("pagecat")
 
-var ffjKeyInventoryPrivacyPolicy = []byte("pivacypolicy")
+var ffjKeyInventoryPrivacyPolicy = []byte("privacypolicy")
 
 var ffjKeyInventoryPublisher = []byte("publisher")
 
@@ -1993,22 +1983,16 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)
@@ -2150,7 +2134,7 @@ func (j *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	}
 	if j.PrivacyPolicy != nil {
 		if true {
-			buf.WriteString(`"pivacypolicy":`)
+			buf.WriteString(`"privacypolicy":`)
 			fflib.FormatBits2(buf, uint64(*j.PrivacyPolicy), 10, *j.PrivacyPolicy < 0)
 			buf.WriteByte(',')
 		}
@@ -2182,21 +2166,19 @@ func (j *Site) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(j.Keywords))
 		buf.WriteByte(',')
 	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -2258,7 +2240,7 @@ var ffjKeySiteSectionCat = []byte("sectioncat")
 
 var ffjKeySitePageCat = []byte("pagecat")
 
-var ffjKeySitePrivacyPolicy = []byte("pivacypolicy")
+var ffjKeySitePrivacyPolicy = []byte("privacypolicy")
 
 var ffjKeySitePublisher = []byte("publisher")
 
@@ -3111,22 +3093,16 @@ handle_Keywords:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)

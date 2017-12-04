@@ -35,6 +35,20 @@ func (j *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	_ = obj
 	_ = err
 	buf.WriteString(`{ `)
+	if len(j.UA) != 0 {
+		buf.WriteString(`"ua":`)
+		fflib.WriteJsonString(buf, string(j.UA))
+		buf.WriteByte(',')
+	}
+	if true {
+		/* Struct fall back. type=openrtb.Geo kind=struct */
+		buf.WriteString(`"geo":`)
+		err = buf.Encode(&j.Geo)
+		if err != nil {
+			return err
+		}
+		buf.WriteByte(',')
+	}
 	if j.DNT != 0 {
 		buf.WriteString(`"dnt":`)
 		fflib.FormatBits2(buf, uint64(j.DNT), 10, j.DNT < 0)
@@ -45,23 +59,104 @@ func (j *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(j.LMT), 10, j.LMT < 0)
 		buf.WriteByte(',')
 	}
-	if len(j.UA) != 0 {
-		buf.WriteString(`"ua":`)
-		fflib.WriteJsonString(buf, string(j.UA))
-		buf.WriteByte(',')
-	}
 	if len(j.IP) != 0 {
 		buf.WriteString(`"ip":`)
 		fflib.WriteJsonString(buf, string(j.IP))
 		buf.WriteByte(',')
 	}
-	if true {
-		/* Struct fall back. type=openrtb.Geo kind=struct */
-		buf.WriteString(`"geo":`)
-		err = buf.Encode(&j.Geo)
-		if err != nil {
-			return err
-		}
+	if len(j.IPv6) != 0 {
+		buf.WriteString(`"ipv6":`)
+		fflib.WriteJsonString(buf, string(j.IPv6))
+		buf.WriteByte(',')
+	}
+	if j.DeviceType != 0 {
+		buf.WriteString(`"devicetype":`)
+		fflib.FormatBits2(buf, uint64(j.DeviceType), 10, j.DeviceType < 0)
+		buf.WriteByte(',')
+	}
+	if len(j.Make) != 0 {
+		buf.WriteString(`"make":`)
+		fflib.WriteJsonString(buf, string(j.Make))
+		buf.WriteByte(',')
+	}
+	if len(j.Model) != 0 {
+		buf.WriteString(`"model":`)
+		fflib.WriteJsonString(buf, string(j.Model))
+		buf.WriteByte(',')
+	}
+	if len(j.OS) != 0 {
+		buf.WriteString(`"os":`)
+		fflib.WriteJsonString(buf, string(j.OS))
+		buf.WriteByte(',')
+	}
+	if len(j.OSVer) != 0 {
+		buf.WriteString(`"osv":`)
+		fflib.WriteJsonString(buf, string(j.OSVer))
+		buf.WriteByte(',')
+	}
+	if len(j.HwVer) != 0 {
+		buf.WriteString(`"hwv":`)
+		fflib.WriteJsonString(buf, string(j.HwVer))
+		buf.WriteByte(',')
+	}
+	if j.H != 0 {
+		buf.WriteString(`"h":`)
+		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
+		buf.WriteByte(',')
+	}
+	if j.W != 0 {
+		buf.WriteString(`"w":`)
+		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
+		buf.WriteByte(',')
+	}
+	if j.PPI != 0 {
+		buf.WriteString(`"ppi":`)
+		fflib.FormatBits2(buf, uint64(j.PPI), 10, j.PPI < 0)
+		buf.WriteByte(',')
+	}
+	if j.PxRatio != 0 {
+		buf.WriteString(`"pxratio":`)
+		fflib.AppendFloat(buf, float64(j.PxRatio), 'g', -1, 64)
+		buf.WriteByte(',')
+	}
+	if j.JS != 0 {
+		buf.WriteString(`"js":`)
+		fflib.FormatBits2(buf, uint64(j.JS), 10, j.JS < 0)
+		buf.WriteByte(',')
+	}
+	if j.GeoFetch != 0 {
+		buf.WriteString(`"geofetch":`)
+		fflib.FormatBits2(buf, uint64(j.GeoFetch), 10, j.GeoFetch < 0)
+		buf.WriteByte(',')
+	}
+	if len(j.FlashVer) != 0 {
+		buf.WriteString(`"flashver":`)
+		fflib.WriteJsonString(buf, string(j.FlashVer))
+		buf.WriteByte(',')
+	}
+	if len(j.Language) != 0 {
+		buf.WriteString(`"language":`)
+		fflib.WriteJsonString(buf, string(j.Language))
+		buf.WriteByte(',')
+	}
+	if len(j.Carrier) != 0 {
+		buf.WriteString(`"carrier":`)
+		fflib.WriteJsonString(buf, string(j.Carrier))
+		buf.WriteByte(',')
+	}
+	if len(j.MCCMNC) != 0 {
+		buf.WriteString(`"mccmnc":`)
+		fflib.WriteJsonString(buf, string(j.MCCMNC))
+		buf.WriteByte(',')
+	}
+	if j.ConnType != 0 {
+		buf.WriteString(`"connectiontype":`)
+		fflib.FormatBits2(buf, uint64(j.ConnType), 10, j.ConnType < 0)
+		buf.WriteByte(',')
+	}
+	if len(j.IFA) != 0 {
+		buf.WriteString(`"ifa":`)
+		fflib.WriteJsonString(buf, string(j.IFA))
 		buf.WriteByte(',')
 	}
 	if len(j.IDSHA1) != 0 {
@@ -94,105 +189,18 @@ func (j *Device) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.WriteJsonString(buf, string(j.MacMD5))
 		buf.WriteByte(',')
 	}
-	if len(j.IPv6) != 0 {
-		buf.WriteString(`"ipv6":`)
-		fflib.WriteJsonString(buf, string(j.IPv6))
-		buf.WriteByte(',')
-	}
-	if len(j.Carrier) != 0 {
-		buf.WriteString(`"carrier":`)
-		fflib.WriteJsonString(buf, string(j.Carrier))
-		buf.WriteByte(',')
-	}
-	if len(j.Language) != 0 {
-		buf.WriteString(`"language":`)
-		fflib.WriteJsonString(buf, string(j.Language))
-		buf.WriteByte(',')
-	}
-	if len(j.Make) != 0 {
-		buf.WriteString(`"make":`)
-		fflib.WriteJsonString(buf, string(j.Make))
-		buf.WriteByte(',')
-	}
-	if len(j.Model) != 0 {
-		buf.WriteString(`"model":`)
-		fflib.WriteJsonString(buf, string(j.Model))
-		buf.WriteByte(',')
-	}
-	if len(j.OS) != 0 {
-		buf.WriteString(`"os":`)
-		fflib.WriteJsonString(buf, string(j.OS))
-		buf.WriteByte(',')
-	}
-	if len(j.OSVer) != 0 {
-		buf.WriteString(`"osv":`)
-		fflib.WriteJsonString(buf, string(j.OSVer))
-		buf.WriteByte(',')
-	}
-	if j.JS != 0 {
-		buf.WriteString(`"js":`)
-		fflib.FormatBits2(buf, uint64(j.JS), 10, j.JS < 0)
-		buf.WriteByte(',')
-	}
-	if j.ConnType != 0 {
-		buf.WriteString(`"connectiontype":`)
-		fflib.FormatBits2(buf, uint64(j.ConnType), 10, j.ConnType < 0)
-		buf.WriteByte(',')
-	}
-	if j.DeviceType != 0 {
-		buf.WriteString(`"devicetype":`)
-		fflib.FormatBits2(buf, uint64(j.DeviceType), 10, j.DeviceType < 0)
-		buf.WriteByte(',')
-	}
-	if len(j.FlashVer) != 0 {
-		buf.WriteString(`"flashver":`)
-		fflib.WriteJsonString(buf, string(j.FlashVer))
-		buf.WriteByte(',')
-	}
-	if len(j.IFA) != 0 {
-		buf.WriteString(`"ifa":`)
-		fflib.WriteJsonString(buf, string(j.IFA))
-		buf.WriteByte(',')
-	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
-	}
-	if j.H != 0 {
-		buf.WriteString(`"h":`)
-		fflib.FormatBits2(buf, uint64(j.H), 10, j.H < 0)
-		buf.WriteByte(',')
-	}
-	if j.W != 0 {
-		buf.WriteString(`"w":`)
-		fflib.FormatBits2(buf, uint64(j.W), 10, j.W < 0)
-		buf.WriteByte(',')
-	}
-	if j.PPI != 0 {
-		buf.WriteString(`"ppi":`)
-		fflib.FormatBits2(buf, uint64(j.PPI), 10, j.PPI < 0)
-		buf.WriteByte(',')
-	}
-	if j.PxRatio != 0 {
-		buf.WriteString(`"pxratio":`)
-		fflib.AppendFloat(buf, float64(j.PxRatio), 'g', -1, 64)
-		buf.WriteByte(',')
-	}
-	if len(j.HwVer) != 0 {
-		buf.WriteString(`"hwv":`)
-		fflib.WriteJsonString(buf, string(j.HwVer))
 		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
@@ -204,15 +212,53 @@ const (
 	ffjtDevicebase = iota
 	ffjtDevicenosuchkey
 
+	ffjtDeviceUA
+
+	ffjtDeviceGeo
+
 	ffjtDeviceDNT
 
 	ffjtDeviceLMT
 
-	ffjtDeviceUA
-
 	ffjtDeviceIP
 
-	ffjtDeviceGeo
+	ffjtDeviceIPv6
+
+	ffjtDeviceDeviceType
+
+	ffjtDeviceMake
+
+	ffjtDeviceModel
+
+	ffjtDeviceOS
+
+	ffjtDeviceOSVer
+
+	ffjtDeviceHwVer
+
+	ffjtDeviceH
+
+	ffjtDeviceW
+
+	ffjtDevicePPI
+
+	ffjtDevicePxRatio
+
+	ffjtDeviceJS
+
+	ffjtDeviceGeoFetch
+
+	ffjtDeviceFlashVer
+
+	ffjtDeviceLanguage
+
+	ffjtDeviceCarrier
+
+	ffjtDeviceMCCMNC
+
+	ffjtDeviceConnType
+
+	ffjtDeviceIFA
 
 	ffjtDeviceIDSHA1
 
@@ -226,52 +272,56 @@ const (
 
 	ffjtDeviceMacMD5
 
-	ffjtDeviceIPv6
-
-	ffjtDeviceCarrier
-
-	ffjtDeviceLanguage
-
-	ffjtDeviceMake
-
-	ffjtDeviceModel
-
-	ffjtDeviceOS
-
-	ffjtDeviceOSVer
-
-	ffjtDeviceJS
-
-	ffjtDeviceConnType
-
-	ffjtDeviceDeviceType
-
-	ffjtDeviceFlashVer
-
-	ffjtDeviceIFA
-
 	ffjtDeviceExt
-
-	ffjtDeviceH
-
-	ffjtDeviceW
-
-	ffjtDevicePPI
-
-	ffjtDevicePxRatio
-
-	ffjtDeviceHwVer
 )
+
+var ffjKeyDeviceUA = []byte("ua")
+
+var ffjKeyDeviceGeo = []byte("geo")
 
 var ffjKeyDeviceDNT = []byte("dnt")
 
 var ffjKeyDeviceLMT = []byte("lmt")
 
-var ffjKeyDeviceUA = []byte("ua")
-
 var ffjKeyDeviceIP = []byte("ip")
 
-var ffjKeyDeviceGeo = []byte("geo")
+var ffjKeyDeviceIPv6 = []byte("ipv6")
+
+var ffjKeyDeviceDeviceType = []byte("devicetype")
+
+var ffjKeyDeviceMake = []byte("make")
+
+var ffjKeyDeviceModel = []byte("model")
+
+var ffjKeyDeviceOS = []byte("os")
+
+var ffjKeyDeviceOSVer = []byte("osv")
+
+var ffjKeyDeviceHwVer = []byte("hwv")
+
+var ffjKeyDeviceH = []byte("h")
+
+var ffjKeyDeviceW = []byte("w")
+
+var ffjKeyDevicePPI = []byte("ppi")
+
+var ffjKeyDevicePxRatio = []byte("pxratio")
+
+var ffjKeyDeviceJS = []byte("js")
+
+var ffjKeyDeviceGeoFetch = []byte("geofetch")
+
+var ffjKeyDeviceFlashVer = []byte("flashver")
+
+var ffjKeyDeviceLanguage = []byte("language")
+
+var ffjKeyDeviceCarrier = []byte("carrier")
+
+var ffjKeyDeviceMCCMNC = []byte("mccmnc")
+
+var ffjKeyDeviceConnType = []byte("connectiontype")
+
+var ffjKeyDeviceIFA = []byte("ifa")
 
 var ffjKeyDeviceIDSHA1 = []byte("didsha1")
 
@@ -285,41 +335,7 @@ var ffjKeyDeviceMacSHA1 = []byte("macsha1")
 
 var ffjKeyDeviceMacMD5 = []byte("macmd5")
 
-var ffjKeyDeviceIPv6 = []byte("ipv6")
-
-var ffjKeyDeviceCarrier = []byte("carrier")
-
-var ffjKeyDeviceLanguage = []byte("language")
-
-var ffjKeyDeviceMake = []byte("make")
-
-var ffjKeyDeviceModel = []byte("model")
-
-var ffjKeyDeviceOS = []byte("os")
-
-var ffjKeyDeviceOSVer = []byte("osv")
-
-var ffjKeyDeviceJS = []byte("js")
-
-var ffjKeyDeviceConnType = []byte("connectiontype")
-
-var ffjKeyDeviceDeviceType = []byte("devicetype")
-
-var ffjKeyDeviceFlashVer = []byte("flashver")
-
-var ffjKeyDeviceIFA = []byte("ifa")
-
 var ffjKeyDeviceExt = []byte("ext")
-
-var ffjKeyDeviceH = []byte("h")
-
-var ffjKeyDeviceW = []byte("w")
-
-var ffjKeyDevicePPI = []byte("ppi")
-
-var ffjKeyDevicePxRatio = []byte("pxratio")
-
-var ffjKeyDeviceHwVer = []byte("hwv")
 
 // UnmarshalJSON umarshall json - template of ffjson
 func (j *Device) UnmarshalJSON(input []byte) error {
@@ -402,6 +418,11 @@ mainparse:
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
+					} else if bytes.Equal(ffjKeyDeviceDeviceType, kn) {
+						currentKey = ffjtDeviceDeviceType
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
 					} else if bytes.Equal(ffjKeyDeviceIDSHA1, kn) {
 						currentKey = ffjtDeviceIDSHA1
 						state = fflib.FFParse_want_colon
@@ -419,11 +440,6 @@ mainparse:
 
 					} else if bytes.Equal(ffjKeyDevicePIDMD5, kn) {
 						currentKey = ffjtDevicePIDMD5
-						state = fflib.FFParse_want_colon
-						goto mainparse
-
-					} else if bytes.Equal(ffjKeyDeviceDeviceType, kn) {
-						currentKey = ffjtDeviceDeviceType
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -450,17 +466,22 @@ mainparse:
 						currentKey = ffjtDeviceGeo
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffjKeyDeviceGeoFetch, kn) {
+						currentKey = ffjtDeviceGeoFetch
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				case 'h':
 
-					if bytes.Equal(ffjKeyDeviceH, kn) {
-						currentKey = ffjtDeviceH
+					if bytes.Equal(ffjKeyDeviceHwVer, kn) {
+						currentKey = ffjtDeviceHwVer
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffjKeyDeviceHwVer, kn) {
-						currentKey = ffjtDeviceHwVer
+					} else if bytes.Equal(ffjKeyDeviceH, kn) {
+						currentKey = ffjtDeviceH
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -506,23 +527,28 @@ mainparse:
 
 				case 'm':
 
-					if bytes.Equal(ffjKeyDeviceMacSHA1, kn) {
-						currentKey = ffjtDeviceMacSHA1
-						state = fflib.FFParse_want_colon
-						goto mainparse
-
-					} else if bytes.Equal(ffjKeyDeviceMacMD5, kn) {
-						currentKey = ffjtDeviceMacMD5
-						state = fflib.FFParse_want_colon
-						goto mainparse
-
-					} else if bytes.Equal(ffjKeyDeviceMake, kn) {
+					if bytes.Equal(ffjKeyDeviceMake, kn) {
 						currentKey = ffjtDeviceMake
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
 					} else if bytes.Equal(ffjKeyDeviceModel, kn) {
 						currentKey = ffjtDeviceModel
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyDeviceMCCMNC, kn) {
+						currentKey = ffjtDeviceMCCMNC
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyDeviceMacSHA1, kn) {
+						currentKey = ffjtDeviceMacSHA1
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyDeviceMacMD5, kn) {
+						currentKey = ffjtDeviceMacMD5
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -571,110 +597,8 @@ mainparse:
 
 				}
 
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceHwVer, kn) {
-					currentKey = ffjtDeviceHwVer
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDevicePxRatio, kn) {
-					currentKey = ffjtDevicePxRatio
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDevicePPI, kn) {
-					currentKey = ffjtDevicePPI
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceW, kn) {
-					currentKey = ffjtDeviceW
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceH, kn) {
-					currentKey = ffjtDeviceH
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
 				if fflib.SimpleLetterEqualFold(ffjKeyDeviceExt, kn) {
 					currentKey = ffjtDeviceExt
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceIFA, kn) {
-					currentKey = ffjtDeviceIFA
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyDeviceFlashVer, kn) {
-					currentKey = ffjtDeviceFlashVer
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceDeviceType, kn) {
-					currentKey = ffjtDeviceDeviceType
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceConnType, kn) {
-					currentKey = ffjtDeviceConnType
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyDeviceJS, kn) {
-					currentKey = ffjtDeviceJS
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyDeviceOSVer, kn) {
-					currentKey = ffjtDeviceOSVer
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyDeviceOS, kn) {
-					currentKey = ffjtDeviceOS
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceModel, kn) {
-					currentKey = ffjtDeviceModel
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyDeviceMake, kn) {
-					currentKey = ffjtDeviceMake
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceLanguage, kn) {
-					currentKey = ffjtDeviceLanguage
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceCarrier, kn) {
-					currentKey = ffjtDeviceCarrier
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.AsciiEqualFold(ffjKeyDeviceIPv6, kn) {
-					currentKey = ffjtDeviceIPv6
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -715,20 +639,122 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceGeo, kn) {
-					currentKey = ffjtDeviceGeo
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceIFA, kn) {
+					currentKey = ffjtDeviceIFA
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceConnType, kn) {
+					currentKey = ffjtDeviceConnType
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceMCCMNC, kn) {
+					currentKey = ffjtDeviceMCCMNC
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceCarrier, kn) {
+					currentKey = ffjtDeviceCarrier
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceLanguage, kn) {
+					currentKey = ffjtDeviceLanguage
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyDeviceFlashVer, kn) {
+					currentKey = ffjtDeviceFlashVer
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceGeoFetch, kn) {
+					currentKey = ffjtDeviceGeoFetch
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyDeviceJS, kn) {
+					currentKey = ffjtDeviceJS
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDevicePxRatio, kn) {
+					currentKey = ffjtDevicePxRatio
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDevicePPI, kn) {
+					currentKey = ffjtDevicePPI
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceW, kn) {
+					currentKey = ffjtDeviceW
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceH, kn) {
+					currentKey = ffjtDeviceH
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceHwVer, kn) {
+					currentKey = ffjtDeviceHwVer
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyDeviceOSVer, kn) {
+					currentKey = ffjtDeviceOSVer
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyDeviceOS, kn) {
+					currentKey = ffjtDeviceOS
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceModel, kn) {
+					currentKey = ffjtDeviceModel
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyDeviceMake, kn) {
+					currentKey = ffjtDeviceMake
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceDeviceType, kn) {
+					currentKey = ffjtDeviceDeviceType
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.AsciiEqualFold(ffjKeyDeviceIPv6, kn) {
+					currentKey = ffjtDeviceIPv6
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
 				if fflib.SimpleLetterEqualFold(ffjKeyDeviceIP, kn) {
 					currentKey = ffjtDeviceIP
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.SimpleLetterEqualFold(ffjKeyDeviceUA, kn) {
-					currentKey = ffjtDeviceUA
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -741,6 +767,18 @@ mainparse:
 
 				if fflib.SimpleLetterEqualFold(ffjKeyDeviceDNT, kn) {
 					currentKey = ffjtDeviceDNT
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceGeo, kn) {
+					currentKey = ffjtDeviceGeo
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.SimpleLetterEqualFold(ffjKeyDeviceUA, kn) {
+					currentKey = ffjtDeviceUA
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -762,20 +800,77 @@ mainparse:
 			if tok == fflib.FFTok_left_brace || tok == fflib.FFTok_left_bracket || tok == fflib.FFTok_integer || tok == fflib.FFTok_double || tok == fflib.FFTok_string || tok == fflib.FFTok_bool || tok == fflib.FFTok_null {
 				switch currentKey {
 
+				case ffjtDeviceUA:
+					goto handle_UA
+
+				case ffjtDeviceGeo:
+					goto handle_Geo
+
 				case ffjtDeviceDNT:
 					goto handle_DNT
 
 				case ffjtDeviceLMT:
 					goto handle_LMT
 
-				case ffjtDeviceUA:
-					goto handle_UA
-
 				case ffjtDeviceIP:
 					goto handle_IP
 
-				case ffjtDeviceGeo:
-					goto handle_Geo
+				case ffjtDeviceIPv6:
+					goto handle_IPv6
+
+				case ffjtDeviceDeviceType:
+					goto handle_DeviceType
+
+				case ffjtDeviceMake:
+					goto handle_Make
+
+				case ffjtDeviceModel:
+					goto handle_Model
+
+				case ffjtDeviceOS:
+					goto handle_OS
+
+				case ffjtDeviceOSVer:
+					goto handle_OSVer
+
+				case ffjtDeviceHwVer:
+					goto handle_HwVer
+
+				case ffjtDeviceH:
+					goto handle_H
+
+				case ffjtDeviceW:
+					goto handle_W
+
+				case ffjtDevicePPI:
+					goto handle_PPI
+
+				case ffjtDevicePxRatio:
+					goto handle_PxRatio
+
+				case ffjtDeviceJS:
+					goto handle_JS
+
+				case ffjtDeviceGeoFetch:
+					goto handle_GeoFetch
+
+				case ffjtDeviceFlashVer:
+					goto handle_FlashVer
+
+				case ffjtDeviceLanguage:
+					goto handle_Language
+
+				case ffjtDeviceCarrier:
+					goto handle_Carrier
+
+				case ffjtDeviceMCCMNC:
+					goto handle_MCCMNC
+
+				case ffjtDeviceConnType:
+					goto handle_ConnType
+
+				case ffjtDeviceIFA:
+					goto handle_IFA
 
 				case ffjtDeviceIDSHA1:
 					goto handle_IDSHA1
@@ -795,59 +890,8 @@ mainparse:
 				case ffjtDeviceMacMD5:
 					goto handle_MacMD5
 
-				case ffjtDeviceIPv6:
-					goto handle_IPv6
-
-				case ffjtDeviceCarrier:
-					goto handle_Carrier
-
-				case ffjtDeviceLanguage:
-					goto handle_Language
-
-				case ffjtDeviceMake:
-					goto handle_Make
-
-				case ffjtDeviceModel:
-					goto handle_Model
-
-				case ffjtDeviceOS:
-					goto handle_OS
-
-				case ffjtDeviceOSVer:
-					goto handle_OSVer
-
-				case ffjtDeviceJS:
-					goto handle_JS
-
-				case ffjtDeviceConnType:
-					goto handle_ConnType
-
-				case ffjtDeviceDeviceType:
-					goto handle_DeviceType
-
-				case ffjtDeviceFlashVer:
-					goto handle_FlashVer
-
-				case ffjtDeviceIFA:
-					goto handle_IFA
-
 				case ffjtDeviceExt:
 					goto handle_Ext
-
-				case ffjtDeviceH:
-					goto handle_H
-
-				case ffjtDeviceW:
-					goto handle_W
-
-				case ffjtDevicePPI:
-					goto handle_PPI
-
-				case ffjtDevicePxRatio:
-					goto handle_PxRatio
-
-				case ffjtDeviceHwVer:
-					goto handle_HwVer
 
 				case ffjtDevicenosuchkey:
 					err = fs.SkipField(tok)
@@ -862,6 +906,52 @@ mainparse:
 			}
 		}
 	}
+
+handle_UA:
+
+	/* handler: j.UA type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.UA = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Geo:
+
+	/* handler: j.Geo type=openrtb.Geo kind=struct quoted=false*/
+
+	{
+		/* Falling back. type=openrtb.Geo kind=struct */
+		tbuf, err := fs.CaptureField(tok)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+
+		err = json.Unmarshal(tbuf, &j.Geo)
+		if err != nil {
+			return fs.WrapErr(err)
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
 
 handle_DNT:
 
@@ -923,32 +1013,6 @@ handle_LMT:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_UA:
-
-	/* handler: j.UA type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.UA = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
 handle_IP:
 
 	/* handler: j.IP type=string kind=string quoted=false*/
@@ -975,20 +1039,526 @@ handle_IP:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_Geo:
+handle_IPv6:
 
-	/* handler: j.Geo type=openrtb.Geo kind=struct quoted=false*/
+	/* handler: j.IPv6 type=string kind=string quoted=false*/
 
 	{
-		/* Falling back. type=openrtb.Geo kind=struct */
-		tbuf, err := fs.CaptureField(tok)
-		if err != nil {
-			return fs.WrapErr(err)
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
 		}
 
-		err = json.Unmarshal(tbuf, &j.Geo)
-		if err != nil {
-			return fs.WrapErr(err)
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.IPv6 = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_DeviceType:
+
+	/* handler: j.DeviceType type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.DeviceType = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Make:
+
+	/* handler: j.Make type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Make = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Model:
+
+	/* handler: j.Model type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Model = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_OS:
+
+	/* handler: j.OS type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.OS = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_OSVer:
+
+	/* handler: j.OSVer type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.OSVer = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_HwVer:
+
+	/* handler: j.HwVer type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.HwVer = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_H:
+
+	/* handler: j.H type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.H = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_W:
+
+	/* handler: j.W type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.W = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_PPI:
+
+	/* handler: j.PPI type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.PPI = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_PxRatio:
+
+	/* handler: j.PxRatio type=float64 kind=float64 quoted=false*/
+
+	{
+		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for float64", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseFloat(fs.Output.Bytes(), 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.PxRatio = float64(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_JS:
+
+	/* handler: j.JS type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.JS = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_GeoFetch:
+
+	/* handler: j.GeoFetch type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.GeoFetch = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_FlashVer:
+
+	/* handler: j.FlashVer type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.FlashVer = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Language:
+
+	/* handler: j.Language type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Language = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Carrier:
+
+	/* handler: j.Carrier type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.Carrier = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_MCCMNC:
+
+	/* handler: j.MCCMNC type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.MCCMNC = string(string(outBuf))
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_ConnType:
+
+	/* handler: j.ConnType type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.ConnType = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_IFA:
+
+	/* handler: j.IFA type=string kind=string quoted=false*/
+
+	{
+
+		{
+			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
+				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
+			}
+		}
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			outBuf := fs.Output.Bytes()
+
+			j.IFA = string(string(outBuf))
+
 		}
 	}
 
@@ -1151,338 +1721,12 @@ handle_MacMD5:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_IPv6:
-
-	/* handler: j.IPv6 type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.IPv6 = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Carrier:
-
-	/* handler: j.Carrier type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.Carrier = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Language:
-
-	/* handler: j.Language type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.Language = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Make:
-
-	/* handler: j.Make type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.Make = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_Model:
-
-	/* handler: j.Model type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.Model = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_OS:
-
-	/* handler: j.OS type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.OS = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_OSVer:
-
-	/* handler: j.OSVer type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.OSVer = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_JS:
-
-	/* handler: j.JS type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.JS = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_ConnType:
-
-	/* handler: j.ConnType type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.ConnType = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_DeviceType:
-
-	/* handler: j.DeviceType type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.DeviceType = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_FlashVer:
-
-	/* handler: j.FlashVer type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.FlashVer = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_IFA:
-
-	/* handler: j.IFA type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.IFA = string(string(outBuf))
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
@@ -1491,162 +1735,12 @@ handle_Ext:
 				return fs.WrapErr(err)
 			}
 
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
-			}
-
 			err = j.Ext.UnmarshalJSON(tbuf)
 			if err != nil {
 				return fs.WrapErr(err)
 			}
 		}
 		state = fflib.FFParse_after_value
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_H:
-
-	/* handler: j.H type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.H = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_W:
-
-	/* handler: j.W type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.W = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_PPI:
-
-	/* handler: j.PPI type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.PPI = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_PxRatio:
-
-	/* handler: j.PxRatio type=float64 kind=float64 quoted=false*/
-
-	{
-		if tok != fflib.FFTok_double && tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for float64", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseFloat(fs.Output.Bytes(), 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.PxRatio = float64(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_HwVer:
-
-	/* handler: j.HwVer type=string kind=string quoted=false*/
-
-	{
-
-		{
-			if tok != fflib.FFTok_string && tok != fflib.FFTok_null {
-				return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for string", tok))
-			}
-		}
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			outBuf := fs.Output.Bytes()
-
-			j.HwVer = string(string(outBuf))
-
-		}
 	}
 
 	state = fflib.FFParse_after_value

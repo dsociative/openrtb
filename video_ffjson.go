@@ -5,7 +5,6 @@ package openrtb
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	fflib "github.com/pquerna/ffjson/fflib/v1"
 )
@@ -61,11 +60,6 @@ func (j *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		fflib.FormatBits2(buf, uint64(j.MaxDuration), 10, j.MaxDuration < 0)
 		buf.WriteByte(',')
 	}
-	if j.Protocol != 0 {
-		buf.WriteString(`"protocol":`)
-		fflib.FormatBits2(buf, uint64(j.Protocol), 10, j.Protocol < 0)
-		buf.WriteByte(',')
-	}
 	if len(j.Protocols) != 0 {
 		buf.WriteString(`"protocols":`)
 		if j.Protocols != nil {
@@ -80,6 +74,11 @@ func (j *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		} else {
 			buf.WriteString(`null`)
 		}
+		buf.WriteByte(',')
+	}
+	if j.Protocol != 0 {
+		buf.WriteString(`"protocol":`)
+		fflib.FormatBits2(buf, uint64(j.Protocol), 10, j.Protocol < 0)
 		buf.WriteByte(',')
 	}
 	if j.W != 0 {
@@ -100,6 +99,21 @@ func (j *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 	if j.Linearity != 0 {
 		buf.WriteString(`"linearity":`)
 		fflib.FormatBits2(buf, uint64(j.Linearity), 10, j.Linearity < 0)
+		buf.WriteByte(',')
+	}
+	if j.Skip != 0 {
+		buf.WriteString(`"skip":`)
+		fflib.FormatBits2(buf, uint64(j.Skip), 10, j.Skip < 0)
+		buf.WriteByte(',')
+	}
+	if j.SkipMin != 0 {
+		buf.WriteString(`"skipmin":`)
+		fflib.FormatBits2(buf, uint64(j.SkipMin), 10, j.SkipMin < 0)
+		buf.WriteByte(',')
+	}
+	if j.SkipAfter != 0 {
+		buf.WriteString(`"skipafter":`)
+		fflib.FormatBits2(buf, uint64(j.SkipAfter), 10, j.SkipAfter < 0)
 		buf.WriteByte(',')
 	}
 	if j.Sequence != 0 {
@@ -238,36 +252,24 @@ func (j *jsonVideo) MarshalJSONBuf(buf fflib.EncodingBuffer) error {
 		}
 		buf.WriteByte(',')
 	}
-	if j.Skip != 0 {
-		buf.WriteString(`"skip":`)
-		fflib.FormatBits2(buf, uint64(j.Skip), 10, j.Skip < 0)
+	if j.Placement != 0 {
+		buf.WriteString(`"placement":`)
+		fflib.FormatBits2(buf, uint64(j.Placement), 10, j.Placement < 0)
 		buf.WriteByte(',')
 	}
-	if j.SkipMin != 0 {
-		buf.WriteString(`"skipmin":`)
-		fflib.FormatBits2(buf, uint64(j.SkipMin), 10, j.SkipMin < 0)
-		buf.WriteByte(',')
-	}
-	if j.SkipAfter != 0 {
-		buf.WriteString(`"skipafter":`)
-		fflib.FormatBits2(buf, uint64(j.SkipAfter), 10, j.SkipAfter < 0)
-		buf.WriteByte(',')
-	}
-	if j.Ext != nil {
-		if true {
-			buf.WriteString(`"ext":`)
+	if len(j.Ext) != 0 {
+		buf.WriteString(`"ext":`)
 
-			{
+		{
 
-				obj, err = j.Ext.MarshalJSON()
-				if err != nil {
-					return err
-				}
-				buf.Write(obj)
-
+			obj, err = j.Ext.MarshalJSON()
+			if err != nil {
+				return err
 			}
-			buf.WriteByte(',')
+			buf.Write(obj)
+
 		}
+		buf.WriteByte(',')
 	}
 	buf.Rewind(1)
 	buf.WriteByte('}')
@@ -284,9 +286,9 @@ const (
 
 	ffjtjsonVideoMaxDuration
 
-	ffjtjsonVideoProtocol
-
 	ffjtjsonVideoProtocols
+
+	ffjtjsonVideoProtocol
 
 	ffjtjsonVideoW
 
@@ -295,6 +297,12 @@ const (
 	ffjtjsonVideoStartDelay
 
 	ffjtjsonVideoLinearity
+
+	ffjtjsonVideoSkip
+
+	ffjtjsonVideoSkipMin
+
+	ffjtjsonVideoSkipAfter
 
 	ffjtjsonVideoSequence
 
@@ -320,11 +328,7 @@ const (
 
 	ffjtjsonVideoCompanionType
 
-	ffjtjsonVideoSkip
-
-	ffjtjsonVideoSkipMin
-
-	ffjtjsonVideoSkipAfter
+	ffjtjsonVideoPlacement
 
 	ffjtjsonVideoExt
 )
@@ -335,9 +339,9 @@ var ffjKeyjsonVideoMinDuration = []byte("minduration")
 
 var ffjKeyjsonVideoMaxDuration = []byte("maxduration")
 
-var ffjKeyjsonVideoProtocol = []byte("protocol")
-
 var ffjKeyjsonVideoProtocols = []byte("protocols")
+
+var ffjKeyjsonVideoProtocol = []byte("protocol")
 
 var ffjKeyjsonVideoW = []byte("w")
 
@@ -346,6 +350,12 @@ var ffjKeyjsonVideoH = []byte("h")
 var ffjKeyjsonVideoStartDelay = []byte("startdelay")
 
 var ffjKeyjsonVideoLinearity = []byte("linearity")
+
+var ffjKeyjsonVideoSkip = []byte("skip")
+
+var ffjKeyjsonVideoSkipMin = []byte("skipmin")
+
+var ffjKeyjsonVideoSkipAfter = []byte("skipafter")
 
 var ffjKeyjsonVideoSequence = []byte("sequence")
 
@@ -371,11 +381,7 @@ var ffjKeyjsonVideoApi = []byte("api")
 
 var ffjKeyjsonVideoCompanionType = []byte("companiontype")
 
-var ffjKeyjsonVideoSkip = []byte("skip")
-
-var ffjKeyjsonVideoSkipMin = []byte("skipmin")
-
-var ffjKeyjsonVideoSkipAfter = []byte("skipafter")
+var ffjKeyjsonVideoPlacement = []byte("placement")
 
 var ffjKeyjsonVideoExt = []byte("ext")
 
@@ -541,13 +547,13 @@ mainparse:
 
 				case 'p':
 
-					if bytes.Equal(ffjKeyjsonVideoProtocol, kn) {
-						currentKey = ffjtjsonVideoProtocol
+					if bytes.Equal(ffjKeyjsonVideoProtocols, kn) {
+						currentKey = ffjtjsonVideoProtocols
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
-					} else if bytes.Equal(ffjKeyjsonVideoProtocols, kn) {
-						currentKey = ffjtjsonVideoProtocols
+					} else if bytes.Equal(ffjKeyjsonVideoProtocol, kn) {
+						currentKey = ffjtjsonVideoProtocol
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
@@ -560,17 +566,17 @@ mainparse:
 						currentKey = ffjtjsonVideoPos
 						state = fflib.FFParse_want_colon
 						goto mainparse
+
+					} else if bytes.Equal(ffjKeyjsonVideoPlacement, kn) {
+						currentKey = ffjtjsonVideoPlacement
+						state = fflib.FFParse_want_colon
+						goto mainparse
 					}
 
 				case 's':
 
 					if bytes.Equal(ffjKeyjsonVideoStartDelay, kn) {
 						currentKey = ffjtjsonVideoStartDelay
-						state = fflib.FFParse_want_colon
-						goto mainparse
-
-					} else if bytes.Equal(ffjKeyjsonVideoSequence, kn) {
-						currentKey = ffjtjsonVideoSequence
 						state = fflib.FFParse_want_colon
 						goto mainparse
 
@@ -586,6 +592,11 @@ mainparse:
 
 					} else if bytes.Equal(ffjKeyjsonVideoSkipAfter, kn) {
 						currentKey = ffjtjsonVideoSkipAfter
+						state = fflib.FFParse_want_colon
+						goto mainparse
+
+					} else if bytes.Equal(ffjKeyjsonVideoSequence, kn) {
+						currentKey = ffjtjsonVideoSequence
 						state = fflib.FFParse_want_colon
 						goto mainparse
 					}
@@ -606,20 +617,8 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffjKeyjsonVideoSkipAfter, kn) {
-					currentKey = ffjtjsonVideoSkipAfter
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyjsonVideoSkipMin, kn) {
-					currentKey = ffjtjsonVideoSkipMin
-					state = fflib.FFParse_want_colon
-					goto mainparse
-				}
-
-				if fflib.EqualFoldRight(ffjKeyjsonVideoSkip, kn) {
-					currentKey = ffjtjsonVideoSkip
+				if fflib.SimpleLetterEqualFold(ffjKeyjsonVideoPlacement, kn) {
+					currentKey = ffjtjsonVideoPlacement
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -696,6 +695,24 @@ mainparse:
 					goto mainparse
 				}
 
+				if fflib.EqualFoldRight(ffjKeyjsonVideoSkipAfter, kn) {
+					currentKey = ffjtjsonVideoSkipAfter
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyjsonVideoSkipMin, kn) {
+					currentKey = ffjtjsonVideoSkipMin
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
+				if fflib.EqualFoldRight(ffjKeyjsonVideoSkip, kn) {
+					currentKey = ffjtjsonVideoSkip
+					state = fflib.FFParse_want_colon
+					goto mainparse
+				}
+
 				if fflib.SimpleLetterEqualFold(ffjKeyjsonVideoLinearity, kn) {
 					currentKey = ffjtjsonVideoLinearity
 					state = fflib.FFParse_want_colon
@@ -720,14 +737,14 @@ mainparse:
 					goto mainparse
 				}
 
-				if fflib.EqualFoldRight(ffjKeyjsonVideoProtocols, kn) {
-					currentKey = ffjtjsonVideoProtocols
+				if fflib.SimpleLetterEqualFold(ffjKeyjsonVideoProtocol, kn) {
+					currentKey = ffjtjsonVideoProtocol
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
 
-				if fflib.SimpleLetterEqualFold(ffjKeyjsonVideoProtocol, kn) {
-					currentKey = ffjtjsonVideoProtocol
+				if fflib.EqualFoldRight(ffjKeyjsonVideoProtocols, kn) {
+					currentKey = ffjtjsonVideoProtocols
 					state = fflib.FFParse_want_colon
 					goto mainparse
 				}
@@ -776,11 +793,11 @@ mainparse:
 				case ffjtjsonVideoMaxDuration:
 					goto handle_MaxDuration
 
-				case ffjtjsonVideoProtocol:
-					goto handle_Protocol
-
 				case ffjtjsonVideoProtocols:
 					goto handle_Protocols
+
+				case ffjtjsonVideoProtocol:
+					goto handle_Protocol
 
 				case ffjtjsonVideoW:
 					goto handle_W
@@ -793,6 +810,15 @@ mainparse:
 
 				case ffjtjsonVideoLinearity:
 					goto handle_Linearity
+
+				case ffjtjsonVideoSkip:
+					goto handle_Skip
+
+				case ffjtjsonVideoSkipMin:
+					goto handle_SkipMin
+
+				case ffjtjsonVideoSkipAfter:
+					goto handle_SkipAfter
 
 				case ffjtjsonVideoSequence:
 					goto handle_Sequence
@@ -830,14 +856,8 @@ mainparse:
 				case ffjtjsonVideoCompanionType:
 					goto handle_CompanionType
 
-				case ffjtjsonVideoSkip:
-					goto handle_Skip
-
-				case ffjtjsonVideoSkipMin:
-					goto handle_SkipMin
-
-				case ffjtjsonVideoSkipAfter:
-					goto handle_SkipAfter
+				case ffjtjsonVideoPlacement:
+					goto handle_Placement
 
 				case ffjtjsonVideoExt:
 					goto handle_Ext
@@ -990,36 +1010,6 @@ handle_MaxDuration:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_Protocol:
-
-	/* handler: j.Protocol type=int kind=int quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.Protocol = int(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
 handle_Protocols:
 
 	/* handler: j.Protocols type=[]int kind=slice quoted=false*/
@@ -1092,6 +1082,36 @@ handle_Protocols:
 
 				wantVal = false
 			}
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Protocol:
+
+	/* handler: j.Protocol type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Protocol = int(tval)
+
 		}
 	}
 
@@ -1211,6 +1231,96 @@ handle_Linearity:
 			}
 
 			j.Linearity = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_Skip:
+
+	/* handler: j.Skip type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.Skip = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_SkipMin:
+
+	/* handler: j.SkipMin type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.SkipMin = int(tval)
+
+		}
+	}
+
+	state = fflib.FFParse_after_value
+	goto mainparse
+
+handle_SkipAfter:
+
+	/* handler: j.SkipAfter type=int kind=int quoted=false*/
+
+	{
+		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
+		}
+	}
+
+	{
+
+		if tok == fflib.FFTok_null {
+
+		} else {
+
+			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
+
+			if err != nil {
+				return fs.WrapErr(err)
+			}
+
+			j.SkipAfter = int(tval)
 
 		}
 	}
@@ -1859,13 +1969,13 @@ handle_CompanionType:
 	state = fflib.FFParse_after_value
 	goto mainparse
 
-handle_Skip:
+handle_Placement:
 
-	/* handler: j.Skip type=int64 kind=int64 quoted=false*/
+	/* handler: j.Placement type=int kind=int quoted=false*/
 
 	{
 		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
+			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int", tok))
 		}
 	}
 
@@ -1881,67 +1991,7 @@ handle_Skip:
 				return fs.WrapErr(err)
 			}
 
-			j.Skip = int64(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_SkipMin:
-
-	/* handler: j.SkipMin type=int64 kind=int64 quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.SkipMin = int64(tval)
-
-		}
-	}
-
-	state = fflib.FFParse_after_value
-	goto mainparse
-
-handle_SkipAfter:
-
-	/* handler: j.SkipAfter type=int64 kind=int64 quoted=false*/
-
-	{
-		if tok != fflib.FFTok_integer && tok != fflib.FFTok_null {
-			return fs.WrapErr(fmt.Errorf("cannot unmarshal %s into Go value for int64", tok))
-		}
-	}
-
-	{
-
-		if tok == fflib.FFTok_null {
-
-		} else {
-
-			tval, err := fflib.ParseInt(fs.Output.Bytes(), 10, 64)
-
-			if err != nil {
-				return fs.WrapErr(err)
-			}
-
-			j.SkipAfter = int64(tval)
+			j.Placement = int(tval)
 
 		}
 	}
@@ -1951,22 +2001,16 @@ handle_SkipAfter:
 
 handle_Ext:
 
-	/* handler: j.Ext type=json.RawMessage kind=slice quoted=false*/
+	/* handler: j.Ext type=openrtb.Extension kind=slice quoted=false*/
 
 	{
 		if tok == fflib.FFTok_null {
-
-			j.Ext = nil
 
 		} else {
 
 			tbuf, err := fs.CaptureField(tok)
 			if err != nil {
 				return fs.WrapErr(err)
-			}
-
-			if j.Ext == nil {
-				j.Ext = new(json.RawMessage)
 			}
 
 			err = j.Ext.UnmarshalJSON(tbuf)
